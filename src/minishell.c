@@ -6,16 +6,17 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 14:59:13 by oandelin          #+#    #+#             */
-/*   Updated: 2023/08/16 15:36:41 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/08/16 18:00:24 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	prompt(void)
+void	prompt(t_ms *ms)
 {
 	char	*input;
 
+	(void) ms;
 	while (420)
 	{
 		input = get_input();
@@ -26,26 +27,36 @@ void	prompt(void)
 			break ;
 		}
 		if (input[0] != '\0' && input[0] != '\n')
-			ft_printf("%s: command not found\n", input);
+			ft_printf("%s: %s\n", input, CMD_NOT_FOUND);
 	}
 }
 
-char *get_input(void)
+char	*get_input(void)
 {
 	char	*line;
 
-	line = readline("minishell :");
+	line = readline(BYELLOW PROMPT RESET);
 	if (line[0] != '\0' && line[0] != '\n')
 		add_history(line);
 	return (line);
 }
 
+t_ms	*init_ms(void)
+{
+	t_ms	*ms;
+
+	ms = malloc(sizeof(t_ms));
+	return (ms);
+}
+
 int	main(int ac, char **av, char **env)
 {
+	t_ms *ms = NULL;
+
 	(void) ac;
 	(void) av;
 	(void) env;
-	printf("Welcome to minishell\nPlease enter your command below\n\n");
-	prompt();
+	ms = init_ms();
+	prompt(ms);
 	return (0);
 }

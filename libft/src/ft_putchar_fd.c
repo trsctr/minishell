@@ -1,17 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_putchar_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: oandelin <oandelin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/07 14:58:52 by oandelin          #+#    #+#             */
-/*   Updated: 2023/08/16 13:45:48 by oandelin         ###   ########.fr       */
+/*   Created: 2022/10/25 16:21:18 by oandelin          #+#    #+#             */
+/*   Updated: 2023/01/26 13:23:47 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include "../libft/include/libft.h"
-#include <stdlib.h>
+#include "libft.h"
+
+// ft_putchar_fd
+// writes single char c to file descriptor fd
+int	ft_putchar_fd(char c, int fd)
+{
+	int	i;
+
+	i = write(fd, &c, 1);
+	return (i);
+}

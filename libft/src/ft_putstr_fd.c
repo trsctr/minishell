@@ -1,17 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: oandelin <oandelin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/07 14:58:52 by oandelin          #+#    #+#             */
-/*   Updated: 2023/08/16 13:45:48 by oandelin         ###   ########.fr       */
+/*   Created: 2022/11/16 14:20:29 by oandelin          #+#    #+#             */
+/*   Updated: 2023/01/17 10:23:14 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include "../libft/include/libft.h"
-#include <stdlib.h>
+#include "libft.h"
+
+// ft_putstr_fd
+// writes character string s to file descriptor fd
+int	ft_putstr_fd(char *s, int fd)
+{
+	size_t	len;
+	int		i;
+
+	if (!s)
+		return (0);
+	len = ft_strlen(s);
+	i = write(fd, s, len);
+	return (i);
+}

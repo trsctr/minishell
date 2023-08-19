@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 14:58:52 by oandelin          #+#    #+#             */
-/*   Updated: 2023/08/18 18:47:41 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/08/19 15:20:31 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,10 @@ typedef struct s_ms {
 }	t_ms;
 
 void	rl_replace_line(const char *text, int clear_undo);
+
 t_ms	*init_ms(void);
+void	save_env_var(char **env, t_ms *ms);
+
 
 // char	*get_input(void);
 

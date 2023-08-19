@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:24:25 by oandelin          #+#    #+#             */
-/*   Updated: 2023/08/19 17:00:55 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/08/19 18:16:50 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ void	prompt(t_ms *ms)
 			ft_putendl_fd("exit", 2);
 			if (input)
 				free(input);
-			ft_lstclear(&ms->env_var, &free);
-			free(ms);
+			//ft_lstclear(&ms->env_var, &free);
+			//free(ms);
 			clear_history();
 			break ;
 		}

@@ -6,7 +6,7 @@ MEMDBFLAG 	=	-fsanitize=address
 RLFLAG		=	-lreadline -L ~/.brew/opt/readline/lib -I ~/.brew/opt/readline/include
 LIBFT 		= 	libft/libft.a
 SRCDIR		=	src/
-SRCFILES	= 	minishell.c 
+SRCFILES	= 	minishell.c prompt.c prompt_utils.c
 OBJ_DIR		= 	obj/
 OBJFILES	= 	$(SRCFILES:.c=.o)
 INC_DIR		=	include
@@ -31,7 +31,7 @@ $(OBJ_DIR):
 
 $(OBJ_DIR)%.o: $(SRCDIR)%.c $(HEADER)
 	@echo "Building object file: $(CYAN)$@$(RESET) from source file $(MAGENTA)$<$(RESET)"
-	@$(CC) $(CFLAGS)  -I$(INC_DIR) $< -c -o $@
+	@$(CC) $(CFLAGS) -I$(INC_DIR) $< -c -o $@
 
 $(NAME): $(LIBFT) $(OBJS) $(HEADER)
 	@echo "Compiling $(RED)minishell$(RESET) binary"

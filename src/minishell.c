@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 14:59:13 by oandelin          #+#    #+#             */
-/*   Updated: 2023/08/19 15:14:23 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/08/19 17:12:29 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,5 +59,5 @@ int	main(int ac, char **av, char **env)
 	ms = init_ms();
 	save_env_var(env, ms);
 	prompt(ms);
-	return (0);
+	exit (0);
 }

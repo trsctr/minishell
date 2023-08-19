@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:24:25 by oandelin          #+#    #+#             */
-/*   Updated: 2023/08/19 15:51:50 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/08/19 17:00:55 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,15 @@ void	prompt(t_ms *ms)
 		if (!input || !ft_strncmp(input, "exit", 4))
 		{
 			ft_putendl_fd("exit", 2);
-			if(input)
+			if (input)
 				free(input);
 			ft_lstclear(&ms->env_var, &free);
+			free(ms);
 			clear_history();
 			break ;
 		}
+		else if (!ft_strncmp(input, "cd ", 3))
+			builtin_cd(input+3, ms);
 		else if (!ft_strncmp(input, "env", 3))
 			builtin_env(ms);
 		else if (!ft_strncmp(input, "pwd", 3))

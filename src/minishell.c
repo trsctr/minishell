@@ -6,7 +6,11 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 14:59:13 by oandelin          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/08/19 15:14:23 by oandelin         ###   ########.fr       */
+=======
+/*   Updated: 2023/08/19 18:44:25 by oandelin         ###   ########.fr       */
+>>>>>>> 91b38a9... reworked saving env vars
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +50,7 @@ t_ms	*init_ms(void)
 	t_ms	*ms;
 
 	ms = malloc(sizeof(t_ms));
-	ms->env_var = NULL;
+	ms->env_var = NULL;//malloc(sizeof(t_ev));
 	return (ms);
 }
 

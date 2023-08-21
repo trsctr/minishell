@@ -15,6 +15,14 @@
 #include "builtins.h"
 
 
+/**
+ * @brief this function runs the command prompt. it receives user input from
+ * the function get_input which actually shows the command prompt, and will
+ * send it to lexer/parser. if we receive NULL from the get_input function,
+ * it means user has pressed CTRL+D and in that case we exit.
+ * 
+ * @param ms 
+ */
 void	prompt(t_ms *ms)
 {
 	char	*input;
@@ -43,6 +51,18 @@ void	prompt(t_ms *ms)
 		free(input);
 	}
 }
+
+/**
+ * @brief displays the command prompt using readline to get the user input
+ * and listens to possible signals from the user, but doesn't display the signals
+ * on terminal.
+ * if user presses ctrl+d when the line is empty, readline receives EOF
+ * and in that case we return a NULL. if the command we receive is not empty
+ * we will save it to history with add_history function.
+ * in the end signal and terminal settings are reset and line is returned.
+ * 
+ * @return 
+ */
 
 char	*get_input(void)
 {

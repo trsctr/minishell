@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 14:55:03 by oandelin          #+#    #+#             */
-/*   Updated: 2023/08/21 13:37:17 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/08/21 17:21:29 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ t_ev	*ft_find_var(t_ev **vars, char *key)
 	curr = *vars;
 	while(curr)
 	{
-		if (!ft_strncmp(curr->key, key, keylen))
+		if (!ft_strcmp(curr->key, key))
 			return(curr);
 		else
 			curr = curr->next;
@@ -111,11 +111,11 @@ void	ft_delete_var(t_ev **vars, char *key)
 
 	keylen = ft_strlen(key);
 	curr = *vars;
-	while(curr->next && ft_strncmp(curr->next->key, key, keylen))
+	while(curr->next && ft_strcmp(curr->next->key, key))
 	{
 		curr = curr->next;
 	}
-	if (!ft_strncmp(curr->next->key, key, keylen))
+	if (curr->next && !ft_strcmp(curr->next->key, key))
 	{
 		to_remove = curr->next;
 		curr->next = to_remove->next;
@@ -124,3 +124,16 @@ void	ft_delete_var(t_ev **vars, char *key)
 		free(to_remove);
 	}
 }
+
+void	ft_change_var(t_ev **vars, char *key, char *value)
+{
+	t_ev *change;
+
+	change = ft_find_var(vars, key);
+	if (!change)
+		return ;
+	else
+		free(change->value);
+		change->value = ft_strdup(value);
+}
+

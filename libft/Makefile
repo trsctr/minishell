@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: oandelin <oandelin@student.42.fr>          +#+  +:+       +#+         #
+#    By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/01 16:51:49 by oandelin          #+#    #+#              #
-#    Updated: 2023/04/04 22:54:51 by oandelin         ###   ########.fr        #
+#    Updated: 2023/08/21 16:49:05 by oandelin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,7 @@ SRCFILES 	= 	ft_isalpha \
 				ft_strlcat \
 				ft_strchr \
 				ft_strrchr \
+				ft_strcmp \
 				ft_strncmp \
 				ft_memchr \
 				ft_memcmp \

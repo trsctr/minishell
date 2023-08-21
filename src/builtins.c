@@ -15,6 +15,7 @@
 
 void builtin_cd(char *dir, t_ms *ms)
 {
+
 	// t_ev *curr;
 	// char buf[200];
 	(void) ms;
@@ -44,12 +45,12 @@ void	builtin_pwd(void)
 
 void builtin_env (t_ms *ms)
 {
-	t_ev *curr;
+	t_list *curr;
 
-	curr = ms->env_var;
+  curr = ms->env_var;
 	while (curr)
 	{
-		ft_printf("%s=%s\n", curr->key, curr->value);
+    ft_printf("%s=%s\n", curr->key, curr->value);
 		curr = curr->next;
 	}
 }

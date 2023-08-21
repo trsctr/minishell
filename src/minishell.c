@@ -46,7 +46,7 @@ t_ms	*init_ms(void)
 	t_ms	*ms;
 
 	ms = malloc(sizeof(t_ms));
-	ms->env_var = NULL;
+	ms->env_var = NULL;//malloc(sizeof(t_ev));
 	return (ms);
 }
 

@@ -27,8 +27,8 @@ void	prompt(t_ms *ms)
 			ft_putendl_fd("exit", 2);
 			if (input)
 				free(input);
-			ft_lstclear(&ms->env_var, &free);
-			free(ms);
+			//ft_lstclear(&ms->env_var, &free);
+			//free(ms);
 			clear_history();
 			break ;
 		}

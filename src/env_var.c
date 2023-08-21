@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 14:55:03 by oandelin          #+#    #+#             */
-/*   Updated: 2023/08/21 17:21:29 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/08/21 17:45:57 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char *get_var_key(char *str)
 	len++;
 	key = malloc(sizeof(char) * len);
 	ft_strlcpy(key, str, len);
-	return(key);
+	return (key);
 }
 
 
@@ -137,3 +137,16 @@ void	ft_change_var(t_ev **vars, char *key, char *value)
 		change->value = ft_strdup(value);
 }
 
+void	ft_clear_evlist(t_ms *ms)
+{
+	t_ev *temp;
+	
+	temp = ms->env_var;
+	while(temp)
+	{
+		free(temp->key);
+		free(temp->value);
+		free(temp);
+		temp = temp->next;
+	}
+}

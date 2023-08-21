@@ -46,10 +46,10 @@ void builtin_env (t_ms *ms)
 {
 	t_ev *curr;
 
-	curr = ms->env_var;
+  curr = ms->env_var;
 	while (curr)
 	{
-		ft_printf("%s=%s\n", curr->key, curr->value);
+    ft_printf("%s=%s\n", curr->key, curr->value);
 		curr = curr->next;
 	}
 }

@@ -6,19 +6,40 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 19:06:29 by oandelin          #+#    #+#             */
-/*   Updated: 2023/08/18 19:08:34 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/08/21 12:31:43 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "prompt.h"
 
+/**
+ * @brief sets up signal listening. ctrl+\ will be ignored. ctrl+c will be
+ * handled by handle_sig_int
+ * 
+ */
 void	listen_signals(void)
 {
 	signal(SIGINT, handle_sig_int);
 	signal(SIGQUIT, SIG_IGN);
 }
 
+/**
+ * @brief this resets signal handling to normal settings
+ * 
+ */
+void	reset_signals(void)
+{
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
+}
+
+/**
+ * @brief this function is called if user presses ctrl+c when in command prompt
+ * in this case we ignore what user has written and display a new command line
+ * 
+ * @param signal 
+ */
 void	handle_sig_int(int signal)
 {
 	(void) signal;
@@ -28,6 +49,13 @@ void	handle_sig_int(int signal)
 	rl_redisplay();
 }
 
+/**
+ * @brief this function is called in the beginning and end of get_input
+ * it toggles the status of ECHOCTL in terminal settings. we don't want to
+ * display control characters (such as ^C or ^\) in the command prompt, but
+ * it is good to also reset the terminal settings.
+ * 
+ */
 void	toggle_echoctl(void)
 {
 	struct termios	termios_attributes;
@@ -37,8 +65,4 @@ void	toggle_echoctl(void)
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &termios_attributes);
 }
 
-void	reset_signals(void)
-{
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
-}
+

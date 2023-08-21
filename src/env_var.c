@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 14:55:03 by oandelin          #+#    #+#             */
-/*   Updated: 2023/08/19 18:45:43 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/08/21 13:37:17 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,18 @@
 #include "builtins.h"
 #include "env_var.h"
 
+/**
+ * @brief saves environment variables to a linked list inside the ms struct
+ * 
+ * @param env 
+ * @param ms 
+ */
 void	save_env_var(char **env, t_ms *ms)
 {
 	int	i;
 	char *key;
 
-	i = 0;
+  i = 0;
 	while (env[i])
 	{
 		key = get_var_key(env[i]);
@@ -45,7 +51,8 @@ char *get_var_key(char *str)
 	return(key);
 }
 
-t_ev *ft_new_evnode(char *key, char *value)
+
+t_ev	*ft_new_evnode(char *key, char *value)
 {
 	t_ev	*node;
 
@@ -76,5 +83,44 @@ void	ft_new_env_var(t_ev **vars, t_ev *new_var)
 		while (curr->next != NULL)
 			curr = curr->next;
 		curr->next = new_var;
+	}
+}
+
+t_ev	*ft_find_var(t_ev **vars, char *key)
+{
+	t_ev *curr;
+	size_t keylen;
+
+	keylen = ft_strlen(key);
+	curr = *vars;
+	while(curr)
+	{
+		if (!ft_strncmp(curr->key, key, keylen))
+			return(curr);
+		else
+			curr = curr->next;
+	}
+	return (NULL);
+}
+
+void	ft_delete_var(t_ev **vars, char *key)
+{
+	t_ev *curr;
+	t_ev *to_remove;
+	size_t keylen;
+
+	keylen = ft_strlen(key);
+	curr = *vars;
+	while(curr->next && ft_strncmp(curr->next->key, key, keylen))
+	{
+		curr = curr->next;
+	}
+	if (!ft_strncmp(curr->next->key, key, keylen))
+	{
+		to_remove = curr->next;
+		curr->next = to_remove->next;
+		free(to_remove->key);
+		free(to_remove->value);
+		free(to_remove);
 	}
 }

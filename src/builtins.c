@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 14:54:26 by oandelin          #+#    #+#             */
-/*   Updated: 2023/08/21 17:23:08 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/08/21 18:13:00 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,16 +54,22 @@ void	builtin_env(t_ms *ms)
 void builtin_export(t_ms *ms, char *arg)
 {
 	char	*key;
+	char	*value;
 
 	if (!arg || !ft_strchr(arg, '='))
 		return ;
 	else
 	{	
 		key = get_var_key(arg);
+		value = ft_strdup(ft_strchr(arg, '=') + 1);
 		if (!ft_find_var(&ms->env_var, key))
-			ft_new_env_var(&ms->env_var, ft_new_evnode(ft_strdup(key), ft_strdup(ft_strchr(arg, '=') + 1)));
+			ft_new_env_var(&ms->env_var, ft_new_evnode(key, value));
 		else
-			ft_change_var(&ms->env_var, key, ft_strchr(arg, '=') + 1);
+		{	
+			ft_change_var(&ms->env_var, key, value);
+			free(key);
+			free(value);
+		}
 	}
 }
 

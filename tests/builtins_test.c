@@ -70,6 +70,20 @@ t_ms	*init_ms(void)
 	return (ms);
 }
 
+void	ft_clear_evlist(t_ms *ms)
+{
+	t_ev *temp;
+	
+	temp = ms->env_var;
+	while(temp)
+	{
+		free(temp->key);
+		free(temp->value);
+		free(temp);
+		temp = temp->next;
+	}
+}
+
 int	main(int ac, char **av, char **env)
 {
 	t_ms	*ms;
@@ -79,5 +93,7 @@ int	main(int ac, char **av, char **env)
 	ms = init_ms();
 	save_env_var(env, ms);
 	prompt(ms);
+	ft_clear_evlist(ms);
+	free(ms);
 	return (0);
 }

@@ -1,16 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.h                                         :+:      :+:    :+:   */
+/*   env_var.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/19 15:20:52 by oandelin          #+#    #+#             */
-/*   Updated: 2023/08/19 19:00:44 by oandelin         ###   ########.fr       */
+/*   Created: 2023/08/19 18:06:39 by oandelin          #+#    #+#             */
+/*   Updated: 2023/08/21 13:09:38 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-void builtin_env(t_ms *ms);
-void	builtin_pwd(void);
-void builtin_cd(char *dir, t_ms *ms);
-
+t_ev *ft_new_evnode(char *key, char *value);
+void	ft_new_env_var(t_ev **vars, t_ev *new_var);
+char *get_var_key(char *str);
+t_ev	*ft_find_var(t_ev **vars, char *key);
+void	ft_delete_var(t_ev **vars, char *key);

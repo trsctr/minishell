@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 14:58:52 by oandelin          #+#    #+#             */
-/*   Updated: 2023/08/18 18:47:41 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/08/19 18:16:03 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,22 @@
 # define PROMPT  "minishell> "
 # define CMD_NOT_FOUND "Command not found"
 
+typedef struct s_ev {
+	char		*key;
+	char		*value;
+	struct s_ev	*next;
+}	t_ev;
+
+
 typedef struct s_ms {
-	t_list	*env_var;
+	t_ev	*env_var;
 }	t_ms;
 
 void	rl_replace_line(const char *text, int clear_undo);
+
 t_ms	*init_ms(void);
+void	save_env_var(char **env, t_ms *ms);
+
 
 // char	*get_input(void);
 

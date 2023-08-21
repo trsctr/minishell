@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-//#include "builtins.h"
+#include "builtins.h"
 #include "env_var.h"
 
 /**
@@ -24,9 +24,8 @@ void	save_env_var(char **env, t_ms *ms)
 {
 	int	i;
 	char *key;
-	//char *value;
-	
-	i = 0;
+
+  i = 0;
 	while (env[i])
 	{
 		key = get_var_key(env[i]);
@@ -49,8 +48,9 @@ char *get_var_key(char *str)
 	len++;
 	key = malloc(sizeof(char) * len);
 	ft_strlcpy(key, str, len);
-	return (key);
+	return(key);
 }
+
 
 t_ev	*ft_new_evnode(char *key, char *value)
 {

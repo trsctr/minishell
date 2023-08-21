@@ -15,3 +15,4 @@ void	ft_new_env_var(t_ev **vars, t_ev *new_var);
 char *get_var_key(char *str);
 t_ev	*ft_find_var(t_ev **vars, char *key);
 void	ft_delete_var(t_ev **vars, char *key);
+

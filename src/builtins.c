@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 14:54:26 by oandelin          #+#    #+#             */
-/*   Updated: 2023/08/21 17:23:08 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/08/22 15:50:28 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,11 @@ void	builtin_cd(char *dir, t_ms *ms)
 	if (!dir)
 	{
 		home = ft_find_var(&ms->env_var, "HOME");
+		if (!home)
+		{
+			ft_printf("cd : HOME not set\n");
+			return ;
+		}
 		dir = home->value;
 	}
 	chdir(dir);
@@ -51,23 +56,29 @@ void	builtin_env(t_ms *ms)
 	}
 }
 
-void builtin_export(t_ms *ms, char *arg)
+void	builtin_export(t_ms *ms, char *arg)
 {
 	char	*key;
+	char	*value;
 
 	if (!arg || !ft_strchr(arg, '='))
 		return ;
 	else
 	{	
 		key = get_var_key(arg);
+		value = ft_strdup(ft_strchr(arg, '=') + 1);
 		if (!ft_find_var(&ms->env_var, key))
-			ft_new_env_var(&ms->env_var, ft_new_evnode(ft_strdup(key), ft_strdup(ft_strchr(arg, '=') + 1)));
+			ft_new_env_var(&ms->env_var, ft_new_evnode(key, value));
 		else
-			ft_change_var(&ms->env_var, key, ft_strchr(arg, '=') + 1);
+		{	
+			ft_change_var(&ms->env_var, key, value);
+			free(key);
+			free(value);
+		}
 	}
 }
 
-void builtin_unset (t_ms *ms, char *key)
+void	builtin_unset(t_ms *ms, char *key)
 {
 	ft_delete_var(&ms->env_var, key);
 }

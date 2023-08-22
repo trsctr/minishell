@@ -6,13 +6,23 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 18:06:39 by oandelin          #+#    #+#             */
-/*   Updated: 2023/08/21 16:29:51 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/08/22 17:08:59 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-t_ev *ft_new_evnode(char *key, char *value);
+#ifndef ENV_VAR_H
+# define ENV_VAR_H
+
+char	*get_ev_key(char *str);
+char	*get_ev_value(char *str);
+char	*update_shlvl(char *value);
+void	no_env_vars(t_ms *ms);
+
+t_ev	*ft_new_evnode(char *key, char *value);
 void	ft_new_env_var(t_ev **vars, t_ev *new_var);
-char *get_var_key(char *str);
 t_ev	*ft_find_var(t_ev **vars, char *key);
 void	ft_delete_var(t_ev **vars, char *key);
 void	ft_change_var(t_ev **vars, char *key, char *value);
+void	ft_clear_evlist(t_ms *ms);
+
+#endif

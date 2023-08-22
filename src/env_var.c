@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 14:55:03 by oandelin          #+#    #+#             */
-/*   Updated: 2023/08/21 17:21:29 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/08/22 17:52:20 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,124 +16,102 @@
 
 /**
  * @brief saves environment variables to a linked list inside the ms struct
- * 
+ * if no environment variables are provided, no_env_vars is called
  * @param env 
  * @param ms 
  */
 void	save_env_var(char **env, t_ms *ms)
 {
-	int	i;
-	char *key;
+	int		i;
+	char	*key;
+	char	*value;
 
-  i = 0;
+	i = 0;
+	if (!env[i])
+	{
+		no_env_vars(ms);
+		return ;
+	}
 	while (env[i])
 	{
-		key = get_var_key(env[i]);
-		// teet nyt tasta vitusti paremman
-		ft_new_env_var(&ms->env_var, ft_new_evnode(ft_strdup(key), ft_strdup(ft_strchr(env[i], '=') + 1)));
-		free(key);
+		if (ft_strchr(env[i], '='))
+		{
+			key = get_ev_key(env[i]);
+			value = get_ev_value(env[i]);
+			if (!ft_strcmp(key, "SHLVL"))
+				value = update_shlvl(value);
+			ft_new_env_var(&ms->env_var, ft_new_evnode(key, value));
+			free(key);
+			free(value);
+		}
 		i++;
 	}
-	// muista paivittaa tahan oikea shelli!
 }
 
-char *get_var_key(char *str)
+/**
+ * @brief retrieves the key of an environment variable from a string
+ * in format key=value
+ * 
+ * @param str 
+ * @return char* 
+ */
+char	*get_ev_key(char *str)
 {
-	int len;
-	char *key;
-	
+	int		len;
+	char	*key;
+
 	len = 0;
-	while (str[len] != '=')
+	while (str[len] != '=' && str[len] != '\0')
 		len++;
+	if (str[len] == '\0')
+		return (NULL);
 	len++;
 	key = malloc(sizeof(char) * len);
 	ft_strlcpy(key, str, len);
-	return(key);
+	return (key);
 }
 
-
-t_ev	*ft_new_evnode(char *key, char *value)
+/**
+ * @brief retrieves the value of an environment variable from a string
+ * in format key=value
+ * 
+ * @param str 
+ * @return char* 
+ */
+char	*get_ev_value(char *str)
 {
-	t_ev	*node;
-
-	node = (t_ev *)malloc(sizeof(t_ev));
-	if (!node)
+	if (!ft_strchr(str, '='))
 		return (NULL);
-	if (!key)
-		node->key = NULL;
 	else
-		node->key = key;
-	if (!value)
-		node->value = NULL;
-	else
-		node->value = value;
-	node->next = NULL;
-	return (node);
+		return (ft_strdup(ft_strchr(str, '=') + 1));
 }
 
-void	ft_new_env_var(t_ev **vars, t_ev *new_var)
+/**
+ * @brief adds 1 to the value of SHLVL (shell level) environment variable
+ * 
+ * @param value 
+ * @return char* 
+ */
+char	*update_shlvl(char *value)
 {
-	t_ev	*curr;
+	int	lvl;
 
-	curr = *vars;
-	if (!*vars)
-		*vars = new_var;
-	else
-	{
-		while (curr->next != NULL)
-			curr = curr->next;
-		curr->next = new_var;
-	}
+	lvl = ft_atoi(value);
+	lvl++;
+	free(value);
+	return (ft_itoa(lvl));
 }
 
-t_ev	*ft_find_var(t_ev **vars, char *key)
+/**
+ * @brief is called if no env vars are provided (like running env -i ./minishell)
+ * 
+ * @param ms 
+ */
+void	no_env_vars(t_ms *ms)
 {
-	t_ev *curr;
-	size_t keylen;
+	char	pwd[200];
 
-	keylen = ft_strlen(key);
-	curr = *vars;
-	while(curr)
-	{
-		if (!ft_strcmp(curr->key, key))
-			return(curr);
-		else
-			curr = curr->next;
-	}
-	return (NULL);
+	getcwd(pwd, 200);
+	ft_new_env_var(&ms->env_var, ft_new_evnode("PWD", pwd));
+	ft_new_env_var(&ms->env_var, ft_new_evnode("SHLVL", "1"));
 }
-
-void	ft_delete_var(t_ev **vars, char *key)
-{
-	t_ev *curr;
-	t_ev *to_remove;
-	size_t keylen;
-
-	keylen = ft_strlen(key);
-	curr = *vars;
-	while(curr->next && ft_strcmp(curr->next->key, key))
-	{
-		curr = curr->next;
-	}
-	if (curr->next && !ft_strcmp(curr->next->key, key))
-	{
-		to_remove = curr->next;
-		curr->next = to_remove->next;
-		free(to_remove->key);
-		free(to_remove->value);
-		free(to_remove);
-	}
-}
-
-void	ft_change_var(t_ev **vars, char *key, char *value)
-{
-	t_ev *change;
-
-	change = ft_find_var(vars, key);
-	if (!change)
-		return ;
-	else
-		free(change->value);
-		change->value = ft_strdup(value);
-}
-

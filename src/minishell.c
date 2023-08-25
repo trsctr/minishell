@@ -6,13 +6,13 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 14:59:13 by oandelin          #+#    #+#             */
-/*   Updated: 2023/08/19 18:44:25 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/08/25 14:29:08 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "prompt.h"
-// void	prompt(t_ms *ms)
+// void	prompt(t_data *data)
 // {
 // 	char	*input;
 
@@ -41,23 +41,23 @@
 // 	return (line);
 // }
 
-t_ms	*init_ms(void)
+t_data	*init_data(void)
 {
-	t_ms	*ms;
+	t_data	*data;
 
-	ms = malloc(sizeof(t_ms));
-	ms->env_var = NULL;//malloc(sizeof(t_ev));
-	return (ms);
+	data = malloc(sizeof(t_data));
+	data->env_var = NULL;
+	data->exec = NULL;//malloc(sizeof(t_ev));
+	return (data);
 }
 
-int	main(int ac, char **av, char **env)
+int	main(void)
 {
-	t_ms	*ms;
+	t_data		*data;
+	extern char	**environ;
 
-	(void) ac;
-	(void) av;
-	ms = init_ms();
-	save_env_var(env, ms);
-	prompt(ms);
+	data = init_data();
+	save_env_var(environ, data);
+	prompt(data);
 	exit (0);
 }

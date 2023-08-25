@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 16:34:52 by oandelin          #+#    #+#             */
-/*   Updated: 2023/08/22 17:59:54 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/08/25 14:24:59 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,11 +139,11 @@ void	ft_change_var(t_ev **vars, char *key, char *value)
  * 
  * @param ms 
  */
-void	ft_clear_evlist(t_ms *ms)
+void	ft_clear_evlist(t_data *data)
 {
 	t_ev	*temp;
 
-	temp = ms->env_var;
+	temp = data->env_var;
 	while (temp)
 	{
 		free(temp->key);

@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 19:06:29 by oandelin          #+#    #+#             */
-/*   Updated: 2023/08/21 12:31:43 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/08/25 16:03:23 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,11 @@
  */
 void	listen_signals(void)
 {
+	sigset_t	sigset;
+
+	sigemptyset(&sigset);
+	sigaddset(&sigset, SIGQUIT);
+	sigprocmask(SIG_BLOCK, &sigset, NULL);
 	signal(SIGINT, handle_sig_int);
 	signal(SIGQUIT, SIG_IGN);
 }
@@ -30,6 +35,12 @@ void	listen_signals(void)
  */
 void	reset_signals(void)
 {
+	sigset_t	sigset;
+
+	sigemptyset(&sigset);
+	sigaddset(&sigset, SIGQUIT);
+	sigprocmask(SIG_BLOCK, &sigset, NULL);
+	signal(SIGINT, handle_sig_int);
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
 }
@@ -64,5 +75,3 @@ void	toggle_echoctl(void)
 	termios_attributes.c_lflag &= ~(ECHOCTL);
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &termios_attributes);
 }
-
-

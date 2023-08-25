@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_var.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 18:06:39 by oandelin          #+#    #+#             */
-/*   Updated: 2023/08/22 17:08:59 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/08/25 12:33:14 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 char	*get_ev_key(char *str);
 char	*get_ev_value(char *str);
+char	*get_var_key(char *str);
 char	*update_shlvl(char *value);
 void	no_env_vars(t_ms *ms);
 

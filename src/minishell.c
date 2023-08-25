@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 14:59:13 by oandelin          #+#    #+#             */
-/*   Updated: 2023/08/19 18:44:25 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/08/24 11:03:47 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,13 @@ t_ms	*init_ms(void)
 	return (ms);
 }
 
-int	main(int ac, char **av, char **env)
+int	main(void)
 {
-	t_ms	*ms;
+	t_ms		*ms;
+	extern char	**environ;
 
-	(void) ac;
-	(void) av;
 	ms = init_ms();
-	save_env_var(env, ms);
+	save_env_var(environ, ms);
 	prompt(ms);
 	exit (0);
 }

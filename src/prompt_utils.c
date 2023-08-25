@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 19:06:29 by oandelin          #+#    #+#             */
-/*   Updated: 2023/08/21 12:31:43 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/08/24 14:47:54 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,11 @@
  */
 void	listen_signals(void)
 {
+	sigset_t	sigset;
+
+	sigemptyset(&sigset);
+	sigaddset(&sigset, SIGQUIT);
+	sigprocmask(SIG_BLOCK, &sigset, NULL);
 	signal(SIGINT, handle_sig_int);
 	signal(SIGQUIT, SIG_IGN);
 }
@@ -30,6 +35,12 @@ void	listen_signals(void)
  */
 void	reset_signals(void)
 {
+	sigset_t	sigset;
+
+	sigemptyset(&sigset);
+	sigaddset(&sigset, SIGQUIT);
+	sigprocmask(SIG_BLOCK, &sigset, NULL);
+	signal(SIGINT, handle_sig_int);
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
 }
@@ -45,7 +56,7 @@ void	handle_sig_int(int signal)
 	(void) signal;
 	write(1, "\n", 1);
 	rl_on_new_line();
-	rl_replace_line("", 0);
+	//rl_replace_line("", 0);
 	rl_redisplay();
 }
 
@@ -64,5 +75,3 @@ void	toggle_echoctl(void)
 	termios_attributes.c_lflag &= ~(ECHOCTL);
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &termios_attributes);
 }
-
-

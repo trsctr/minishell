@@ -3,17 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:24:25 by oandelin          #+#    #+#             */
-/*   Updated: 2023/08/19 18:16:50 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/08/24 14:51:55 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "prompt.h"
 #include "builtins.h"
-
+#include "executor.h"
+#include "env_var.h"
 
 /**
  * @brief this function runs the command prompt. it receives user input from
@@ -40,14 +41,11 @@ void	prompt(t_ms *ms)
 			clear_history();
 			break ;
 		}
-		else if (!ft_strncmp(input, "cd ", 3))
-			builtin_cd(input+3, ms);
-		else if (!ft_strncmp(input, "env", 3))
-			builtin_env(ms);
-		else if (!ft_strncmp(input, "pwd", 3))
-			builtin_pwd();
+		else if (is_builtin(input))
+			run_builtin(input, is_builtin(input), ms);
 		else if (input[0] != '\0' && input[0] != '\n')
-			ft_printf("%s: %s\n", input, CMD_NOT_FOUND);
+			executor(input, ms);
+			//ft_printf("%s: %s\n", input, CMD_NOT_FOUND);
 		free(input);
 	}
 }

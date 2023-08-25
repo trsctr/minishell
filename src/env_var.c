@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_var.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 14:55:03 by oandelin          #+#    #+#             */
-/*   Updated: 2023/08/22 17:52:20 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/08/25 12:34:14 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 /**
  * @brief saves environment variables to a linked list inside the ms struct
- * if no environment variables are provided, no_env_vars is called
+ * 
  * @param env 
  * @param ms 
  */
@@ -114,4 +114,18 @@ void	no_env_vars(t_ms *ms)
 	getcwd(pwd, 200);
 	ft_new_env_var(&ms->env_var, ft_new_evnode("PWD", pwd));
 	ft_new_env_var(&ms->env_var, ft_new_evnode("SHLVL", "1"));
+}
+
+char	*get_var_key(char *str)
+{
+	int		len;
+	char	*key;
+
+	len = 0;
+	while (str[len] != '=')
+		len++;
+	len++;
+	key = malloc(sizeof(char) * len);
+	ft_strlcpy(key, str, len);
+	return (key);
 }

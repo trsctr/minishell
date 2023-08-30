@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 14:54:26 by oandelin          #+#    #+#             */
-/*   Updated: 2023/08/30 14:06:23 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/08/30 14:27:39 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ void	builtin_cd(t_data *data, t_exec *exec)
 		perror("");
 }
 
-
 void	builtin_pwd(void)
 {
 	char	buf[200];
@@ -75,7 +74,7 @@ void	builtin_export(t_data *data, t_exec *exec)
 	if (!exec->argv[i])
 		return ;
 	else
-	{	
+	{
 		while (exec->argv[i])
 		{
 			if (!ft_strchr(exec->argv[i], '='))

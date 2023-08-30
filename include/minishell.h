@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 14:58:52 by oandelin          #+#    #+#             */
-/*   Updated: 2023/08/30 13:58:33 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/08/30 14:38:56 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,12 @@ typedef struct s_ev {
 }	t_ev;
 
 typedef struct s_exec{
-	char			*cmd;
-	char			**argv;
-	int				read_fd;
-	int				write_fd;
+	char	*cmd;
+	char	**argv;
+	int		read_fd;
+	int		write_fd;
+	int		pipe_in[2];
+	int		pipe_out[2];
 	struct s_exec	*next;
 }				t_exec;
 

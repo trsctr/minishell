@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 14:59:13 by oandelin          #+#    #+#             */
-/*   Updated: 2023/08/30 14:03:47 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/08/30 15:09:19 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,12 @@ t_exec	*init_exec(void)
 	exec->next = sec;
 	sec->read_fd = 0;
 	sec->write_fd = 1;
-	sec->argv = ft_split("date", ' ');
+	sec->argv = ft_split("grep drw", ' ');
 	sec->cmd = sec->argv[0];
 	sec->next = thrd;
 	thrd->read_fd = 0;
 	thrd->write_fd = 1;
-	thrd->argv = ft_split("grep 1", ' ');
+	thrd->argv = ft_split("wc -l", ' ');
 	thrd->cmd = thrd->argv[0];
 	thrd->next = NULL;
 	frth->read_fd = 0;

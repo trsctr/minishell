@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:40:59 by slampine          #+#    #+#             */
-/*   Updated: 2023/08/30 14:08:18 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/08/30 15:19:19 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,12 @@ void	output_add(char *file, char *src)
 	close(saved_out);
 }
 
+/**
+ * @brief checks whether command is abs or relative path
+ * 
+ * @param src 
+ * @return int 
+ */
 int	is_abs_path(char *src)
 {
 	if (access(src, X_OK) == 0)
@@ -48,6 +54,13 @@ int	is_abs_path(char *src)
 	return (0);
 }
 
+/**
+ * @brief Gets command_path (e.g. /bin/ls) from environemental variable PATH
+ * 
+ * @param path_line 
+ * @param cmd 
+ * @return char* 
+ */
 char	*get_cmd_path(char *path_line, char *cmd)
 {
 	char	*temp;
@@ -75,6 +88,12 @@ char	*get_cmd_path(char *path_line, char *cmd)
 	return (NULL);
 }
 
+/**
+ * @brief Create a envp object from data->env_var, envp is then given to execve
+ * 
+ * @param data 
+ * @return char** 
+ */
 char	**create_envp(t_data *data)
 {
 	char	**array;
@@ -102,31 +121,31 @@ char	**create_envp(t_data *data)
 	return (array);
 }
 
-void	old_find_n_exec(char **array, t_data *data)
-{
-	t_ev	*path_line;
-	char	*cmd_path;
-	char	**envp;
-	pid_t	pid;
-	
-	path_line = ft_find_var(&data->env_var, "PATH");
-	if (!path_line)
-	{	
-		ft_printf("minishell: "CMD_NOT_FOUND": %s\n", array[0]);
-		return ;
-	}
-	cmd_path = get_cmd_path(path_line->value, array[0]);
-	if (cmd_path)
-	{
-		envp = create_envp(data);
-		pid = fork();
-		if (pid == 0)
-			execve(cmd_path, array, envp);
-		free(cmd_path);
-		free_array(envp);
-	}
-}
+// void	old_find_n_exec(char **array, t_data *data)
+// {
+// 	t_ev	*path_line;
+// 	char	*cmd_path;
+// 	char	**envp;
+// 	pid_t	pid;
 
+// 	path_line = ft_find_var(&data->env_var, "PATH");
+// 	if (!path_line)
+// 	{	
+// 		ft_printf("minishell: "CMD_NOT_FOUND": %s\n", array[0]);
+// 		return ;
+// 	}
+// 	cmd_path = get_cmd_path(path_line->value, array[0]);
+// 	if (cmd_path)
+// 	{
+// 		envp = create_envp(data);
+// 		pid = fork();
+// 		if (pid == 0)
+// 			execve(cmd_path, array, envp);
+// 		free(cmd_path);
+// 		free_array(envp);
+// 	}
+// }
+// 
 // int	old_executor(char *source, t_data *data)
 // {
 // 	char	**array;
@@ -154,22 +173,39 @@ void	old_find_n_exec(char **array, t_data *data)
 // 	return (1);
 // }
 
-void exec_abs_path(t_data *data, t_exec *cmd, char *cmd_path)
+/**
+ * @brief executes the command as absolute path
+ * 
+ * @param data 
+ * @param cmd 
+ * @param cmd_path 
+ */
+void	exec_abs_path(t_data *data, t_exec *cmd, char *cmd_path)
 {
 	char	**envp;
 	pid_t	pid;
-	
+
 	envp = create_envp(data);
 	pid = fork();
 	if (pid == 0)
 	{
-		dup2(cmd->write_fd, 1);
-		dup2(cmd->read_fd, 0);
+		printf("for %s write is %i and read is %i\n",cmd->cmd,cmd->pipe_out[1], cmd->pipe_in[0]);
+		dup2(cmd->write_fd, cmd->pipe_out[1]);
+		close(cmd->pipe_out[0]);
+		dup2(cmd->read_fd, cmd->pipe_in[0]);
+		close(cmd->pipe_in[1]);
 		execve(cmd_path, cmd->argv, envp);
 	}
 	free_array(envp);
 }
 
+/**
+ * @brief is given a command as relatve path, finds absolute path and uses 
+ * exec_abs_path to run the command
+ * 
+ * @param exec 
+ * @param data 
+ */
 void	find_n_exec(t_exec *exec, t_data *data)
 {
 	t_ev	*path_line;
@@ -177,7 +213,7 @@ void	find_n_exec(t_exec *exec, t_data *data)
 
 	path_line = ft_find_var(&data->env_var, "PATH");
 	if (!path_line)
-	{	
+	{
 		ft_printf("minishell: "CMD_NOT_FOUND": %s\n", exec->cmd);
 		return ;
 	}
@@ -189,9 +225,15 @@ void	find_n_exec(t_exec *exec, t_data *data)
 	}
 }
 
+/**
+ * @brief command executor, checks if is abs or relative path, works accordingly
+ * 
+ * @param data 
+ * @param exec 
+ * @return int 
+ */
 int	executor(t_data *data, t_exec *exec)
 {
-
 	if (exec->argv[0])
 	{
 		if (is_abs_path(exec->cmd))
@@ -206,7 +248,6 @@ int	executor(t_data *data, t_exec *exec)
 *	which is then given to run_builtin that 
 *	runs the command
 */
-
 int	is_builtin(char *cmd)
 {
 	if (!ft_strcmp(cmd, "cd"))
@@ -220,13 +261,12 @@ int	is_builtin(char *cmd)
 	else if (!ft_strcmp(cmd, "unset"))
 		return (5);
 	else if (!ft_strcmp(cmd, "echo"))
-  	return (6);
+		return (6);
 	return (0);
 }
 
-/* runs builtin-command based on spec
+/* runs builtin-command based on spec, spec is return of is_builin
 */
-
 void	run_builtin(t_exec *exec, int spec, t_data *data)
 {
 	if (spec == 1)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:31:33 by oandelin          #+#    #+#             */
-/*   Updated: 2023/08/24 10:58:41 by slampine         ###   ########.fr       */
+/*   Updated: 2023/08/25 14:12:06 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <readline/readline.h>
 # include "builtins.h"
 
-void	prompt(t_ms *ms);
+void	prompt(t_data *data);
 char	*get_input(void);
 void	listen_signals(void);
 void	handle_sig_int(int signal);

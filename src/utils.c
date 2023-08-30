@@ -6,7 +6,7 @@
 /*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:46:07 by slampine          #+#    #+#             */
-/*   Updated: 2023/08/24 14:19:50 by slampine         ###   ########.fr       */
+/*   Updated: 2023/08/25 13:13:13 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,4 +24,19 @@ void	free_array(char **array)
 		i++;
 	}
 	free(array);
+}
+
+int	ft_envsize(t_ev *lst)
+{
+	int		i;
+	t_ev	*curr;
+
+	i = 0;
+	curr = lst;
+	while (curr != NULL)
+	{
+		curr = curr->next;
+		i++;
+	}
+	return (i);
 }

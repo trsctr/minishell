@@ -1,22 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   executor.h                                         :+:      :+:    :+:   */
+/*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/24 10:41:04 by slampine          #+#    #+#             */
-/*   Updated: 2023/08/28 10:22:21 by slampine         ###   ########.fr       */
+/*   Created: 2023/08/22 15:39:30 by oandelin          #+#    #+#             */
+/*   Updated: 2023/08/28 15:16:20 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXECUTOR_H
-# define EXECUTOR_H
-# include "minishell.h"
-# include "utils.h"
+#include "minishell.h"
+#include "builtins.h"
+#include "utils.h"
 
-int		executor(t_data *data, t_exec *exec);
-int		old_executor(char *source, t_data *data);
-void	run_builtin(t_exec *exec, int spec, t_data *data);
+void	builtin_echo(t_exec *exec)
+{
+	int	i;
 
-#endif
+	i = 1;
+	if (exec->argv[1] && !ft_strcmp(exec->argv[1], "-n"))
+		i++;
+	while (exec->argv[i])
+	{
+		ft_putstr_fd(exec->argv[i], 1);
+		if (exec->argv[i + 1] != NULL)
+			write(1, " ", 1);
+		i++;
+	}
+	if (exec->argv[1] && !ft_strcmp(exec->argv[1], "-n"))
+		return ;
+	else
+		write(1, "\n", 1);
+}

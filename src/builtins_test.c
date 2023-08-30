@@ -3,7 +3,7 @@
 #include "prompt.h"
 #include "env_var.h"
 
-void	prompt(t_ms *ms)
+void	prompt(t_data *data)
 {
 	char	*input;
 
@@ -15,26 +15,26 @@ void	prompt(t_ms *ms)
 			ft_putendl_fd("exit", 2);
 			if (input)
 				free(input);
-			//ft_lstclear(&ms->env_var, &free);
-			//free(ms);
+			//ft_lstclear(&data->env_var, &free);
+			//free(data);
 			clear_history();
 			break ;
 		}
 		else if (!ft_strncmp(input, "cd", 2))
 		{
 			if (ft_strlen(input) > 3)
-				builtin_cd(input+3, ms);
+				builtin_cd(input+3, data);
 			else
-				builtin_cd(NULL, ms);
+				builtin_cd(NULL, data);
 		}
 		else if (!ft_strncmp(input, "env", 3))
-			builtin_env(ms);
+			builtin_env(data);
 		else if (!ft_strncmp(input, "pwd", 3))
 			builtin_pwd();
 		else if (!ft_strncmp(input, "export", 6))
-			builtin_export(ms, input+7);
+			builtin_export(data, input+7);
 		else if (!ft_strncmp(input, "unset", 5))
-			builtin_unset(ms, input+6);
+			builtin_unset(data, input+6);
 		else if (input[0] != '\0' && input[0] != '\n')
 			ft_printf("%s: %s\n", input, CMD_NOT_FOUND);
 		free(input);
@@ -61,23 +61,23 @@ char	*get_input(void)
 	return (line);
 }
 
-t_ms	*init_ms(void)
+t_data	*init_data(void)
 {
-	t_ms	*ms;
+	t_data	*data;
 
-	ms = malloc(sizeof(t_ms));
-	ms->env_var = NULL;//malloc(sizeof(t_ev));
-	return (ms);
+	data = malloc(sizeof(t_data));
+	data->env_var = NULL;//malloc(sizeof(t_ev));
+	return (data);
 }
 
 int	main(int ac, char **av, char **env)
 {
-	t_ms	*ms;
+	t_data	*data;
 
 	(void) ac;
 	(void) av;
-	ms = init_ms();
-	save_env_var(env, ms);
-	prompt(ms);
+	data = init_data();
+	save_env_var(env, data);
+	prompt(data);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 19:06:29 by oandelin          #+#    #+#             */
-/*   Updated: 2023/08/24 14:47:54 by slampine         ###   ########.fr       */
+/*   Updated: 2023/08/28 15:06:38 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	reset_signals(void)
 
 	sigemptyset(&sigset);
 	sigaddset(&sigset, SIGQUIT);
-	sigprocmask(SIG_BLOCK, &sigset, NULL);
+	sigprocmask(SIG_UNBLOCK, &sigset, NULL);
 	signal(SIGINT, handle_sig_int);
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_var.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 14:55:03 by oandelin          #+#    #+#             */
-/*   Updated: 2023/08/25 12:34:14 by slampine         ###   ########.fr       */
+/*   Updated: 2023/08/25 14:29:00 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
  * @param env 
  * @param ms 
  */
-void	save_env_var(char **env, t_ms *ms)
+void	save_env_var(char **env, t_data *data)
 {
 	int		i;
 	char	*key;
@@ -29,7 +29,7 @@ void	save_env_var(char **env, t_ms *ms)
 	i = 0;
 	if (!env[i])
 	{
-		no_env_vars(ms);
+		no_env_vars(data);
 		return ;
 	}
 	while (env[i])
@@ -40,7 +40,7 @@ void	save_env_var(char **env, t_ms *ms)
 			value = get_ev_value(env[i]);
 			if (!ft_strcmp(key, "SHLVL"))
 				value = update_shlvl(value);
-			ft_new_env_var(&ms->env_var, ft_new_evnode(key, value));
+			ft_new_env_var(&data->env_var, ft_new_evnode(key, value));
 			free(key);
 			free(value);
 		}
@@ -107,13 +107,13 @@ char	*update_shlvl(char *value)
  * 
  * @param ms 
  */
-void	no_env_vars(t_ms *ms)
+void	no_env_vars(t_data *data)
 {
 	char	pwd[200];
 
 	getcwd(pwd, 200);
-	ft_new_env_var(&ms->env_var, ft_new_evnode("PWD", pwd));
-	ft_new_env_var(&ms->env_var, ft_new_evnode("SHLVL", "1"));
+	ft_new_env_var(&data->env_var, ft_new_evnode("PWD", pwd));
+	ft_new_env_var(&data->env_var, ft_new_evnode("SHLVL", "1"));
 }
 
 char	*get_var_key(char *str)

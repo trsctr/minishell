@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 14:58:52 by oandelin          #+#    #+#             */
 /*   Updated: 2023/08/25 14:13:42 by oandelin         ###   ########.fr       */
@@ -38,7 +38,6 @@ typedef struct s_exec{
 	int				write_fd;
 	struct s_exec	*next;
 }				t_exec;
-
 
 typedef struct s_data {
 	t_ev	*env_var;

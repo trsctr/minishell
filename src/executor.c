@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:40:59 by slampine          #+#    #+#             */
 /*   Updated: 2023/08/25 16:17:43 by oandelin         ###   ########.fr       */
@@ -48,6 +48,7 @@ char	*get_cmd_path(char *path_line, char *cmd)
 	free_array(allpaths);
 	return (NULL);
 }
+
 
 char	**create_envp(t_data *data)
 {
@@ -139,7 +140,7 @@ int	is_builtin(char *cmd)
 	else if (!ft_strcmp(cmd, "unset"))
 		return (5);
 	else if (!ft_strcmp(cmd, "echo"))
-		return (6);
+  	return (6);
 	return (0);
 }
 

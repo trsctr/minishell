@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:24:25 by oandelin          #+#    #+#             */
 /*   Updated: 2023/08/25 14:29:32 by oandelin         ###   ########.fr       */
@@ -40,6 +40,7 @@ void	prompt(t_data *data)
 			break ;
 		}
 		else if (is_builtin(input))
+
 			run_builtin(input, is_builtin(input), data);
 		else if (input[0] != '\0' && input[0] != '\n')
 			executor(input, data);

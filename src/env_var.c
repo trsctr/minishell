@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   env_var.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 14:55:03 by oandelin          #+#    #+#             */
 /*   Updated: 2023/08/25 14:29:00 by oandelin         ###   ########.fr       */
@@ -114,6 +114,20 @@ void	no_env_vars(t_data *data)
 	getcwd(pwd, 200);
 	ft_new_env_var(&data->env_var, ft_new_evnode("PWD", pwd));
 	ft_new_env_var(&data->env_var, ft_new_evnode("SHLVL", "1"));
+}
+
+char	*get_var_key(char *str)
+{
+	int		len;
+	char	*key;
+
+	len = 0;
+	while (str[len] != '=')
+		len++;
+	len++;
+	key = malloc(sizeof(char) * len);
+	ft_strlcpy(key, str, len);
+	return (key);
 }
 
 char	*get_var_key(char *str)

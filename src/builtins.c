@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 14:54:26 by oandelin          #+#    #+#             */
 /*   Updated: 2023/08/25 14:22:21 by oandelin         ###   ########.fr       */
@@ -19,7 +19,6 @@ void	builtin_cd(t_data *data, t_exec *exec)
 	t_ev	*home;
 	char	buf[200];
 	int		status;
-	// char	*temp;
 
 	getcwd(buf, 200);
 	ft_change_var(&data->env_var, "OLDPWD", buf);
@@ -76,7 +75,7 @@ void	builtin_export(t_data *data, t_exec *exec)
 		return ;
 	else
 	{	
-		while (exec->argv[i])
+	while (exec->argv[i])
 		{
 			if (!ft_strchr(exec->argv[i], '='))
 			{
@@ -113,14 +112,3 @@ void	builtin_unset(t_data *data, t_exec *exec)
 		i++;
 	}
 }
-
-// void	builtin_echo(char *src)
-// {
-// 	if (!ft_strnstr(src, "-n", 3))
-// 	{
-// 		ft_putstr_fd(src, 1);
-// 		ft_putchar_fd('\n', 1);
-// 	}
-// 	else
-// 		ft_putstr_fd(src + 3, 1);
-// }

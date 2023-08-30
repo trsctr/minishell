@@ -6,7 +6,7 @@
 /*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 14:58:52 by oandelin          #+#    #+#             */
-/*   Updated: 2023/08/24 11:53:35 by slampine         ###   ########.fr       */
+/*   Updated: 2023/08/25 14:13:42 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,24 @@ typedef struct s_ev {
 	struct s_ev	*next;
 }	t_ev;
 
-typedef struct s_ms {
+typedef struct s_exec{
+	char			*cmd;
+	char			**argv;
+	int				read_fd;
+	int				write_fd;
+	struct s_exec	*next;
+}				t_exec;
+
+typedef struct s_data {
 	t_ev	*env_var;
-}	t_ms;
+	t_exec	*exec;
+}	t_data;
 
 void	rl_replace_line(const char *text, int clear_undo);
 
-t_ms	*init_ms(void);
-void	save_env_var(char **env, t_ms *ms);
+t_data	*init_data(void);
+void	save_env_var(char **env, t_data *data);
 
 // char	*get_input(void);
-// void	prompt(t_ms *ms);
+// void	prompt(t_data *data);
 #endif

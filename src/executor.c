@@ -6,7 +6,7 @@
 /*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:40:59 by slampine          #+#    #+#             */
-/*   Updated: 2023/08/25 12:54:51 by slampine         ###   ########.fr       */
+/*   Updated: 2023/08/25 16:17:43 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,39 +49,42 @@ char	*get_cmd_path(char *path_line, char *cmd)
 	return (NULL);
 }
 
-char	**create_envp(t_ms *ms)
+
+char	**create_envp(t_data *data)
 {
 	char	**array;
 	t_ev	*temp;
 	int		i;
 
-	temp = ms->env_var;
+	temp = data->env_var;
 	i = 1;
 	while (temp->next)
 	{
 		temp = temp->next;
 		i++;
 	}
-	printf("env has %i lines\n",i);
 	array = malloc(sizeof(char *) * (i + 1));
 	i = 0;
-	temp = ms->env_var;
+	temp = data->env_var;
 	while (temp->next)
 	{
-		array[i] = malloc(sizeof(char) * (ft_strlen(temp->value) + 2 + ft_strlen(temp->key)));
+		array[i] = ft_strjoin(temp->key, "=");
+		array[i] = ft_strjoin(array[i], temp->value);
 		i++;
 		temp = temp->next;
 	}
 	return (array);
 }
 
-void	find_n_exec(char **array, t_ms *ms)
+void	find_n_exec(char **array, t_data *data)
 {
 	t_ev	*path_line;
 	char	*cmd_path;
 	pid_t	pid;
+	char	**envp;
 
-	path_line = ft_find_var(&ms->env_var, "PATH");
+	envp = NULL;
+	path_line = ft_find_var(&data->env_var, "PATH");
 	if (!path_line)
 	{	
 		ft_printf("minishell: "CMD_NOT_FOUND": %s\n", array[0]);
@@ -90,35 +93,32 @@ void	find_n_exec(char **array, t_ms *ms)
 	cmd_path = get_cmd_path(path_line->value, array[0]);
 	if (cmd_path)
 	{
-		create_envp(ms);
+		envp = create_envp(data);
 		pid = fork();
 		if (pid == 0)
-			execve(cmd_path, array, NULL);
+			execve(cmd_path, array, envp);
 		free(cmd_path);
+		free(envp);
 	}
 }
 
-int	executor(char *source, t_ms *ms)
+int	executor(t_exec *exec, t_data *data)
 {
-	char	**array;
+	char	**envp;
 	pid_t	pid;
 
-	array = ft_split(source, ' ');
-	if (array == NULL)
-		return (0);
-	if (array[0])
+	envp = NULL;
+	if (is_abs_path(exec->cmd))
 	{
-		if (is_abs_path(array[0]))
-		{
-			create_envp(ms);
+			envp = create_envp(data);
 			pid = fork();
 			if (pid == 0)
-				execve(array[0], array, NULL);
-		}
-		else
-			find_n_exec(array, ms);
+				execve(exec->cmd, exec->argv, envp);
 	}
-	free_array(array);
+	else
+			find_n_exec(exec->argv, data);
+	if (envp)
+		free_array(envp);
 	return (1);
 }
 
@@ -127,49 +127,43 @@ int	executor(char *source, t_ms *ms)
 *	runs the command
 */
 
-int	is_builtin(char *input)
+int	is_builtin(char *cmd)
 {
-	if (!ft_strncmp(input, "cd", 2))
+	if (!ft_strcmp(cmd, "cd"))
 		return (1);
-	else if (!ft_strncmp(input, "env", 3))
+	else if (!ft_strcmp(cmd, "env"))
 		return (2);
-	else if (!ft_strncmp(input, "pwd", 3))
+	else if (!ft_strcmp(cmd, "pwd"))
 		return (3);
-	else if (!ft_strncmp(input, "export", 6))
+	else if (!ft_strcmp(cmd, "export"))
 		return (4);
-	else if (!ft_strncmp(input, "unset", 5))
+	else if (!ft_strcmp(cmd, "unset"))
 		return (5);
-	else if (!ft_strncmp(input, "echo", 4))
-		return (6);
+	else if (!ft_strcmp(cmd, "echo"))
+  	return (6);
 	return (0);
 }
 
 /* runs builtin-command based on spec
 */
 
-void	run_builtin(char *input, int spec, t_ms *ms)
+void	run_builtin(t_exec *exec, int spec, t_data *data)
 {
-	char	*temp;
 
 	if (spec == 1)
-	{
-		if (ft_strlen(input) > 3)
-			builtin_cd(input + 3, ms);
-		else
-			builtin_cd(NULL, ms);
-	}
+		builtin_cd(data, exec);
 	if (spec == 2)
-		builtin_env(ms);
+		builtin_env(data);
 	if (spec == 3)
 		builtin_pwd();
 	if (spec == 4)
-		builtin_export(ms, input + 7);
+		builtin_export(data, exec);
 	if (spec == 5)
-		builtin_unset(ms, input + 6);
+		builtin_unset(data, exec);
 	if (spec == 6)
 	{
-		temp = ft_strtrim(input + 5, " ");
-		builtin_echo(temp);
-		free(temp);
+		builtin_echo(data, exec);// temp = ft_strtrim(input + 5, " ");
+		// builtin_echo(temp);
+		// free(temp);
 	}
 }

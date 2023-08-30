@@ -6,7 +6,7 @@
 /*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 14:54:26 by oandelin          #+#    #+#             */
-/*   Updated: 2023/08/25 12:28:39 by slampine         ###   ########.fr       */
+/*   Updated: 2023/08/25 14:22:21 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,32 +14,35 @@
 #include "builtins.h"
 #include "env_var.h"
 
-void	builtin_cd(char *dir, t_ms *ms)
+void	builtin_cd(t_data *data, t_exec *exec)
 {
 	t_ev	*home;
 	char	buf[200];
-	char	*temp;
+	int		status;
 
 	getcwd(buf, 200);
-	ft_change_var(&ms->env_var, "OLDPWD", buf);
-	if (!dir)
+	ft_change_var(&data->env_var, "OLDPWD", buf);
+	if (!exec->argv[1])
 	{
-		home = ft_find_var(&ms->env_var, "HOME");
+		home = ft_find_var(&data->env_var, "HOME");
 		if (!home)
 		{
 			ft_printf("cd : HOME not set\n");
 			return ;
 		}
-		dir = home->value;
+		chdir(home->value);
 	}
-	temp = ft_strtrim(dir, " ");
-	dir = temp;
-	free (temp);
-	if (chdir(dir) != 0)
+	else 
+		status = chdir(exec->argv[1]);
+	if (!status)
+	{
+		getcwd(buf, 200);
+		ft_change_var(&data->env_var, "PWD", buf);
+	}
+	else
 		perror("");
-	getcwd(buf, 200);
-	ft_change_var(&ms->env_var, "PWD", buf);
 }
+
 
 void	builtin_pwd(void)
 {
@@ -49,11 +52,11 @@ void	builtin_pwd(void)
 	ft_printf("%s\n", buf);
 }
 
-void	builtin_env(t_ms *ms)
+void	builtin_env(t_data *data)
 {
 	t_ev	*curr;
 
-	curr = ms->env_var;
+	curr = data->env_var;
 	while (curr)
 	{
 		ft_printf("%s=%s\n", curr->key, curr->value);
@@ -61,34 +64,51 @@ void	builtin_env(t_ms *ms)
 	}
 }
 
-void	builtin_export(t_ms *ms, char *arg)
+void	builtin_export(t_data *data, t_exec *exec)
 {
 	char	*key;
+	char	*value;
+	int		i;
 
-	if (!arg || !ft_strchr(arg, '='))
+	i = 1;
+	if (!exec->argv[i])
 		return ;
 	else
 	{	
-		key = get_var_key(arg);
-		if (!ft_find_var(&ms->env_var, key))
-			ft_new_env_var(&ms->env_var, ft_new_evnode(ft_strdup(key), ft_strdup(ft_strchr(arg, '=') + 1)));
-		else
-			ft_change_var(&ms->env_var, key, ft_strchr(arg, '=') + 1);
+	while (exec->argv[i])
+		{
+			if (!ft_strchr(exec->argv[i], '='))
+			{
+				i++;
+				continue ;
+			}
+			key = get_ev_key(exec->argv[i]);
+			if (key[0] == '\0')
+			{
+				free(key);
+				i++;
+				continue ;
+			}
+			value = get_ev_value(exec->argv[i]);
+			if (!ft_find_var(&data->env_var, key))
+				ft_new_env_var(&data->env_var, ft_new_evnode(key, value));
+			else
+				ft_change_var(&data->env_var, key, value);
+			free(key);
+			free(value);
+			i++;
+		}
 	}
 }
 
-void	builtin_unset(t_ms *ms, char *key)
+void	builtin_unset(t_data *data, t_exec *exec)
 {
-	ft_delete_var(&ms->env_var, key);
-}
+	int	i;
 
-void	builtin_echo(char *src)
-{
-	if (!ft_strnstr(src, "-n", 3))
+	i = 1;
+	while (exec->argv[i])
 	{
-		ft_putstr_fd(src, 1);
-		ft_putchar_fd('\n', 1);
+		ft_delete_var(&data->env_var, exec->argv[i]);
+		i++;
 	}
-	else
-		ft_putstr_fd(src + 3, 1);
 }

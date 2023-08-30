@@ -6,7 +6,7 @@
 /*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:24:25 by oandelin          #+#    #+#             */
-/*   Updated: 2023/08/24 14:51:55 by slampine         ###   ########.fr       */
+/*   Updated: 2023/08/25 14:29:32 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
  * 
  * @param ms 
  */
-void	prompt(t_ms *ms)
+void	prompt(t_data *data)
 {
 	char	*input;
 
@@ -36,15 +36,14 @@ void	prompt(t_ms *ms)
 			ft_putendl_fd("exit", 2);
 			if (input)
 				free(input);
-			//ft_lstclear(&ms->env_var, &free);
-			//free(ms);
 			clear_history();
 			break ;
 		}
 		else if (is_builtin(input))
-			run_builtin(input, is_builtin(input), ms);
+
+			run_builtin(input, is_builtin(input), data);
 		else if (input[0] != '\0' && input[0] != '\n')
-			executor(input, ms);
+			executor(input, data);
 			//ft_printf("%s: %s\n", input, CMD_NOT_FOUND);
 		free(input);
 	}

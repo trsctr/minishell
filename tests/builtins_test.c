@@ -1,45 +1,88 @@
 #include "minishell.h"
+#include "executor.h"
 #include "builtins.h"
 #include "prompt.h"
 #include "env_var.h"
 
-void	prompt(t_ms *ms)
+
+
+t_exec	*makeshift_parser(char *input);
+
+void	run_cmd(t_data *data, t_cmd *cmd);
+
+void	prompt(t_data *data)
 {
 	char	*input;
+	t_exec	*exec;
+	int		i;
 
 	while (420)
 	{
+		i = 0;
 		input = get_input();
 		if (!input || !ft_strncmp(input, "exit", 4))
 		{
 			ft_putendl_fd("exit", 2);
 			if (input)
 				free(input);
-			//ft_lstclear(&ms->env_var, &free);
-			//free(ms);
 			clear_history();
 			break ;
 		}
-		else if (!ft_strncmp(input, "cd", 2))
-		{
-			if (ft_strlen(input) > 3)
-				builtin_cd(input+3, ms);
-			else
-				builtin_cd(NULL, ms);
-		}
-		else if (!ft_strncmp(input, "env", 3))
-			builtin_env(ms);
-		else if (!ft_strncmp(input, "pwd", 3))
-			builtin_pwd();
-		else if (!ft_strncmp(input, "export", 6))
-			builtin_export(ms, input+7);
-		else if (!ft_strncmp(input, "unset", 5))
-			builtin_unset(ms, input+6);
-		else if (input[0] != '\0' && input[0] != '\n')
-			ft_printf("%s: %s\n", input, CMD_NOT_FOUND);
+		exec = makeshift_parser(input);
 		free(input);
+		if (is_builtin(exec->cmd))
+			run_builtin(exec, is_builtin(exec->cmd), data);
+		else 
+			executor(exec, data);
+		free(exec);
 	}
 }
+
+// void	run_cmd(t_data *data, t_cmd *cmd)
+// {
+// 	char *ls[] = {"ls", ""};
+	
+// 	if (!ft_strcmp(cmd->cmd, "cd"))
+// 		builtin_cd(ms, cmd);
+// 	else if (!ft_strcmp(cmd->cmd, "pwd"))
+// 		builtin_pwd(cmd);
+// 	else if (!ft_strcmp(cmd->cmd, "export"))
+// 		builtin_export(ms, cmd);
+// 	else if (!ft_strcmp(cmd->cmd, "env"))
+// 		builtin_env(ms);
+// 	else if (!ft_strcmp(cmd->cmd, "echo"))
+// 		builtin_echo(ms, cmd);
+// 	else if (!ft_strncmp(cmd->cmd, "unset", 5))
+// 		builtin_unset(ms, cmd);
+// }
+
+t_exec	*makeshift_parser(char *input)
+{
+	t_exec *exec = malloc(sizeof(t_exec));
+	int	i = 0;
+	int len = 0;
+	int j = 0;
+	int argcount;
+
+	while(input[i++])
+	{
+		if (input[i] == ' ')
+			argcount++;
+	}
+	i = 0;
+	while (input[i] != ' ' && input[i] != '\0')
+	{
+		len++;
+		i++;
+	}
+	len++;
+	i++;
+	exec->cmd = malloc(sizeof(char) * len);
+	ft_strlcpy(exec->cmd, input, len);
+	exec->argv = ft_split(input, ' ');
+	return(exec);
+}
+
 
 char	*get_input(void)
 {
@@ -61,39 +104,23 @@ char	*get_input(void)
 	return (line);
 }
 
-t_ms	*init_ms(void)
+t_data	*init_data(void)
 {
-	t_ms	*ms;
+	t_data	*data;
 
-	ms = malloc(sizeof(t_ms));
-	ms->env_var = NULL;//malloc(sizeof(t_ev));
-	return (ms);
+	data = malloc(sizeof(t_data));
+	data->env_var = NULL;
+	data->exec = NULL;//malloc(sizeof(t_ev));
+	return (data);
 }
 
-void	ft_clear_evlist(t_ms *ms)
+int	main(void)
 {
-	t_ev *temp;
-	
-	temp = ms->env_var;
-	while(temp)
-	{
-		free(temp->key);
-		free(temp->value);
-		free(temp);
-		temp = temp->next;
-	}
-}
+	t_data		*data;
+	extern char	**environ;
 
-int	main(int ac, char **av, char **env)
-{
-	t_ms	*ms;
-
-	(void) ac;
-	(void) av;
-	ms = init_ms();
-	save_env_var(env, ms);
-	prompt(ms);
-	ft_clear_evlist(ms);
-	free(ms);
-	return (0);
+	data = init_data();
+	save_env_var(environ, data);
+	prompt(data);
+	exit (0);
 }

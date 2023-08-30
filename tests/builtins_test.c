@@ -6,7 +6,9 @@
 
 
 
-t_exec	*makeshift_parser(char *input);
+t_exec	*makeshift_parser(char *input, t_data *data);
+
+void parse_evs(t_exec *exec, t_data *data);
 
 void	run_cmd(t_data *data, t_exec *exec);
 
@@ -28,12 +30,14 @@ void	prompt(t_data *data)
 			clear_history();
 			break ;
 		}
-		exec = makeshift_parser(input);
+		exec = makeshift_parser(input, data);
 		free(input);
 		if (is_builtin(exec->cmd))
 			run_builtin(exec, is_builtin(exec->cmd), data);
 		else 
 			executor(data, exec);
+		free(exec->cmd);
+		free_array(exec->argv);
 		free(exec);
 	}
 }
@@ -56,7 +60,7 @@ void	prompt(t_data *data)
 // 		builtin_unset(ms, cmd);
 // }
 
-t_exec	*makeshift_parser(char *input)
+t_exec	*makeshift_parser(char *input, t_data *data)
 {
 	t_exec *exec = malloc(sizeof(t_exec));
 	int	i = 0;
@@ -64,6 +68,8 @@ t_exec	*makeshift_parser(char *input)
 	int j = 0;
 	int argcount;
 
+	exec->read_fd = 0;
+	exec->write_fd = 1;
 	while(input[i++])
 	{
 		if (input[i] == ' ')
@@ -80,7 +86,36 @@ t_exec	*makeshift_parser(char *input)
 	exec->cmd = malloc(sizeof(char) * len);
 	ft_strlcpy(exec->cmd, input, len);
 	exec->argv = ft_split(input, ' ');
+	parse_evs(exec, data);
 	return(exec);
+}
+
+void parse_evs(t_exec *exec, t_data *data)
+{
+	t_ev *temp;
+	int i;
+
+	temp = NULL;
+	i = 0;
+	while(exec->argv[i])
+	{
+		if(exec->argv[i][0] == '$')
+		{
+			temp = ft_find_var(&data->env_var, exec->argv[i] + 1);
+			free(exec->argv[i]);
+			if (!temp)
+			{
+				
+				exec->argv[i] = ft_strdup("");
+			}
+			else
+			{
+				exec->argv[i] = ft_strdup(temp->value);
+				//free(temp);
+			}
+		}	
+		i++;
+	}
 }
 
 
@@ -122,5 +157,7 @@ int	main(void)
 	data = init_data();
 	save_env_var(environ, data);
 	prompt(data);
-	exit (0);
+	ft_clear_evlist(data);
+	free(data);
+	return (0);
 }

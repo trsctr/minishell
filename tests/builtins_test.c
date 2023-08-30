@@ -8,7 +8,7 @@
 
 t_exec	*makeshift_parser(char *input);
 
-void	run_cmd(t_data *data, t_cmd *cmd);
+void	run_cmd(t_data *data, t_exec *exec);
 
 void	prompt(t_data *data)
 {
@@ -33,7 +33,7 @@ void	prompt(t_data *data)
 		if (is_builtin(exec->cmd))
 			run_builtin(exec, is_builtin(exec->cmd), data);
 		else 
-			executor(exec, data);
+			executor(data, exec);
 		free(exec);
 	}
 }

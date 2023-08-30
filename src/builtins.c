@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 14:54:26 by oandelin          #+#    #+#             */
-/*   Updated: 2023/08/25 14:22:21 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/08/30 14:06:23 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	builtin_cd(t_data *data, t_exec *exec)
 	char	buf[200];
 	int		status;
 
+	status = 0;
 	getcwd(buf, 200);
 	ft_change_var(&data->env_var, "OLDPWD", buf);
 	if (!exec->argv[1])
@@ -75,7 +76,7 @@ void	builtin_export(t_data *data, t_exec *exec)
 		return ;
 	else
 	{	
-	while (exec->argv[i])
+		while (exec->argv[i])
 		{
 			if (!ft_strchr(exec->argv[i], '='))
 			{

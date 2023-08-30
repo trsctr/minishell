@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 14:58:52 by oandelin          #+#    #+#             */
-/*   Updated: 2023/08/25 14:13:42 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/08/30 13:58:33 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include "../libft/include/libft.h"
 # include <stdlib.h>
 # include <termios.h>
+# include <fcntl.h>
 
 # define BYELLOW "\001\e[0;33m\002"
 # define RESET   "\001\e[0m\002"

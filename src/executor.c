@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:40:59 by slampine          #+#    #+#             */
-/*   Updated: 2023/08/25 16:17:43 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/08/30 14:08:18 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,32 @@
 #include "prompt.h"
 #include "env_var.h"
 #include "executor.h"
+
+void	output_trunc(char *file, char *src)
+{
+	int	outfile;
+	int	saved_out;
+
+	outfile = open(file, O_TRUNC | O_CREAT | O_RDWR, 0777);
+	saved_out = dup(1);
+	dup2(outfile, 1);
+	printf("%s\n", src);
+	dup2(saved_out, 1);
+	close(saved_out);
+}
+
+void	output_add(char *file, char *src)
+{
+	int	outfile;
+	int	saved_out;
+
+	outfile = open(file, O_CREAT | O_RDWR | O_APPEND, 0777);
+	saved_out = dup(1);
+	dup2(outfile, 1);
+	printf("%s\n", src);
+	dup2(saved_out, 1);
+	close(saved_out);
+}
 
 int	is_abs_path(char *src)
 {
@@ -49,41 +75,40 @@ char	*get_cmd_path(char *path_line, char *cmd)
 	return (NULL);
 }
 
-
 char	**create_envp(t_data *data)
 {
 	char	**array;
-	t_ev	*temp;
+	char	*temp;
+	t_ev	*env;
 	int		i;
 
-	temp = data->env_var;
-	i = 1;
-	while (temp->next)
-	{
-		temp = temp->next;
-		i++;
-	}
-	array = malloc(sizeof(char *) * (i + 1));
+	env = data->env_var;
+	array = malloc(sizeof(char *) * (ft_envsize(data->env_var) + 1));
 	i = 0;
-	temp = data->env_var;
-	while (temp->next)
+	env = data->env_var;
+	while (env->next)
 	{
-		array[i] = ft_strjoin(temp->key, "=");
-		array[i] = ft_strjoin(array[i], temp->value);
+		temp = ft_strjoin(env->key, "=");
+		array[i] = ft_strjoin(temp, env->value);
+		free(temp);
 		i++;
-		temp = temp->next;
+		env = env->next;
 	}
+	temp = ft_strjoin(env->key, "=");
+	array[i] = ft_strjoin(temp, env->value);
+	i++;
+	free(temp);
+	array[i] = NULL;
 	return (array);
 }
 
-void	find_n_exec(char **array, t_data *data)
+void	old_find_n_exec(char **array, t_data *data)
 {
 	t_ev	*path_line;
 	char	*cmd_path;
-	pid_t	pid;
 	char	**envp;
-
-	envp = NULL;
+	pid_t	pid;
+	
 	path_line = ft_find_var(&data->env_var, "PATH");
 	if (!path_line)
 	{	
@@ -98,27 +123,82 @@ void	find_n_exec(char **array, t_data *data)
 		if (pid == 0)
 			execve(cmd_path, array, envp);
 		free(cmd_path);
-		free(envp);
+		free_array(envp);
 	}
 }
 
-int	executor(t_exec *exec, t_data *data)
+// int	old_executor(char *source, t_data *data)
+// {
+// 	char	**array;
+// 	char	**envp;
+// 	pid_t	pid;
+
+// 	envp = NULL;
+// 	if (is_abs_path(exec->cmd))
+// 	{
+// 		if (is_abs_path(array[0]))
+// 		{
+// 			envp = create_envp(data);
+// 			pid = fork();
+// 			if (pid == 0)
+// 				execve(array[0], array, envp);
+// 			free_array(envp);
+// 		}
+// 		else
+// 			old_find_n_exec(array, data);
+// 	}
+// 	else
+// 			find_n_exec(exec->argv, data);
+// 	if (envp)
+// 		free_array(envp);
+// 	return (1);
+// }
+
+void exec_abs_path(t_data *data, t_exec *cmd, char *cmd_path)
 {
 	char	**envp;
 	pid_t	pid;
-
-	envp = NULL;
-	if (is_abs_path(exec->cmd))
+	
+	envp = create_envp(data);
+	pid = fork();
+	if (pid == 0)
 	{
-			envp = create_envp(data);
-			pid = fork();
-			if (pid == 0)
-				execve(exec->cmd, exec->argv, envp);
+		dup2(cmd->write_fd, 1);
+		dup2(cmd->read_fd, 0);
+		execve(cmd_path, cmd->argv, envp);
 	}
-	else
-			find_n_exec(exec->argv, data);
-	if (envp)
-		free_array(envp);
+	free_array(envp);
+}
+
+void	find_n_exec(t_exec *exec, t_data *data)
+{
+	t_ev	*path_line;
+	char	*cmd_path;
+
+	path_line = ft_find_var(&data->env_var, "PATH");
+	if (!path_line)
+	{	
+		ft_printf("minishell: "CMD_NOT_FOUND": %s\n", exec->cmd);
+		return ;
+	}
+	cmd_path = get_cmd_path(path_line->value, exec->cmd);
+	if (cmd_path)
+	{
+		exec_abs_path(data, exec, cmd_path);
+		free(cmd_path);
+	}
+}
+
+int	executor(t_data *data, t_exec *exec)
+{
+
+	if (exec->argv[0])
+	{
+		if (is_abs_path(exec->cmd))
+			exec_abs_path(data, exec, exec->cmd);
+		else
+			find_n_exec(exec, data);
+	}
 	return (1);
 }
 
@@ -149,7 +229,6 @@ int	is_builtin(char *cmd)
 
 void	run_builtin(t_exec *exec, int spec, t_data *data)
 {
-
 	if (spec == 1)
 		builtin_cd(data, exec);
 	if (spec == 2)
@@ -162,7 +241,7 @@ void	run_builtin(t_exec *exec, int spec, t_data *data)
 		builtin_unset(data, exec);
 	if (spec == 6)
 	{
-		builtin_echo(data, exec);// temp = ft_strtrim(input + 5, " ");
+		builtin_echo(exec);// temp = ft_strtrim(input + 5, " ");
 		// builtin_echo(temp);
 		// free(temp);
 	}

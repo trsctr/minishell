@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 14:59:13 by oandelin          #+#    #+#             */
-/*   Updated: 2023/08/25 14:29:08 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/08/30 14:03:47 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 // {
 // 	char	*input;
 
-// 	(void) ms;
+// 	(void) data;
 // 	while (420)
 // 	{
 // 		input = get_input();
@@ -41,13 +41,47 @@
 // 	return (line);
 // }
 
+t_exec	*init_exec(void)
+{
+	t_exec	*exec;
+	t_exec	*sec;
+	t_exec	*thrd;
+	t_exec	*frth;
+
+	exec = malloc(sizeof(t_exec));
+	sec = malloc(sizeof(t_exec));
+	thrd = malloc(sizeof(t_exec));
+	frth = malloc(sizeof(t_exec));
+	exec->read_fd = 0;
+	exec->write_fd = 1;
+	exec->argv = ft_split("ls -l", ' ');
+	exec->cmd = exec->argv[0];
+	exec->next = sec;
+	sec->read_fd = 0;
+	sec->write_fd = 1;
+	sec->argv = ft_split("date", ' ');
+	sec->cmd = sec->argv[0];
+	sec->next = thrd;
+	thrd->read_fd = 0;
+	thrd->write_fd = 1;
+	thrd->argv = ft_split("grep 1", ' ');
+	thrd->cmd = thrd->argv[0];
+	thrd->next = NULL;
+	frth->read_fd = 0;
+	frth->write_fd = 1;
+	frth->argv = ft_split("grep Aug", ' ');
+	frth->cmd = frth->argv[0];
+	frth->next = NULL;
+	return (exec);
+}
+
 t_data	*init_data(void)
 {
 	t_data	*data;
 
 	data = malloc(sizeof(t_data));
-	data->env_var = NULL;
-	data->exec = NULL;//malloc(sizeof(t_ev));
+	data->env_var = NULL;//malloc(sizeof(t_ev));
+	data->exec = init_exec();
 	return (data);
 }
 

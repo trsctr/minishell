@@ -6,20 +6,20 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 15:39:30 by oandelin          #+#    #+#             */
-/*   Updated: 2023/08/25 14:43:27 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/08/30 13:57:29 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "builtins.h"
+#include "utils.h"
 
-void	builtin_echo(t_data *data, t_exec *exec)
+void	builtin_echo(t_exec *exec)
 {
 	int	i;
 
-	(void) data;
 	i = 1;
-	if (!ft_strcmp(exec->argv[1], "-n"))
+	if (exec->argv[1] && !ft_strcmp(exec->argv[1], "-n"))
 		i++;
 	while (exec->argv[i])
 	{
@@ -28,7 +28,7 @@ void	builtin_echo(t_data *data, t_exec *exec)
 			write(1, " ", 1);
 		i++;
 	}
-	if (!ft_strcmp(exec->argv[1], "-n"))
+	if (exec->argv[1] && !ft_strcmp(exec->argv[1], "-n"))
 		return ;
 	else
 		write(1, "\n", 1);

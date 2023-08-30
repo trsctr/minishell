@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 14:54:26 by oandelin          #+#    #+#             */
-/*   Updated: 2023/08/28 10:52:27 by slampine         ###   ########.fr       */
+/*   Updated: 2023/08/30 14:06:23 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,9 @@ void	builtin_cd(t_data *data, t_exec *exec)
 	t_ev	*home;
 	char	buf[200];
 	int		status;
-	// char	*temp;
 
-	getcwd(buf, 200);
 	status = 0;
+	getcwd(buf, 200);
 	ft_change_var(&data->env_var, "OLDPWD", buf);
 	if (!exec->argv[1])
 	{
@@ -34,7 +33,7 @@ void	builtin_cd(t_data *data, t_exec *exec)
 		}
 		chdir(home->value);
 	}
-	else
+	else 
 		status = chdir(exec->argv[1]);
 	if (!status)
 	{
@@ -44,6 +43,7 @@ void	builtin_cd(t_data *data, t_exec *exec)
 	else
 		perror("");
 }
+
 
 void	builtin_pwd(void)
 {
@@ -113,14 +113,3 @@ void	builtin_unset(t_data *data, t_exec *exec)
 		i++;
 	}
 }
-
-// void	builtin_echo(char *src)
-// {
-// 	if (!ft_strnstr(src, "-n", 3))
-// 	{
-// 		ft_putstr_fd(src, 1);
-// 		ft_putchar_fd('\n', 1);
-// 	}
-// 	else
-// 		ft_putstr_fd(src + 3, 1);
-// }

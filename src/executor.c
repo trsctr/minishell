@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:40:59 by slampine          #+#    #+#             */
-/*   Updated: 2023/08/30 09:34:52 by slampine         ###   ########.fr       */
+/*   Updated: 2023/08/30 14:08:18 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ void	old_find_n_exec(char **array, t_data *data)
 	char	*cmd_path;
 	char	**envp;
 	pid_t	pid;
-
+	
 	path_line = ft_find_var(&data->env_var, "PATH");
 	if (!path_line)
 	{	
@@ -127,31 +127,32 @@ void	old_find_n_exec(char **array, t_data *data)
 	}
 }
 
-int	old_executor(char *source, t_data *data)
-{
-	char	**array;
-	char	**envp;
-	pid_t	pid;
+// int	old_executor(char *source, t_data *data)
+// {
+// 	char	**array;
+// 	char	**envp;
+// 	pid_t	pid;
 
-	array = ft_split(source, ' ');
-	if (array == NULL)
-		return (0);
-	if (array[0])
-	{
-		if (is_abs_path(array[0]))
-		{
-			envp = create_envp(data);
-			pid = fork();
-			if (pid == 0)
-				execve(array[0], array, envp);
-			free_array(envp);
-		}
-		else
-			old_find_n_exec(array, data);
-	}
-	free_array(array);
-	return (1);
-}
+// 	envp = NULL;
+// 	if (is_abs_path(exec->cmd))
+// 	{
+// 		if (is_abs_path(array[0]))
+// 		{
+// 			envp = create_envp(data);
+// 			pid = fork();
+// 			if (pid == 0)
+// 				execve(array[0], array, envp);
+// 			free_array(envp);
+// 		}
+// 		else
+// 			old_find_n_exec(array, data);
+// 	}
+// 	else
+// 			find_n_exec(exec->argv, data);
+// 	if (envp)
+// 		free_array(envp);
+// 	return (1);
+// }
 
 void exec_abs_path(t_data *data, t_exec *cmd, char *cmd_path)
 {
@@ -206,20 +207,20 @@ int	executor(t_data *data, t_exec *exec)
 *	runs the command
 */
 
-int	is_builtin(char *input)
+int	is_builtin(char *cmd)
 {
-	if (!ft_strncmp(input, "cd", 2))
+	if (!ft_strcmp(cmd, "cd"))
 		return (1);
-	else if (!ft_strncmp(input, "env", 3))
+	else if (!ft_strcmp(cmd, "env"))
 		return (2);
-	else if (!ft_strncmp(input, "pwd", 3))
+	else if (!ft_strcmp(cmd, "pwd"))
 		return (3);
-	else if (!ft_strncmp(input, "export", 6))
+	else if (!ft_strcmp(cmd, "export"))
 		return (4);
-	else if (!ft_strncmp(input, "unset", 5))
+	else if (!ft_strcmp(cmd, "unset"))
 		return (5);
-	else if (!ft_strncmp(input, "echo", 4))
-		return (6);
+	else if (!ft_strcmp(cmd, "echo"))
+  	return (6);
 	return (0);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_var_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 16:34:52 by oandelin          #+#    #+#             */
-/*   Updated: 2023/08/28 10:52:40 by slampine         ###   ########.fr       */
+/*   Updated: 2023/08/30 13:59:34 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

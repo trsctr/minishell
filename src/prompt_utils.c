@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 19:06:29 by oandelin          #+#    #+#             */
-/*   Updated: 2023/08/28 15:06:38 by slampine         ###   ########.fr       */
+/*   Updated: 2023/08/30 14:04:08 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

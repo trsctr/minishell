@@ -6,7 +6,7 @@
 /*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:24:25 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/01 14:17:10 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/01 14:25:19 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,21 +82,28 @@ void	prompt(t_data *data)
 			data->exec->argv = ft_split(input, ' ');
 			data->exec->cmd = data->exec->argv[0];
 			run_builtin(data->exec, is_builtin(input), data);
+			i = 0;
+			while (data->exec->argv[i])
+			{
+				free(data->exec->argv[i]);
+				i++;
+			}
+			free(data->exec->argv);
 		}
 		else if (input[0] != '\0' && input[0] != '\n')
 		{
 			data->exec->argv = ft_split(input, ' ');
 			data->exec->cmd = data->exec->argv[0];
 			run_command_line(data);
+			i = 0;
+			while (data->exec->argv[i])
+			{
+				free(data->exec->argv[i]);
+				i++;
+			}
+			free(data->exec->argv);
 		}
 		free(input);
-		i = 0;
-		while (data->exec->argv[i])
-		{
-			free(data->exec->argv[i]);
-			i++;
-		}
-		free(data->exec->argv);
 	}
 }
 

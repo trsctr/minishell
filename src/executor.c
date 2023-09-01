@@ -6,7 +6,7 @@
 /*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:40:59 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/01 14:19:59 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/01 14:41:27 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	output_add(char *file, char *src)
 }
 
 /**
- * @brief checks whether command is abs or relative path
+ * @brief checks using access() whether command is abs or relative path
  * 
  * @param src 
  * @return int 
@@ -55,7 +55,7 @@ int	is_abs_path(char *src)
 }
 
 /**
- * @brief Gets command_path (e.g. /bin/ls) from environemental variable PATH
+ * @brief Gets command_path (e.g. /bin/ls) from environmental variable PATH
  * 
  * @param path_line 
  * @param cmd 
@@ -109,12 +109,24 @@ char	**create_envp(t_data *data)
 	{
 		temp = ft_strjoin(env->key, "=");
 		array[i] = ft_strjoin(temp, env->value);
+		if (!array[i])
+		{
+			printf("Malloc error\n");
+			free_array(array);
+			return (NULL);
+		}
 		free(temp);
 		i++;
 		env = env->next;
 	}
 	temp = ft_strjoin(env->key, "=");
 	array[i] = ft_strjoin(temp, env->value);
+	if (!array[i])
+	{
+		printf("Malloc error\n");
+		free_array(array);
+		return (NULL);
+	}
 	i++;
 	free(temp);
 	array[i] = NULL;
@@ -237,6 +249,15 @@ int	executor(t_data *data, t_exec *exec)
 {
 	if (exec->argv[0])
 	{
+		/**
+		 * if redirections, handle them here, maybe like:
+		 * open = outfile;
+		 * close exec->write_fd;
+		 * exec->write_fd = outfile; 
+		 * open = infile;
+		 * close exec->read_fd;
+		 * exec->read_fd = infile
+		 */
 		if (is_abs_path(exec->cmd))
 			exec_abs_path(data, exec, exec->cmd);
 		else
@@ -248,7 +269,7 @@ int	executor(t_data *data, t_exec *exec)
 /**
  * @brief check whether command is builtin or not
  * if yes, returns spec (>0), which is given to 
- * run_builtin 
+ * run_builtin if no, returns 0
  * 
  * @param cmd 
  * @return int 

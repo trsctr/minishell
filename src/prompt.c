@@ -6,7 +6,7 @@
 /*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:24:25 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/01 14:25:19 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/01 14:37:00 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	run_command_line(t_data *data)
 	int		pipe_fd[OPEN_MAX][2];
 	int		i;
 	int		input;
+	int		status;
 
 	i = 0;
 	input = 0;
@@ -34,7 +35,12 @@ void	run_command_line(t_data *data)
 	{
 		if (cmd->next)
 		{
-			pipe(pipe_fd[i]);
+			status = pipe(pipe_fd[i]);
+			if (status == -1)
+			{
+				printf("Error with pipe\n");
+				break ;
+			}
 			cmd->read_fd = input;
 			cmd->write_fd = pipe_fd[i][1];
 			executor(data, cmd);

@@ -6,7 +6,7 @@
 /*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 14:58:52 by oandelin          #+#    #+#             */
-/*   Updated: 2023/08/30 14:38:56 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/01 12:04:42 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,6 @@ typedef struct s_exec{
 	char	**argv;
 	int		read_fd;
 	int		write_fd;
-	int		pipe_in[2];
-	int		pipe_out[2];
 	struct s_exec	*next;
 }				t_exec;
 

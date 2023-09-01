@@ -6,7 +6,7 @@
 /*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 14:59:13 by oandelin          #+#    #+#             */
-/*   Updated: 2023/08/30 15:09:19 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/01 14:04:47 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ t_exec	*init_exec(void)
 	exec->write_fd = 1;
 	exec->argv = ft_split("ls -l", ' ');
 	exec->cmd = exec->argv[0];
-	exec->next = sec;
+	exec->next = NULL;
 	sec->read_fd = 0;
 	sec->write_fd = 1;
 	sec->argv = ft_split("grep drw", ' ');
@@ -64,12 +64,12 @@ t_exec	*init_exec(void)
 	sec->next = thrd;
 	thrd->read_fd = 0;
 	thrd->write_fd = 1;
-	thrd->argv = ft_split("wc -l", ' ');
+	thrd->argv = ft_split("grep obj", ' ');
 	thrd->cmd = thrd->argv[0];
 	thrd->next = NULL;
 	frth->read_fd = 0;
 	frth->write_fd = 1;
-	frth->argv = ft_split("grep Aug", ' ');
+	frth->argv = ft_split("wc -l", ' ');
 	frth->cmd = frth->argv[0];
 	frth->next = NULL;
 	return (exec);

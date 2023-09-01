@@ -6,7 +6,7 @@
 /*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:24:25 by oandelin          #+#    #+#             */
-/*   Updated: 2023/08/30 15:17:07 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/01 14:17:10 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,27 +17,34 @@
 #include "env_var.h"
 /**
  * @brief creates pipes if necessary and runs every command
- * 
+ * 	(still in progress)
  * @param data 
  */
 void	run_command_line(t_data *data)
 {
 	t_exec	*cmd;
-	int		pipe_fd[7][2];
+	int		pipe_fd[OPEN_MAX][2];
 	int		i;
+	int		input;
 
 	i = 0;
+	input = 0;
 	cmd = data->exec;
 	while (cmd)
 	{
 		if (cmd->next)
 		{
 			pipe(pipe_fd[i]);
-			ft_memcpy(cmd->pipe_out, pipe_fd, sizeof(cmd->pipe_out));
-			ft_memcpy(cmd->next->pipe_in, pipe_fd, sizeof(cmd->pipe_in));
-			printf("created pipe, is out for %s and in for %s, has ends %i and %i\n",cmd->cmd,cmd->next->cmd,pipe_fd[i][0],pipe_fd[i][1]);
+			cmd->read_fd = input;
+			cmd->write_fd = pipe_fd[i][1];
+			executor(data, cmd);
+			input = pipe_fd[i][0];
 		}
-		executor(data, cmd);
+		else
+		{
+			cmd->read_fd = input;
+			executor(data, cmd);
+		}
 		cmd = cmd->next;
 		i++;
 	}
@@ -76,20 +83,20 @@ void	prompt(t_data *data)
 			data->exec->cmd = data->exec->argv[0];
 			run_builtin(data->exec, is_builtin(input), data);
 		}
-		else
+		else if (input[0] != '\0' && input[0] != '\n')
 		{
-			// data->exec->argv = ft_split(input, ' ');
-			// data->exec->cmd = data->exec->argv[0];
+			data->exec->argv = ft_split(input, ' ');
+			data->exec->cmd = data->exec->argv[0];
 			run_command_line(data);
 		}
 		free(input);
 		i = 0;
-		// while (data->exec->argv[i])
-		// {
-		// 	free(data->exec->argv[i]);
-		// 	i++;
-		// }
-		// free(data->exec->argv);
+		while (data->exec->argv[i])
+		{
+			free(data->exec->argv[i]);
+			i++;
+		}
+		free(data->exec->argv);
 	}
 }
 

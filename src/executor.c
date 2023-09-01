@@ -6,7 +6,7 @@
 /*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:40:59 by slampine          #+#    #+#             */
-/*   Updated: 2023/08/30 15:19:19 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/01 14:19:59 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,13 +189,14 @@ void	exec_abs_path(t_data *data, t_exec *cmd, char *cmd_path)
 	pid = fork();
 	if (pid == 0)
 	{
-		printf("for %s write is %i and read is %i\n",cmd->cmd,cmd->pipe_out[1], cmd->pipe_in[0]);
-		dup2(cmd->write_fd, cmd->pipe_out[1]);
-		close(cmd->pipe_out[0]);
-		dup2(cmd->read_fd, cmd->pipe_in[0]);
-		close(cmd->pipe_in[1]);
+		dup2(cmd->read_fd, 0);
+		dup2(cmd->write_fd, 1);
 		execve(cmd_path, cmd->argv, envp);
 	}
+	if (cmd->read_fd != 0)
+		close(cmd->read_fd);
+	if (cmd->write_fd != 1)
+		close(cmd->write_fd);
 	free_array(envp);
 }
 
@@ -244,10 +245,14 @@ int	executor(t_data *data, t_exec *exec)
 	return (1);
 }
 
-/*	checks whether input is builtin, if yes, return spec, 
-*	which is then given to run_builtin that 
-*	runs the command
-*/
+/**
+ * @brief check whether command is builtin or not
+ * if yes, returns spec (>0), which is given to 
+ * run_builtin 
+ * 
+ * @param cmd 
+ * @return int 
+ */
 int	is_builtin(char *cmd)
 {
 	if (!ft_strcmp(cmd, "cd"))
@@ -265,8 +270,13 @@ int	is_builtin(char *cmd)
 	return (0);
 }
 
-/* runs builtin-command based on spec, spec is return of is_builin
-*/
+/**
+ * @brief runs builtin-command based on spec, spec is return of is_builin
+ * 
+ * @param exec 
+ * @param spec 
+ * @param data 
+ */
 void	run_builtin(t_exec *exec, int spec, t_data *data)
 {
 	if (spec == 1)

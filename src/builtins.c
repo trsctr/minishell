@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 14:54:26 by oandelin          #+#    #+#             */
-/*   Updated: 2023/08/30 16:37:33 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/04 16:54:56 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ void	builtin_env(t_data *data)
 	}
 }
 
+
 /**
  * @brief builtin export command, saves new environment variables
  * as long as they are given in format key=value
@@ -111,7 +112,7 @@ void	builtin_export(t_data *data, t_exec *exec)
 	if (!exec->argv[i])
 		return ;
 	else
-	{	
+	{
 		while (exec->argv[i])
 		{
 			if (!ft_strchr(exec->argv[i], '='))
@@ -120,8 +121,9 @@ void	builtin_export(t_data *data, t_exec *exec)
 				continue ;
 			}
 			key = get_ev_key(exec->argv[i]);
-			if (key[0] == '\0')
+			if (!key_is_valid(key))
 			{
+				ft_printf("export: %s is not a valid identifier\n", exec->argv[i]);
 				free(key);
 				i++;
 				continue ;
@@ -137,6 +139,7 @@ void	builtin_export(t_data *data, t_exec *exec)
 		}
 	}
 }
+
 
 /**
  * @brief builtin command unset. removes env vars if they can be found

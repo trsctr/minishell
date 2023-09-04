@@ -6,7 +6,7 @@
 /*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:24:25 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/01 14:37:00 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/04 17:42:57 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,15 @@ void	run_command_line(t_data *data)
 			}
 			cmd->read_fd = input;
 			cmd->write_fd = pipe_fd[i][1];
-			executor(data, cmd);
+			if (executor(data, cmd))
+				break ;
 			input = pipe_fd[i][0];
 		}
 		else
 		{
 			cmd->read_fd = input;
-			executor(data, cmd);
+			if (executor(data, cmd))
+				perror("");
 		}
 		cmd = cmd->next;
 		i++;

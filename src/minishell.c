@@ -6,40 +6,12 @@
 /*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 14:59:13 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/01 14:04:47 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/04 17:28:55 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "prompt.h"
-// void	prompt(t_data *data)
-// {
-// 	char	*input;
-
-// 	(void) data;
-// 	while (420)
-// 	{
-// 		input = get_input();
-// 		if (!ft_strncmp(input, "exit", 4))
-// 		{
-// 			ft_putendl_fd("exit", 2);
-// 			clear_history();
-// 			break ;
-// 		}
-// 		if (input[0] != '\0' && input[0] != '\n')
-// 			ft_printf("%s: %s\n", input, CMD_NOT_FOUND);
-// 	}
-// }
-
-// char	*get_input(void)
-// {
-// 	char	*line;
-
-// 	line = readline(BYELLOW PROMPT RESET);
-// 	if (line[0] != '\0' && line[0] != '\n')
-// 		add_history(line);
-// 	return (line);
-// }
 
 t_exec	*init_exec(void)
 {
@@ -56,16 +28,25 @@ t_exec	*init_exec(void)
 	exec->write_fd = 1;
 	exec->argv = ft_split("ls -l", ' ');
 	exec->cmd = exec->argv[0];
+	exec->redir_out = 0;
+	exec->outfile = "outfile";
+	exec->redir_in = 0;
 	exec->next = NULL;
 	sec->read_fd = 0;
 	sec->write_fd = 1;
 	sec->argv = ft_split("grep drw", ' ');
 	sec->cmd = sec->argv[0];
+	sec->redir_out = 0;
+	sec->outfile = "outfile";
+	sec->redir_in = 0;
 	sec->next = thrd;
 	thrd->read_fd = 0;
 	thrd->write_fd = 1;
 	thrd->argv = ft_split("grep obj", ' ');
 	thrd->cmd = thrd->argv[0];
+	thrd->redir_in = 0;
+	thrd->redir_out = 0;
+	thrd->infile = "oufile";
 	thrd->next = NULL;
 	frth->read_fd = 0;
 	frth->write_fd = 1;
@@ -80,7 +61,7 @@ t_data	*init_data(void)
 	t_data	*data;
 
 	data = malloc(sizeof(t_data));
-	data->env_var = NULL;//malloc(sizeof(t_ev));
+	data->env_var = NULL;
 	data->exec = init_exec();
 	return (data);
 }

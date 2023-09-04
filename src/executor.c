@@ -6,7 +6,7 @@
 /*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:40:59 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/01 14:41:27 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/04 17:41:55 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,32 +14,6 @@
 #include "prompt.h"
 #include "env_var.h"
 #include "executor.h"
-
-void	output_trunc(char *file, char *src)
-{
-	int	outfile;
-	int	saved_out;
-
-	outfile = open(file, O_TRUNC | O_CREAT | O_RDWR, 0777);
-	saved_out = dup(1);
-	dup2(outfile, 1);
-	printf("%s\n", src);
-	dup2(saved_out, 1);
-	close(saved_out);
-}
-
-void	output_add(char *file, char *src)
-{
-	int	outfile;
-	int	saved_out;
-
-	outfile = open(file, O_CREAT | O_RDWR | O_APPEND, 0777);
-	saved_out = dup(1);
-	dup2(outfile, 1);
-	printf("%s\n", src);
-	dup2(saved_out, 1);
-	close(saved_out);
-}
 
 /**
  * @brief checks using access() whether command is abs or relative path
@@ -133,58 +107,6 @@ char	**create_envp(t_data *data)
 	return (array);
 }
 
-// void	old_find_n_exec(char **array, t_data *data)
-// {
-// 	t_ev	*path_line;
-// 	char	*cmd_path;
-// 	char	**envp;
-// 	pid_t	pid;
-
-// 	path_line = ft_find_var(&data->env_var, "PATH");
-// 	if (!path_line)
-// 	{	
-// 		ft_printf("minishell: "CMD_NOT_FOUND": %s\n", array[0]);
-// 		return ;
-// 	}
-// 	cmd_path = get_cmd_path(path_line->value, array[0]);
-// 	if (cmd_path)
-// 	{
-// 		envp = create_envp(data);
-// 		pid = fork();
-// 		if (pid == 0)
-// 			execve(cmd_path, array, envp);
-// 		free(cmd_path);
-// 		free_array(envp);
-// 	}
-// }
-// 
-// int	old_executor(char *source, t_data *data)
-// {
-// 	char	**array;
-// 	char	**envp;
-// 	pid_t	pid;
-
-// 	envp = NULL;
-// 	if (is_abs_path(exec->cmd))
-// 	{
-// 		if (is_abs_path(array[0]))
-// 		{
-// 			envp = create_envp(data);
-// 			pid = fork();
-// 			if (pid == 0)
-// 				execve(array[0], array, envp);
-// 			free_array(envp);
-// 		}
-// 		else
-// 			old_find_n_exec(array, data);
-// 	}
-// 	else
-// 			find_n_exec(exec->argv, data);
-// 	if (envp)
-// 		free_array(envp);
-// 	return (1);
-// }
-
 /**
  * @brief executes the command as absolute path
  * 
@@ -239,6 +161,51 @@ void	find_n_exec(t_exec *exec, t_data *data)
 }
 
 /**
+ * @brief handles inputs redirection, returns 0 if succesful, 1 if not
+ * 
+ * @param exec 
+ * @return int 
+ */
+int	handle_redir_out(t_exec *exec)
+{
+	int	outfile;
+
+	if (exec->redir_out == TRUNC_OUT)
+		outfile = open(exec->outfile, O_TRUNC | O_CREAT | O_RDWR, 0777);
+	if (exec->redir_out == APPEND_OUT)
+		outfile = open(exec->outfile, O_CREAT | O_RDWR | O_APPEND, 0777);
+	if (outfile == -1)
+		return (1);
+	close(exec->write_fd);
+	exec->write_fd = outfile;
+	return (0);
+}
+
+/**
+ * @brief handles outputs redirection, returns 0 if succesful, 1 if not
+ * 
+ * @param exec 
+ * @return int 
+ */
+int	handle_redir_in(t_exec *exec)
+{
+	int	infile;
+
+	if (exec->redir_in == INPUT_FILE)
+		infile = open(exec->infile, O_RDONLY);
+	if (exec->redir_in == INPUT_HEREDOC)
+	{
+		/*TODO, placeholder*/
+		infile = 1;
+	}
+	if (infile == -1)
+		return (1);
+	close(exec->read_fd);
+	exec->read_fd = infile;
+	return (0);
+}
+
+/**
  * @brief command executor, checks if is abs or relative path, works accordingly
  * 
  * @param data 
@@ -247,23 +214,31 @@ void	find_n_exec(t_exec *exec, t_data *data)
  */
 int	executor(t_data *data, t_exec *exec)
 {
+	int	saved_in;
+	int	saved_out;
+
+	saved_in = dup(0);
+	saved_out = dup(1);
 	if (exec->argv[0])
 	{
-		/**
-		 * if redirections, handle them here, maybe like:
-		 * open = outfile;
-		 * close exec->write_fd;
-		 * exec->write_fd = outfile; 
-		 * open = infile;
-		 * close exec->read_fd;
-		 * exec->read_fd = infile
-		 */
+		if (exec->redir_out)
+		{
+			if (handle_redir_in(exec))
+				return (1);
+		}
+		if (exec->redir_out)
+		{
+			if (handle_redir_out(exec))
+				return (1);
+		}
 		if (is_abs_path(exec->cmd))
 			exec_abs_path(data, exec, exec->cmd);
 		else
 			find_n_exec(exec, data);
 	}
-	return (1);
+	dup2(0, saved_in);
+	dup2(1, saved_out);
+	return (0);
 }
 
 /**

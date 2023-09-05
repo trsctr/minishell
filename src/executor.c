@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:40:59 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/04 17:41:55 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/05 14:22:35 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -280,7 +280,7 @@ void	run_builtin(t_exec *exec, int spec, t_data *data)
 	if (spec == 2)
 		builtin_env(data);
 	if (spec == 3)
-		builtin_pwd();
+		builtin_pwd(exec);
 	if (spec == 4)
 		builtin_export(data, exec);
 	if (spec == 5)

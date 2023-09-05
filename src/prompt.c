@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:24:25 by oandelin          #+#    #+#             */
-/*   Updated: 2023/08/30 14:04:27 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/04 17:42:57 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,24 +15,44 @@
 #include "builtins.h"
 #include "executor.h"
 #include "env_var.h"
-
-void run_command_line(t_data *data)
+/**
+ * @brief creates pipes if necessary and runs every command
+ * 	(still in progress)
+ * @param data 
+ */
+void	run_command_line(t_data *data)
 {
 	t_exec	*cmd;
-	int		pipe_fd[7][2];
+	int		pipe_fd[OPEN_MAX][2];
 	int		i;
+	int		input;
+	int		status;
 
 	i = 0;
+	input = 0;
 	cmd = data->exec;
 	while (cmd)
 	{
 		if (cmd->next)
 		{
-			pipe(pipe_fd[i]);
+			status = pipe(pipe_fd[i]);
+			if (status == -1)
+			{
+				printf("Error with pipe\n");
+				break ;
+			}
+			cmd->read_fd = input;
 			cmd->write_fd = pipe_fd[i][1];
-			cmd->next->read_fd = pipe_fd[i][0];
+			if (executor(data, cmd))
+				break ;
+			input = pipe_fd[i][0];
 		}
-		executor(data, cmd);
+		else
+		{
+			cmd->read_fd = input;
+			if (executor(data, cmd))
+				perror("");
+		}
 		cmd = cmd->next;
 		i++;
 	}
@@ -49,8 +69,6 @@ void run_command_line(t_data *data)
 void	prompt(t_data *data)
 {
 	char	*input;
-	// int		saved_out;
-	// int		saved_in;
 	int		i;
 
 	while (420)
@@ -67,41 +85,33 @@ void	prompt(t_data *data)
 			clear_history();
 			break ;
 		}
-		// else if (is_builtin(input))
-		// {
-		// 	data->exec->argv = ft_split(input, ' ');
-		// 	data->exec->cmd = data->exec->argv[0];
-		// 	run_builtin(data->exec, is_builtin(input), data);
-		// 	//run_builtin(input, is_builtin(input), data);
-		// }
-		else
+		else if (is_builtin(input))
 		{
-			// data->exec->argv = ft_split(input, ' ');
-			// data->exec->cmd = data->exec->argv[0];
-			// data->exec->write_fd = open("outfile", O_CREAT | O_RDWR | O_APPEND, 0777);
-			// data->exec->read_fd = open("infile", O_RDONLY);
-			// saved_out = dup(1);
-			// saved_in = dup(0);
-			// dup2(data->exec->write_fd, 1);
-			// dup2(data->exec->read_fd, 0);
-			// old_executor(input, data);
-			// executor(data, data->exec);
-			// dup2(saved_out, 1);
-			// dup2(saved_in, 0);
-			// close(saved_out);
-			// close(saved_in);
+			data->exec->argv = ft_split(input, ' ');
+			data->exec->cmd = data->exec->argv[0];
+			run_builtin(data->exec, is_builtin(input), data);
+			i = 0;
+			while (data->exec->argv[i])
+			{
+				free(data->exec->argv[i]);
+				i++;
+			}
+			free(data->exec->argv);
+		}
+		else if (input[0] != '\0' && input[0] != '\n')
+		{
+			data->exec->argv = ft_split(input, ' ');
+			data->exec->cmd = data->exec->argv[0];
 			run_command_line(data);
+			i = 0;
+			while (data->exec->argv[i])
+			{
+				free(data->exec->argv[i]);
+				i++;
+			}
+			free(data->exec->argv);
 		}
-			//ft_printf("%s: %s\n", input, CMD_NOT_FOUND);
 		free(input);
-		//free(data->exec->cmd);
-		i = 0;
-		while (data->exec->argv[i])
-		{
-		//	free(data->exec->argv[i]);
-			i++;
-		}
-		//free(data->exec->argv);
 	}
 }
 
@@ -116,7 +126,6 @@ void	prompt(t_data *data)
  * 
  * @return 
  */
-
 char	*get_input(void)
 {
 	char	*line;

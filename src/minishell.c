@@ -6,7 +6,7 @@
 /*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 14:59:13 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/04 17:28:55 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/05 17:00:49 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,43 +16,44 @@
 t_exec	*init_exec(void)
 {
 	t_exec	*exec;
-	t_exec	*sec;
-	t_exec	*thrd;
-	t_exec	*frth;
+	// t_exec	*sec;
+	// t_exec	*thrd;
+	// t_exec	*frth;
 
 	exec = malloc(sizeof(t_exec));
-	sec = malloc(sizeof(t_exec));
-	thrd = malloc(sizeof(t_exec));
-	frth = malloc(sizeof(t_exec));
+	// sec = malloc(sizeof(t_exec));
+	// thrd = malloc(sizeof(t_exec));
+	// frth = malloc(sizeof(t_exec));
 	exec->read_fd = 0;
 	exec->write_fd = 1;
-	exec->argv = ft_split("ls -l", ' ');
-	exec->cmd = exec->argv[0];
-	exec->redir_out = 0;
+	// exec->argv = ft_split("ls -l", ' ');
+	// exec->cmd = exec->argv[0];
+	exec->redir_out = 2;
 	exec->outfile = "outfile";
 	exec->redir_in = 0;
+	exec->infile = "infile";
 	exec->next = NULL;
-	sec->read_fd = 0;
-	sec->write_fd = 1;
-	sec->argv = ft_split("grep drw", ' ');
-	sec->cmd = sec->argv[0];
-	sec->redir_out = 0;
-	sec->outfile = "outfile";
-	sec->redir_in = 0;
-	sec->next = thrd;
-	thrd->read_fd = 0;
-	thrd->write_fd = 1;
-	thrd->argv = ft_split("grep obj", ' ');
-	thrd->cmd = thrd->argv[0];
-	thrd->redir_in = 0;
-	thrd->redir_out = 0;
-	thrd->infile = "oufile";
-	thrd->next = NULL;
-	frth->read_fd = 0;
-	frth->write_fd = 1;
-	frth->argv = ft_split("wc -l", ' ');
-	frth->cmd = frth->argv[0];
-	frth->next = NULL;
+	// sec->read_fd = 0;
+	// sec->write_fd = 1;
+	// sec->argv = ft_split("grep obj", ' ');
+	// sec->cmd = sec->argv[0];
+	// sec->redir_out = 0;
+	// sec->outfile = "outfile";
+	// sec->redir_in = 0;
+	// sec->next = NULL;
+	// thrd->read_fd = 0;
+	// thrd->write_fd = 1;
+	// thrd->argv = ft_split("grep obj", ' ');
+	// thrd->cmd = thrd->argv[0];
+	// thrd->redir_in = 0;
+	// thrd->redir_out = 0;
+	// thrd->infile = "oufile";
+	// thrd->next = NULL;
+	// frth->read_fd = 0;
+	// frth->write_fd = 1;
+	// frth->argv = ft_split("wc -l", ' ');
+	// frth->cmd = frth->argv[0];
+	// frth->next = NULL;
 	return (exec);
 }
 

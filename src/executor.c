@@ -6,7 +6,7 @@
 /*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:40:59 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/04 17:41:55 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/05 17:18:09 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,10 +121,15 @@ void	exec_abs_path(t_data *data, t_exec *cmd, char *cmd_path)
 
 	envp = create_envp(data);
 	pid = fork();
+	if (pid == -1)
+	{
+		ft_printf_stderr("minishell: Pipe failed\n");
+		exit (1);
+	}
 	if (pid == 0)
 	{
-		dup2(cmd->read_fd, 0);
-		dup2(cmd->write_fd, 1);
+		//dup2(cmd->read_fd, 0);
+		//dup2(cmd->write_fd, 1);
 		execve(cmd_path, cmd->argv, envp);
 	}
 	if (cmd->read_fd != 0)
@@ -132,6 +137,7 @@ void	exec_abs_path(t_data *data, t_exec *cmd, char *cmd_path)
 	if (cmd->write_fd != 1)
 		close(cmd->write_fd);
 	free_array(envp);
+	waitpid(pid, NULL, 0);
 }
 
 /**
@@ -176,7 +182,8 @@ int	handle_redir_out(t_exec *exec)
 		outfile = open(exec->outfile, O_CREAT | O_RDWR | O_APPEND, 0777);
 	if (outfile == -1)
 		return (1);
-	close(exec->write_fd);
+	if (exec->write_fd != 1)
+		close(exec->write_fd);
 	exec->write_fd = outfile;
 	return (0);
 }
@@ -200,7 +207,8 @@ int	handle_redir_in(t_exec *exec)
 	}
 	if (infile == -1)
 		return (1);
-	close(exec->read_fd);
+	if  (exec->read_fd != 0)
+		close(exec->read_fd);
 	exec->read_fd = infile;
 	return (0);
 }
@@ -214,14 +222,9 @@ int	handle_redir_in(t_exec *exec)
  */
 int	executor(t_data *data, t_exec *exec)
 {
-	int	saved_in;
-	int	saved_out;
-
-	saved_in = dup(0);
-	saved_out = dup(1);
 	if (exec->argv[0])
 	{
-		if (exec->redir_out)
+		if (exec->redir_in)
 		{
 			if (handle_redir_in(exec))
 				return (1);
@@ -236,8 +239,8 @@ int	executor(t_data *data, t_exec *exec)
 		else
 			find_n_exec(exec, data);
 	}
-	dup2(0, saved_in);
-	dup2(1, saved_out);
+	exec->write_fd = 1;
+	exec->read_fd = 0;
 	return (0);
 }
 
@@ -280,7 +283,7 @@ void	run_builtin(t_exec *exec, int spec, t_data *data)
 	if (spec == 2)
 		builtin_env(data);
 	if (spec == 3)
-		builtin_pwd();
+		builtin_pwd(exec);
 	if (spec == 4)
 		builtin_export(data, exec);
 	if (spec == 5)

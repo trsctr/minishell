@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 14:55:03 by oandelin          #+#    #+#             */
-/*   Updated: 2023/08/30 14:00:45 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/06 19:46:57 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ char	*get_ev_key(char *str)
 		return (NULL);
 	len++;
 	key = malloc(sizeof(char) * len);
+	if (!key)
+		ft_errormsg(MALLOC_FAIL, NULL);
 	ft_strlcpy(key, str, len);
 	return (key);
 }
@@ -114,18 +116,4 @@ void	no_env_vars(t_data *data)
 	getcwd(pwd, 200);
 	ft_new_env_var(&data->env_var, ft_new_evnode("PWD", pwd));
 	ft_new_env_var(&data->env_var, ft_new_evnode("SHLVL", "1"));
-}
-
-char	*get_var_key(char *str)
-{
-	int		len;
-	char	*key;
-
-	len = 0;
-	while (str[len] != '=')
-		len++;
-	len++;
-	key = malloc(sizeof(char) * len);
-	ft_strlcpy(key, str, len);
-	return (key);
 }

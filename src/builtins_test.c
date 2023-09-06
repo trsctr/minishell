@@ -12,7 +12,7 @@ void	prompt(t_data *data)
 		input = get_input();
 		if (!input || !ft_strncmp(input, "exit", 4))
 		{
-			ft_putendl_fd("exit", 2);
+			ft_putendl_fd("exit", 1);
 			if (input)
 				free(input);
 			//ft_lstclear(&data->env_var, &free);

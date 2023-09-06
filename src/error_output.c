@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 17:04:46 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/05 15:47:05 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/06 18:25:55 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	ft_printf_stderr(const char *format, ...)
  * @param errorcode 
  * @param cmd required if printing "bad command or file name"
  */
-void	ft_errormsg(int *errorcode, char *cmd)
+void	ft_errormsg(int errorcode, char *cmd)
 {
 	if (errorcode == BAD_CMD)
 		ft_printf_stderr("minishell: Command not found: %s\n", cmd);

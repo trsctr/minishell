@@ -6,7 +6,7 @@
 #    By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/01 16:51:49 by oandelin          #+#    #+#              #
-#    Updated: 2023/08/21 16:49:05 by oandelin         ###   ########.fr        #
+#    Updated: 2023/09/06 17:47:49 by oandelin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,6 +41,7 @@ SRCFILES 	= 	ft_isalpha \
 				ft_atoi \
 				ft_calloc \
 				ft_strdup \
+				ft_strndup \
 				ft_substr \
 				ft_strjoin \
 				ft_strtrim \

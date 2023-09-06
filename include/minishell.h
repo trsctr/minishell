@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 14:58:52 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/05 17:02:02 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/06 13:12:32 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct s_exec{
 	int		redir_in;
 	char	*outfile;
 	char	*infile;
+	char	*delim;
 	struct s_exec	*next;
 }				t_exec;
 

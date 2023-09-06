@@ -6,7 +6,7 @@
 /*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 14:59:13 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/05 17:00:49 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/06 14:32:33 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,11 @@ t_exec	*init_exec(void)
 	exec->write_fd = 1;
 	// exec->argv = ft_split("ls -l", ' ');
 	// exec->cmd = exec->argv[0];
-	exec->redir_out = 2;
+	exec->redir_out = 0;
 	exec->outfile = "outfile";
-	exec->redir_in = 0;
+	exec->redir_in = 2;
 	exec->infile = "infile";
+	exec->delim = "stop";
 	exec->next = NULL;
 	// sec->read_fd = 0;
 	// sec->write_fd = 1;

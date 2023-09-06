@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:24:25 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/05 16:58:14 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/06 14:28:41 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 #include "executor.h"
 #include "env_var.h"
 #include "utils.h"
+#include "heredoc.h"
+
 /**
  * @brief creates pipes if necessary and runs every command
  * 	(still in progress)
@@ -32,6 +34,7 @@ void	run_command_line(t_data *data)
 	i = 0;
 	input = 0;
 	cmd = data->exec;
+	handle_heredocs(cmd);
 	while (cmd)
 	{
 		if (cmd->next)

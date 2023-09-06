@@ -27,4 +27,6 @@ void	toggle_echoctl(void);
 void	reset_signals(void);
 int		is_builtin(char *input);
 int		ft_printf_stderr(const char *format, ...);
+void	ft_errormsg(int *errorcode, char *cmd);
+
 #endif

@@ -6,7 +6,7 @@ MEMDBFLAG 	=	-fsanitize=address
 RLFLAG		=	-lreadline -L ~/.brew/opt/readline/lib -I ~/.brew/opt/readline/include
 LIBFT 		= 	libft/libft.a
 SRCDIR		=	src/
-SRCFILES	= 	minishell.c prompt.c prompt_utils.c env_var.c env_var_utils.c builtins.c executor.c utils.c echo.c
+SRCFILES	= 	minishell.c prompt.c prompt_utils.c env_var.c env_var_utils.c builtins.c executor.c utils.c echo.c builtin_utils.c error_output.c
 OBJ_DIR		= 	obj/
 OBJFILES	= 	$(SRCFILES:.c=.o)
 INC_DIR		=	include

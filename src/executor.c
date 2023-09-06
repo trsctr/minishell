@@ -6,7 +6,7 @@
 /*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:40:59 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/05 17:23:18 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/06 15:05:22 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "prompt.h"
 #include "env_var.h"
 #include "executor.h"
+#include "heredoc.h"
 
 /**
  * @brief checks using access() whether command is abs or relative path
@@ -128,8 +129,8 @@ void	exec_abs_path(t_data *data, t_exec *cmd, char *cmd_path)
 	}
 	if (pid == 0)
 	{
-		//dup2(cmd->read_fd, 0);
-		//dup2(cmd->write_fd, 1);
+		dup2(cmd->read_fd, 0);
+		dup2(cmd->write_fd, 1);
 		execve(cmd_path, cmd->argv, envp);
 	}
 	if (cmd->read_fd != 0)
@@ -174,17 +175,17 @@ void	find_n_exec(t_exec *exec, t_data *data)
  */
 int	handle_redir_out(t_exec *exec)
 {
-	int	outfile;
+	int	fd_out;
 
 	if (exec->redir_out == TRUNC_OUT)
-		outfile = open(exec->outfile, O_TRUNC | O_CREAT | O_RDWR, 0777);
+		fd_out = open(exec->outfile, O_TRUNC | O_CREAT | O_RDWR, 0777);
 	if (exec->redir_out == APPEND_OUT)
-		outfile = open(exec->outfile, O_CREAT | O_RDWR | O_APPEND, 0777);
-	if (outfile == -1)
+		fd_out = open(exec->outfile, O_CREAT | O_RDWR | O_APPEND, 0777);
+	if (fd_out == -1)
 		return (1);
 	if (exec->write_fd != 1)
 		close(exec->write_fd);
-	exec->write_fd = outfile;
+	exec->write_fd = fd_out;
 	return (0);
 }
 
@@ -196,20 +197,19 @@ int	handle_redir_out(t_exec *exec)
  */
 int	handle_redir_in(t_exec *exec)
 {
-	int	infile;
+	int			fd_in;
 
 	if (exec->redir_in == INPUT_FILE)
-		infile = open(exec->infile, O_RDONLY);
+		fd_in = open(exec->infile, O_RDONLY);
 	if (exec->redir_in == INPUT_HEREDOC)
 	{
-		/*TODO, placeholder*/
-		infile = 1;
+		fd_in = open(exec->infile, O_RDWR);
 	}
-	if (infile == -1)
+	if (fd_in == -1)
 		return (1);
 	if  (exec->read_fd != 0)
 		close(exec->read_fd);
-	exec->read_fd = infile;
+	exec->read_fd = fd_in;
 	return (0);
 }
 
@@ -241,6 +241,11 @@ int	executor(t_data *data, t_exec *exec)
 	}
 	exec->write_fd = 1;
 	exec->read_fd = 0;
+	if (exec->redir_in == 2)
+	{
+		/*TODO remove temp_heredocs*/
+		remove(exec->infile);
+	}
 	return (0);
 }
 

@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   env_var_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 16:34:52 by oandelin          #+#    #+#             */
-/*   Updated: 2023/08/30 14:27:53 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/06 19:50:23 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "env_var.h"
+#include "prompt.h"
 
 /**
  * @brief creates new node to the environment variable linked list
@@ -26,7 +27,10 @@ t_ev	*ft_new_evnode(char *key, char *value)
 
 	node = (t_ev *)malloc(sizeof(t_ev));
 	if (!node)
+	{
+		ft_errormsg(MALLOC_FAIL, NULL);
 		return (NULL);
+	}
 	if (!key)
 		node->key = NULL;
 	else

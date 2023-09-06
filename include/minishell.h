@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 14:58:52 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/06 13:12:32 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/06 18:46:12 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include "../libft/include/libft.h"
 # include <stdlib.h>
 # include <termios.h>
+# include <signal.h>
 # include <fcntl.h>
 
 # define BYELLOW "\001\e[0;33m\002"
@@ -30,6 +31,11 @@
 # define APPEND_OUT 2	
 # define INPUT_FILE 1
 # define INPUT_HEREDOC 2
+
+# define BAD_CMD 1
+# define MALLOC_FAIL 2
+# define PIPE_FAIL 3
+# define SYNTAX_ERROR 4
 
 typedef struct s_ev {
 	char		*key;
@@ -51,8 +57,11 @@ typedef struct s_exec{
 }				t_exec;
 
 typedef struct s_data {
-	t_ev	*env_var;
-	t_exec	*exec;
+	t_ev				*env_var;
+	t_exec				*exec;
+	struct termios		old_termios;
+	struct termios		new_termios;
+	struct sigaction	sa;
 }	t_data;
 
 void	rl_replace_line(const char *text, int clear_undo);

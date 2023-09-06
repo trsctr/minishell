@@ -3,15 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 14:59:13 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/06 14:32:33 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/06 19:50:08 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "prompt.h"
+#include "utils.h"
+#include "env_var.h"
 
 t_exec	*init_exec(void)
 {
@@ -68,13 +70,27 @@ t_data	*init_data(void)
 	return (data);
 }
 
-int	main(void)
+int	main(int argc, char **argv, char **environ)
 {
 	t_data		*data;
-	extern char	**environ;
 
-	data = init_data();
-	save_env_var(environ, data);
-	prompt(data);
-	exit (0);
+	(void) argv;
+	if (argc == 1)
+	{
+		data = init_data();
+		if (!data)
+		{
+			ft_errormsg(MALLOC_FAIL, NULL);
+			exit (1);
+		}
+		save_env_var(environ, data);
+		terminal_setup(data);
+		prompt(data);
+		terminal_reset(data);
+		ft_clear_evlist(data);
+		free(data);
+	}
+	else
+		ft_printf_stderr("Please run me without arguments\n");
+	return (0);
 }

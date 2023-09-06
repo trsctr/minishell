@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:31:33 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/04 17:15:00 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/05 15:45:43 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,4 +27,6 @@ void	toggle_echoctl(void);
 void	reset_signals(void);
 int		is_builtin(char *input);
 int		ft_printf_stderr(const char *format, ...);
+void	ft_errormsg(int *errorcode, char *cmd);
+
 #endif

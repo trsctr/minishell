@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:24:25 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/05 14:52:42 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/05 16:58:14 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "builtins.h"
 #include "executor.h"
 #include "env_var.h"
+#include "utils.h"
 /**
  * @brief creates pipes if necessary and runs every command
  * 	(still in progress)
@@ -69,7 +70,6 @@ void	run_command_line(t_data *data)
 void	prompt(t_data *data)
 {
 	char	*input;
-	int		i;
 
 	while (420)
 	{
@@ -90,27 +90,14 @@ void	prompt(t_data *data)
 			data->exec->argv = ft_split(input, ' ');
 			data->exec->cmd = data->exec->argv[0];
 			run_builtin(data->exec, is_builtin(input), data);
-			i = 0;
-			while (data->exec->argv[i])
-			{
-				free(data->exec->argv[i]);
-				i++;
-			}
-			free(data->exec->argv);
 		}
 		else if (input[0] != '\0' && input[0] != '\n')
 		{
 			data->exec->argv = ft_split(input, ' ');
 			data->exec->cmd = data->exec->argv[0];
 			run_command_line(data);
-			i = 0;
-			while (data->exec->argv[i])
-			{
-				free(data->exec->argv[i]);
-				i++;
-			}
-			free(data->exec->argv);
 		}
+		free_exec(data->exec);
 		free(input);
 	}
 }

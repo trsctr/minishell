@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:24:25 by oandelin          #+#    #+#             */
 /*   Updated: 2023/09/05 16:58:14 by slampine         ###   ########.fr       */
@@ -74,9 +74,9 @@ void	prompt(t_data *data)
 	while (420)
 	{
 		input = get_input();
-		if (!input || !ft_strncmp(input, "exit", 4))
+		if (!input || !ft_strcmp(input, "exit"))
 		{
-			ft_putendl_fd("exit", 2);
+			ft_printf("exit\n");
 			if (input)
 				free(input);
 			//ft_lstclear(&data->env_var, &free);

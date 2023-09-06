@@ -6,15 +6,18 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 15:20:52 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/04 17:00:59 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/05 16:59:23 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUILTINS_H
 # define BUILTINS_H
+# include "prompt.h"
 
 // UTILS
 int	key_is_valid(char *key);
+void export_print_vars(t_ev **vars);
+
 
 // COMMANDS
 void	builtin_env(t_data *data);

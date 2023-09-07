@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:40:59 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/07 10:45:55 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/06 19:45:49 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ char	*get_cmd_path(char *path_line, char *cmd)
 		free(cmd_path);
 		i++;
 	}
-	ft_printf("minishell: "CMD_NOT_FOUND": %s\n", cmd);
+	ft_errormsg(BAD_CMD, cmd);
 	free_array(allpaths);
 	return (NULL);
 }
@@ -86,7 +86,7 @@ char	**create_envp(t_data *data)
 		array[i] = ft_strjoin(temp, env->value);
 		if (!array[i])
 		{
-			printf("Malloc error\n");
+			ft_errormsg(MALLOC_FAIL, NULL);
 			free_array(array);
 			return (NULL);
 		}
@@ -98,7 +98,7 @@ char	**create_envp(t_data *data)
 	array[i] = ft_strjoin(temp, env->value);
 	if (!array[i])
 	{
-		printf("Malloc error\n");
+		ft_errormsg(MALLOC_FAIL, NULL);
 		free_array(array);
 		return (NULL);
 	}
@@ -124,7 +124,7 @@ void	exec_abs_path(t_data *data, t_exec *cmd, char *cmd_path)
 	pid = fork();
 	if (pid == -1)
 	{
-		ft_printf_stderr("minishell: Fork failed\n");
+		ft_errormsg(PIPE_FAIL, NULL);
 		exit (1);
 	}
 	if (pid == 0)
@@ -156,7 +156,7 @@ void	find_n_exec(t_exec *exec, t_data *data)
 	path_line = ft_find_var(&data->env_var, "PATH");
 	if (!path_line)
 	{
-		ft_printf("minishell: "CMD_NOT_FOUND": %s\n", exec->cmd);
+		ft_errormsg(BAD_CMD, exec->cmd);
 		return ;
 	}
 	cmd_path = get_cmd_path(path_line->value, exec->cmd);

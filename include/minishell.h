@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 14:58:52 by oandelin          #+#    #+#             */
 /*   Updated: 2023/09/06 13:12:32 by slampine         ###   ########.fr       */
@@ -23,7 +23,7 @@
 # define BYELLOW "\001\e[0;33m\002"
 # define RESET   "\001\e[0m\002"
 
-# define PROMPT  "minishell > "
+# define PROMPT  "minishell> "
 # define CMD_NOT_FOUND "Command not found"
 
 # define TRUNC_OUT 1

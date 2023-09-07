@@ -18,12 +18,12 @@
 t_exec	*init_exec(void)
 {
 	t_exec	*exec;
-	// t_exec	*sec;
+	t_exec	*sec;
 	// t_exec	*thrd;
 	// t_exec	*frth;
 
 	exec = malloc(sizeof(t_exec));
-	// sec = malloc(sizeof(t_exec));
+	sec = malloc(sizeof(t_exec));
 	// thrd = malloc(sizeof(t_exec));
 	// frth = malloc(sizeof(t_exec));
 	exec->read_fd = 0;
@@ -36,14 +36,16 @@ t_exec	*init_exec(void)
 	exec->infile = "infile";
 	exec->delim = "stop";
 	exec->next = NULL;
-	// sec->read_fd = 0;
-	// sec->write_fd = 1;
-	// sec->argv = ft_split("grep obj", ' ');
-	// sec->cmd = sec->argv[0];
-	// sec->redir_out = 0;
-	// sec->outfile = "outfile";
-	// sec->redir_in = 0;
-	// sec->next = NULL;
+	sec->read_fd = 0;
+	sec->write_fd = 1;
+	sec->argv = ft_split("grep o", ' ');
+	sec->cmd = sec->argv[0];
+	sec->redir_out = 0;
+	sec->outfile = "outfile";
+	sec->redir_in = 2;
+	sec->infile = "infile";
+	sec->delim = "halt";
+	sec->next = NULL;
 	// thrd->read_fd = 0;
 	// thrd->write_fd = 1;
 	// thrd->argv = ft_split("grep obj", ' ');

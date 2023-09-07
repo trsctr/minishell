@@ -74,3 +74,4 @@ void	ft_errormsg(int errorcode, char *cmd)
 	else if (errorcode == SYNTAX_ERROR)
 		ft_printf_stderr("minishell: Syntax error\n");
 }
+

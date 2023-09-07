@@ -203,7 +203,7 @@ int	handle_redir_in(t_exec *exec)
 		fd_in = open(exec->infile, O_RDONLY);
 	if (exec->redir_in == INPUT_HEREDOC)
 	{
-		fd_in = open(exec->infile, O_RDWR);
+		fd_in = open(exec->infile, O_RDONLY);
 	}
 	if (fd_in == -1)
 		return (1);
@@ -243,8 +243,9 @@ int	executor(t_data *data, t_exec *exec)
 	exec->read_fd = 0;
 	if (exec->redir_in == 2)
 	{
-		/*TODO remove temp_heredocs*/
-		remove(exec->infile);
+		printf("removing temp file %s\n",exec->infile);
+		unlink(exec->infile);
+		free(exec->infile);
 	}
 	return (0);
 }
@@ -294,9 +295,5 @@ void	run_builtin(t_exec *exec, int spec, t_data *data)
 	if (spec == 5)
 		builtin_unset(data, exec);
 	if (spec == 6)
-	{
-		builtin_echo(exec);// temp = ft_strtrim(input + 5, " ");
-		// builtin_echo(temp);
-		// free(temp);
-	}
+		builtin_echo(exec);
 }

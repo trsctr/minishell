@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 19:06:29 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/06 19:40:59 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/07 12:52:34 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,24 @@
 #include "prompt.h"
 
 /**
+ * @brief sets signal handling for heredoc. crtl+\ is ignored, crtl+c will abort heredoc
+ *  crtl+d will quit as if user had input limiter
+ */
+void heredoc_signals()
+{
+	sigset_t	sigset;
+
+	sigemptyset(&sigset);
+	sigaddset(&sigset, SIGQUIT);
+	sigprocmask(SIG_BLOCK, &sigset, NULL);
+	signal(SIGINT, handle_sig_int);
+	signal(SIGQUIT, SIG_IGN);
+}
+
+/**
  * @brief sets up terminal for our minishell session and saves original settings
  * to our struct so they can be restored when exiting
+
  * 
  * @param data 
  */

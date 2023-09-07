@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:31:33 by oandelin          #+#    #+#             */
 /*   Updated: 2023/09/06 19:01:57 by oandelin         ###   ########.fr       */
@@ -20,6 +20,7 @@
 
 void	prompt(t_data *data);
 char	*get_input(void);
+void	heredoc_signals();
 void	listen_signals(void);
 void	handle_sig_int(int signal);
 void	toggle_echoctl(void);

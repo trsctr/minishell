@@ -110,7 +110,7 @@ void	builtin_export(t_data *data, t_exec *exec)
 
 	i = 1;
 	if (!exec->argv[i])
-		export_print_vars(&data->env_var);
+		return ;
 	else
 	{
 		while (exec->argv[i])

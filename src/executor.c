@@ -6,7 +6,7 @@
 /*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:40:59 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/05 17:23:18 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/08 15:45:20 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "prompt.h"
 #include "env_var.h"
 #include "executor.h"
+#include "heredoc.h"
 
 /**
  * @brief checks using access() whether command is abs or relative path
@@ -117,27 +118,29 @@ char	**create_envp(t_data *data)
 void	exec_abs_path(t_data *data, t_exec *cmd, char *cmd_path)
 {
 	char	**envp;
+	int		status;
 	pid_t	pid;
 
 	envp = create_envp(data);
 	pid = fork();
 	if (pid == -1)
 	{
-		ft_printf_stderr("minishell: Pipe failed\n");
+		ft_printf_stderr("minishell: Fork failed\n");
 		exit (1);
 	}
 	if (pid == 0)
 	{
-		//dup2(cmd->read_fd, 0);
-		//dup2(cmd->write_fd, 1);
+		dup2(cmd->read_fd, 0);
+		dup2(cmd->write_fd, 1);
 		execve(cmd_path, cmd->argv, envp);
 	}
-	if (cmd->read_fd != 0)
+	if (cmd->read_fd > 2)
 		close(cmd->read_fd);
-	if (cmd->write_fd != 1)
+	if (cmd->write_fd > 2)
 		close(cmd->write_fd);
 	free_array(envp);
-	waitpid(pid, NULL, 0);
+	waitpid(pid, &status, 0);
+	data->exit_status = status;
 }
 
 /**
@@ -167,53 +170,6 @@ void	find_n_exec(t_exec *exec, t_data *data)
 }
 
 /**
- * @brief handles inputs redirection, returns 0 if succesful, 1 if not
- * 
- * @param exec 
- * @return int 
- */
-int	handle_redir_out(t_exec *exec)
-{
-	int	outfile;
-
-	if (exec->redir_out == TRUNC_OUT)
-		outfile = open(exec->outfile, O_TRUNC | O_CREAT | O_RDWR, 0777);
-	if (exec->redir_out == APPEND_OUT)
-		outfile = open(exec->outfile, O_CREAT | O_RDWR | O_APPEND, 0777);
-	if (outfile == -1)
-		return (1);
-	if (exec->write_fd != 1)
-		close(exec->write_fd);
-	exec->write_fd = outfile;
-	return (0);
-}
-
-/**
- * @brief handles outputs redirection, returns 0 if succesful, 1 if not
- * 
- * @param exec 
- * @return int 
- */
-int	handle_redir_in(t_exec *exec)
-{
-	int	infile;
-
-	if (exec->redir_in == INPUT_FILE)
-		infile = open(exec->infile, O_RDONLY);
-	if (exec->redir_in == INPUT_HEREDOC)
-	{
-		/*TODO, placeholder*/
-		infile = 1;
-	}
-	if (infile == -1)
-		return (1);
-	if  (exec->read_fd != 0)
-		close(exec->read_fd);
-	exec->read_fd = infile;
-	return (0);
-}
-
-/**
  * @brief command executor, checks if is abs or relative path, works accordingly
  * 
  * @param data 
@@ -224,16 +180,6 @@ int	executor(t_data *data, t_exec *exec)
 {
 	if (exec->argv[0])
 	{
-		if (exec->redir_in)
-		{
-			if (handle_redir_in(exec))
-				return (1);
-		}
-		if (exec->redir_out)
-		{
-			if (handle_redir_out(exec))
-				return (1);
-		}
 		if (is_abs_path(exec->cmd))
 			exec_abs_path(data, exec, exec->cmd);
 		else
@@ -241,6 +187,11 @@ int	executor(t_data *data, t_exec *exec)
 	}
 	exec->write_fd = 1;
 	exec->read_fd = 0;
+	if (exec->has_heredoc)
+	{
+		unlink(exec->heredoc);
+		free(exec->heredoc);
+	}
 	return (0);
 }
 
@@ -289,9 +240,5 @@ void	run_builtin(t_exec *exec, int spec, t_data *data)
 	if (spec == 5)
 		builtin_unset(data, exec);
 	if (spec == 6)
-	{
-		builtin_echo(exec);// temp = ft_strtrim(input + 5, " ");
-		// builtin_echo(temp);
-		// free(temp);
-	}
+		builtin_echo(exec);
 }

@@ -6,7 +6,7 @@
 /*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:46:07 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/05 16:47:22 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/08 15:42:24 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	ft_envsize(t_ev *lst)
  * 
  * @param exec 
  */
-void free_exec(t_exec *exec)
+void	free_exec(t_exec *exec)
 {
 	int		i;
 	t_exec	*temp;

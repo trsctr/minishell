@@ -3,13 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_libft_mods.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoskine <akoskine@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 22:44:59 by akoskine          #+#    #+#             */
-/*   Updated: 2023/09/06 22:45:38 by akoskine         ###   ########.fr       */
+/*   Updated: 2023/09/08 21:59:58 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell.h"
 #include "lexer.h"
 
 char	*ft_strdup_dmh(t_data *data, const char *s1)
@@ -18,7 +19,7 @@ char	*ft_strdup_dmh(t_data *data, const char *s1)
 
 	str = dmh(data, ft_strlen(s1) + 1);
 	if (str == NULL)
-		return (0);
+		malloc_error(data);
 	ft_memcpy(str, s1, ft_strlen(s1));
 	str[ft_strlen(s1)] = '\0';
 	return (str);
@@ -30,7 +31,7 @@ char	*ft_strndup_dmh(t_data *data, const char *s1, size_t n)
 
 	str = dmh(data, n + 1);
 	if (str == NULL)
-		return (0);
+		malloc_error(data);
 	ft_memcpy(str, s1, n);
 	str[n] = '\0';
 	return (str);
@@ -48,7 +49,7 @@ char	*ft_strjoin_dmh(t_data *data, char const *s1, char const *s2)
 		return (NULL);
 	new = dmh(data, ft_strlen(s1) + ft_strlen(s2) + 1);
 	if (!new)
-		return (NULL);
+		malloc_error(data);
 	while (s1[i] != '\0')
 	{
 		new[i] = s1[i];

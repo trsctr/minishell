@@ -3,13 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 18:34:45 by akoskine          #+#    #+#             */
-/*   Updated: 2023/09/07 18:38:31 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/08 22:00:16 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell.h"
 #include "lexer.h"
 
 /*	*lexer:
@@ -24,58 +25,53 @@
 *	and are tokenized as commands.
 */
 
+int	handle_specials(t_data *data, int i)
+{
+	if(data->input[i] == '\'' || data->input[i] == '\"')
+	{
+		i = handle_quotes(data, i);
+		return (i);
+	}
+	if((data->input[i] == ' ' || data->input[i] == '\t'))
+	{
+        i = handle_spaces(data, i);
+		return (i);
+	}
+	i = handle_pipes_redirects(data, i);
+	return (i);
+}
+
 void	lexer(t_data *data)
 {
 	int i;
 
 	i = 0;
 	init_data_lexer(data);
-	while(data->input[i])
+	while(data->input[i] && data->lexer.syntax_error == 0)
 	{
-        if(data->input[i] == '\'' || data->input[i] == '\"')
+        if(data->input[i] == '\'' || data->input[i] == '\"'
+		|| data->input[i] == ' ' || data->input[i] == '\t'
+		|| data->input[i] == '>' || data->input[i] == '<'
+		|| data->input[i] == '|')
 		{
-			i = handle_quotes(data, i);
-			continue;
-		}
-		if((data->input[i] == ' ' || data->input[i] == '\t'))
-		{
-            i = handle_spaces(data, i);
-			continue;
-		}
-		if(data->input[i] == '>' || data->input[i] == '<' || data->input[i] == '|')
-		{
-			i = handle_pipes_redirects(data, i);
+			i = handle_specials(data, i);
 			continue;
 		}
 		i = handle_words_unquoted(data, i);
 	}
-	if(data->lexer.str_open == 1 && data->lexer.tmp_str[0] != '\0')
-		tokenize(data, T_WORD, data->lexer.tmp_str);
+	if(data->lexer.syntax_error == 0)
+	{
+		if(data->lexer.str_open == 1 && data->lexer.tmp_str[0] != '\0')
+			tokenize(data, T_WORD, data->lexer.tmp_str);
+		check_token(data);
+	}
 }
 
 // Kysy getenv asia liittyen executable ja expandable testiin etta voiko kayttaa jos env_var lista paivitetty minishellin sisalla etta pitaako kayttaa jotain omaa
 
-// $? expandaus viimeisimpaan exit statukseen	->	jos $? niin expandaa data->exit_status (int)	||	jos $?? tai siten etta useampi ? perakkain niin error	||	jos esim $?+, expandaa exit_status arvo (esim 0) ja erikoismerkki 0+
+// malloc errorit -> miten tehdaan jos malloc failaa mutta ei exittaa niin koittaa kayttaa rikkinaisia pointtereita niin kauan kuin ohjelma tulee loppuun
 
-// EXIT_ERROR -> muokkaa kaikki niin etta palauttaa takaisin promptiin
-
-// $erikoismerkki -> tulosta $:n kanssa ??? BASH: osa ei tulosta mitaan, osa tulostaa $ ja erikoismerkin ja osa tulostaa jotain arvoja eli kummin etta kaikki tulostaa $ ja erikoismerkin vai etta ei tulosta mitaan ????
-/*
-bash-3.2$ echo $e1
-(tyhja)
-bash-3.2$ echo $1e
-e
-bash-3.2$ echo $1====
-====
-bash-3.2$ echo $1+++
-+++
-bash-3.2$ echo $e+++
-+++
-bash-3.2$ echo $e===
-===
-*/
-
-
+// muuta enum errorit
 
 // CMD check
 

@@ -3,13 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_words.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoskine <akoskine@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 18:45:21 by akoskine          #+#    #+#             */
-/*   Updated: 2023/09/06 23:01:51 by akoskine         ###   ########.fr       */
+/*   Updated: 2023/09/08 22:00:15 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell.h"
 #include "lexer.h"
 
 int	handle_words_unquoted(t_data *data, int i)
@@ -27,7 +28,8 @@ int	handle_words_unquoted(t_data *data, int i)
 	if(data->lexer.tmp_str == NULL)
         data->lexer.tmp_str = ft_strdup_dmh(data, data->lexer.exp);
 	else
-		data->lexer.tmp_str = ft_strjoin_dmh(data, data->lexer.tmp_str, data->lexer.exp);
+		data->lexer.tmp_str = ft_strjoin_dmh(data,
+			data->lexer.tmp_str, data->lexer.exp);
 	return(i);
 }
 
@@ -39,7 +41,10 @@ int handle_words_d_quoted(t_data *data, int i)
     while(data->input[i] != quote_status(data))
     {
         if(!data->input[i])
-            exit_error(data, "quotes open\n");		// kayta oikeaa exit error
+        {
+            data->lexer.syntax_error = 1;
+			return(i);
+		}
         i++;
     }
     data->lexer.str_open = 1;
@@ -47,7 +52,8 @@ int handle_words_d_quoted(t_data *data, int i)
 	if(data->lexer.tmp_str == NULL)
         data->lexer.tmp_str = ft_strdup_dmh(data, data->lexer.exp);
 	else
-		data->lexer.tmp_str = ft_strjoin_dmh(data, data->lexer.tmp_str, data->lexer.exp);
+		data->lexer.tmp_str = ft_strjoin_dmh(data,
+			data->lexer.tmp_str, data->lexer.exp);
     open_close_quotes(data, data->input[i]);
     return(i + 1);
 }
@@ -60,7 +66,10 @@ int handle_words_s_quoted(t_data *data, int i)
     while(data->input[i] != quote_status(data))
     {
         if(!data->input[i])
-            exit_error(data, "quotes open\n");		// kayta oikeaa exit error
+		{
+            data->lexer.syntax_error = 1;
+			return(i);
+		}
         i++;
     }
     data->lexer.str_open = 1;
@@ -78,7 +87,8 @@ int	handle_quotes(t_data *data, int i)
 {
 	if(empty_word(data, i) && !quote_status(data))
 	{
-		tokenize(data, T_EMPTY_WORD, ft_strndup_dmh(data, data->input + i, empty_word(data, i)));
+		tokenize(data, T_EMPTY_WORD, ft_strndup_dmh(data,
+			data->input + i, empty_word(data, i)));
 		return (i + empty_word(data, i));
 	}
     else if(data->input[i] == data->input[i + 1])

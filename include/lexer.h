@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 14:58:52 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/07 16:32:57 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/08 21:58:05 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,28 +24,26 @@
 
 # include <readline/readline.h>
 # include <readline/history.h>
-# include <stdlib.h>
-# include <string.h>
-# include <unistd.h>
-# include "minishell.h"
-
-#include <stdio.h>		// poista
-
-
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
 
 /* lexer_dmh.c */
 
-t_dmh	*dmh_new(size_t size);
+t_dmh	*dmh_new(t_data *data, size_t size);
 char	*dmh(t_data *data, size_t size);
 void	free_list_dmh(t_data *data);
 
 /* lexer_executables.c */
 
-int		check_executable_solver(char *word, char *part, int i, int j);
-int		check_executable(t_data *data, char *word);
+int		check_executable(t_data *data);
+
+t_token	*check_token_redirect(t_data *data, t_token *tmp);
+void	check_token(t_data *data);
 
 /* lexer_expandables.c */
 
+int		check_question_mark(t_data *data, int i);
 int		fill_exp_from_middle(t_data *data, int i, int j);
 int		fill_exp_from_start(t_data *data, int i);
 int		fill_expandable(t_data *data, int i);
@@ -64,14 +62,14 @@ int		handle_pipes_redirects(t_data *data, int i);
 
 /* lexer_specials.c */
 
-void	exit_error(t_data *data, char *error);
+int		check_syntax(t_data *data);
 void	init_data_lexer(t_data *data);
 int		handle_spaces(t_data *data, int i);
 void	free_list_token(t_data *data);
 
 /* lexer_tokenizer.c */
 
-void	fill_node(t_token **token, int type, char *str);
+void	fill_node(t_data *data, t_token **token, int type, char *str);
 void	tokenize(t_data *data, int type, char *str);
 
 /* lexer_words_utils.c */
@@ -89,6 +87,13 @@ int		handle_quotes(t_data *data, int i);
 
 /* lexer.c */
 
+int		handle_specials(t_data *data, int i);
 void	lexer(t_data *data);
+
+
+/* naa romut pois*/
+
+void		malloc_error(t_data *data);
+void		ft_errormsg(int errorcode, char *cmd);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 14:58:52 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/08 17:57:33 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/08 20:55:53 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,10 +100,17 @@ void	rl_replace_line(const char *text, int clear_undo);
 t_data	*init_data(void);
 t_exec	*init_exec(void);
 void	save_env_var(char **env, t_data *data);
-char *expand_ev(t_data *data, char *line);
+char	*ft_getenv(t_data *data, char *key);
 
 //		OUTPUT
 void	ft_errormsg(int errorcode, char *cmd);
+
+
+//	UTILS
+void set_exit_status(t_data *data, int status);
+void clear_data(t_data *data);
+void	ft_clear_evlist(t_data *data);
+
 
 // char	*get_input(void);
 // void	prompt(t_data *data);

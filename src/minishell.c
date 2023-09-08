@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 14:59:13 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/08 18:07:35 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/08 21:46:23 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,11 @@ int	main(int argc, char **argv, char **environ)
 	t_data		*data;
 
 	(void) argv;
+	if (argc > 1)
+	{
+		ft_dprintf(2, "Please run me without arguments\n");
+		exit(1);
+	}
 	if (argc == 1)
 	{
 		data = init_data();
@@ -58,10 +63,7 @@ int	main(int argc, char **argv, char **environ)
 		terminal_setup(data);
 		prompt(data);
 		terminal_reset(data);
-		ft_clear_evlist(data);
-		free(data);
+		clear_data(data);
+		exit(0);
 	}
-	else
-		ft_dprintf(2, "Please run me without arguments\n");
-	return (0);
 }

@@ -6,12 +6,14 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 12:53:01 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/08 16:29:23 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/08 21:32:43 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "heredoc.h"
+
+char	*expand_ev(t_data *data, char *line);
 
 int	create_heredoc(t_data *data, t_exec *exec, t_token *token)
 {
@@ -26,7 +28,7 @@ int	create_heredoc(t_data *data, t_exec *exec, t_token *token)
 		if (g_sig_status == 1)
 			break ;
 		if (line[0] == '$')
-			line = expand_ev(data, line);
+			line = ft_getenv(data, line + 1);
 		write(fd, line, ft_strlen(line));
 		write(fd, "\n", 1);
 		free (line);
@@ -38,7 +40,6 @@ int	create_heredoc(t_data *data, t_exec *exec, t_token *token)
 		close (fd);
 		return (1);
 	}
-	reset_signals();
 	free(line);
 	close (fd);
 	return (0);

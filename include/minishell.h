@@ -37,6 +37,11 @@
 # define PIPE_FAIL 3
 # define SYNTAX_ERROR 4
 
+typedef struct s_dmh {
+	char 			*mem_hold;
+	struct s_dmh	*next;
+} t_dmh;
+
 int	g_sig_status;
 
 typedef struct s_ev {
@@ -45,23 +50,43 @@ typedef struct s_ev {
 	struct s_ev	*next;
 }	t_ev;
 
+typedef struct s_token {
+	int				type;
+	char			*str;
+	struct s_token	*next;
+} t_token;
+
 typedef struct s_exec{
 	char	*cmd;
 	char	**argv;
 	int		read_fd;
 	int		write_fd;
-	int		redir_out;
-	int		redir_in;
-	char	*outfile;
-	char	*infile;
-	char	*delim;
+	int		has_heredoc;
+	char	*heredoc;
 	struct s_exec	*next;
+	struct s_token	*token;
 }				t_exec;
 
+typedef struct s_lexer {
+	char		*tmp_str;
+	char		*exp;
+	char		*exp_tmp;
+	char		*exp_env;
+	int			input_len;
+	int			s_quote_open;
+	int			d_quote_open;
+	int			str_open;
+	int			words;
+	t_token		*token;
+	t_dmh		*dmh_list;
+} t_lexer;
+
 typedef struct s_data {
-	t_ev				*env_var;
-	t_exec				*exec;
-	char				*input;
+	char	*input;
+	t_lexer	lexer;
+	t_ev	*env_var;
+	t_exec	*exec;
+	int		exit_status;
 	struct termios		old_termios;
 	struct termios		new_termios;
 	struct sigaction	sa;
@@ -70,6 +95,7 @@ typedef struct s_data {
 void	rl_replace_line(const char *text, int clear_undo);
 
 t_data	*init_data(void);
+t_exec	*init_exec(void);
 void	save_env_var(char **env, t_data *data);
 char *expand_ev(t_data *data, char *line);
 

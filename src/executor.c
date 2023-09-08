@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:40:59 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/06 19:45:49 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/08 15:58:21 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ char	**create_envp(t_data *data)
 }
 
 /**
- * @brief executes the command as absolute path
+ * @brief executes the command, requires absolute path
  * 
  * @param data 
  * @param cmd 
@@ -118,6 +118,7 @@ char	**create_envp(t_data *data)
 void	exec_abs_path(t_data *data, t_exec *cmd, char *cmd_path)
 {
 	char	**envp;
+	int		status;
 	pid_t	pid;
 
 	envp = create_envp(data);
@@ -133,12 +134,13 @@ void	exec_abs_path(t_data *data, t_exec *cmd, char *cmd_path)
 		dup2(cmd->write_fd, 1);
 		execve(cmd_path, cmd->argv, envp);
 	}
-	if (cmd->read_fd != 0)
+	if (cmd->read_fd > 2)
 		close(cmd->read_fd);
-	if (cmd->write_fd != 1)
+	if (cmd->write_fd > 2)
 		close(cmd->write_fd);
 	free_array(envp);
-	waitpid(pid, NULL, 0);
+	waitpid(pid, &status, 0);
+	data->exit_status = status;
 }
 
 /**
@@ -168,52 +170,7 @@ void	find_n_exec(t_exec *exec, t_data *data)
 }
 
 /**
- * @brief handles inputs redirection, returns 0 if succesful, 1 if not
- * 
- * @param exec 
- * @return int 
- */
-int	handle_redir_out(t_exec *exec)
-{
-	int	fd_out;
 
-	if (exec->redir_out == TRUNC_OUT)
-		fd_out = open(exec->outfile, O_TRUNC | O_CREAT | O_RDWR, 0777);
-	if (exec->redir_out == APPEND_OUT)
-		fd_out = open(exec->outfile, O_CREAT | O_RDWR | O_APPEND, 0777);
-	if (fd_out == -1)
-		return (1);
-	if (exec->write_fd != 1)
-		close(exec->write_fd);
-	exec->write_fd = fd_out;
-	return (0);
-}
-
-/**
- * @brief handles outputs redirection, returns 0 if succesful, 1 if not
- * 
- * @param exec 
- * @return int 
- */
-int	handle_redir_in(t_exec *exec)
-{
-	int			fd_in;
-
-	if (exec->redir_in == INPUT_FILE)
-		fd_in = open(exec->infile, O_RDONLY);
-	if (exec->redir_in == INPUT_HEREDOC)
-	{
-		fd_in = open(exec->infile, O_RDONLY);
-	}
-	if (fd_in == -1)
-		return (1);
-	if  (exec->read_fd != 0)
-		close(exec->read_fd);
-	exec->read_fd = fd_in;
-	return (0);
-}
-
-/**
  * @brief command executor, checks if is abs or relative path, works accordingly
  * 
  * @param data 
@@ -224,16 +181,6 @@ int	executor(t_data *data, t_exec *exec)
 {
 	if (exec->argv[0])
 	{
-		if (exec->redir_in)
-		{
-			if (handle_redir_in(exec))
-				return (1);
-		}
-		if (exec->redir_out)
-		{
-			if (handle_redir_out(exec))
-				return (1);
-		}
 		if (is_abs_path(exec->cmd))
 			exec_abs_path(data, exec, exec->cmd);
 		else
@@ -241,11 +188,10 @@ int	executor(t_data *data, t_exec *exec)
 	}
 	exec->write_fd = 1;
 	exec->read_fd = 0;
-	if (exec->redir_in == 2)
+	if (exec->has_heredoc)
 	{
-		printf("removing temp file %s\n",exec->infile);
-		unlink(exec->infile);
-		free(exec->infile);
+		unlink(exec->heredoc);
+		free(exec->heredoc);
 	}
 	return (0);
 }

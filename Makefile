@@ -7,7 +7,8 @@ RLFLAG		=	-lreadline -L ~/.brew/opt/readline/lib -I ~/.brew/opt/readline/include
 LIBFT 		= 	libft/libft.a
 SRCDIR		=	src/
 SRCFILES	= 	minishell.c prompt.c prompt_utils.c env_var.c env_var_utils.c builtins.c executor.c utils.c echo.c \
-				builtin_utils.c error_output.c heredoc.c
+				builtin_utils.c error_output.c heredoc.c parser.c lexer.c lexer_dmh.c lexer_executables.c lexer_libft_mods.c \
+				lexer_pipes_redirects.c lexer_specials.c lexer_tokenizer.c lexer_words_utils.c lexer_words.c lexer_expandables.c
 OBJ_DIR		= 	obj/
 OBJFILES	= 	$(SRCFILES:.c=.o)
 INC_DIR		=	include

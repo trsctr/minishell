@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:24:25 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/08 15:32:02 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/08 14:46:53 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,40 +25,19 @@
  */
 void	run_command_line(t_data *data)
 {
-	t_exec	*cmd;
-	int		pipe_fd[OPEN_MAX][2];
-	int		i;
-	int		input;
-	int		status;
+	t_exec	*exec;
 
-	i = 0;
-	input = 0;
-	cmd = data->exec;
-	handle_heredocs(data);
-	while (cmd)
+	exec = data->exec;
+	while (exec)
 	{
-		if (cmd->next)
+		if (exec->cmd != NULL)
 		{
-			status = pipe(pipe_fd[i]);
-			if (status == -1)
-			{
-				printf("Error with pipe\n");
-				break ;
-			}
-			cmd->read_fd = input;
-			cmd->write_fd = pipe_fd[i][1];
-			if (executor(data, cmd))
-				break ;
-			input = pipe_fd[i][0];
+			if (is_builtin(exec->cmd))
+				run_builtin(exec, is_builtin(exec->cmd), data);
+			else
+				executor(data, exec);
 		}
-		else
-		{
-			cmd->read_fd = input;
-			if (executor(data, cmd))
-				perror("");
-		}
-		cmd = cmd->next;
-		i++;
+		exec = exec->next;
 	}
 }
 
@@ -77,6 +56,7 @@ void	prompt(t_data *data)
 	while (420)
 	{
 		input = get_input();
+		data->input = input;
 		if (!input || !ft_strncmp(input, "exit", 4))
 		{
 			ft_putendl_fd("exit", 2);
@@ -85,24 +65,14 @@ void	prompt(t_data *data)
 			clear_history();
 			break ;
 		}
-		else if (input[0] == '\0' || input[0] == '\n' || !only_spaces(input))
+ 		else if (input[0] == '\0' || input[0] == '\n' || !only_spaces(input))
 		{
 			free(input);
 			continue ;
 		}
-		else if (is_builtin(input))
-		{
-			data->exec->argv = ft_split(input, ' ');
-			data->exec->cmd = data->exec->argv[0];
-			run_builtin(data->exec, is_builtin(input), data);
-		}
-		else if (input[0] != '\0' && input[0] != '\n')
-		{
-			data->exec->argv = ft_split(input, ' ');
-			data->exec->cmd = data->exec->argv[0];
-			run_command_line(data);
-		}
-		free_exec(data->exec);
+		lexer(data);
+		parser(data);
+		run_command_line(data);
 		free(input);
 	}
 }

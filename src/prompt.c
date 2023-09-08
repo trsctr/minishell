@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:24:25 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/08 21:34:08 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/08 22:19:58 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,8 @@ void	prompt(t_data *data)
 			continue ;
 		}
 		lexer(data);
-		// tahan syntax check
+		if (check_syntax(data))
+			continue;
 		parser(data);
 		run_command_line(data);
 		free(input);

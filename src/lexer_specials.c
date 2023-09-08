@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 18:51:54 by akoskine          #+#    #+#             */
-/*   Updated: 2023/09/08 22:00:07 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/08 22:18:12 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	init_data_lexer(t_data *data)
 	data->lexer.syntax_error = 0;
 	data->lexer.rd_flag = 0;
 	data->lexer.cmd_flag = 0;
+	data->lexer.pipe_flag = 0;
 	data->lexer.token = NULL;
 	while(data->input[data->lexer.input_len])
 		data->lexer.input_len++;

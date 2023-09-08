@@ -6,12 +6,13 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:46:07 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/08 17:33:52 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/08 20:03:04 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "utils.h"
+#include "env_var.h"
 
 void	free_array(char **array)
 {
@@ -84,4 +85,20 @@ void	ft_errormsg(int errorcode, char *cmd)
 		ft_dprintf(2, "minishell: Fork error\n");
 	else if (errorcode == SYNTAX_ERROR)
 		ft_dprintf(2, "minishell: Syntax error\n");
+}
+
+void	set_exit_status(t_data *data, int status)
+{
+	data->exit_status = status;
+}
+
+char	*ft_getenv(t_data *data, char *key)
+{
+	t_ev	*temp;
+
+	temp = ft_find_var(&data->env_var, key);
+	if (!temp)
+		return (ft_strdup(""));
+	else
+		return (ft_strdup(temp->value));
 }

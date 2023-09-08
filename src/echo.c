@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 15:39:30 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/08 16:49:59 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/08 20:12:45 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 *
 * @param exec contains the command, arguments and outfile fd
 */
-void	builtin_echo(t_exec *exec)
+void	builtin_echo(t_data *data, t_exec *exec)
 {
 	int	i;
 
@@ -33,13 +33,12 @@ void	builtin_echo(t_exec *exec)
 	{
 		ft_putstr_fd(exec->argv[i], exec->write_fd);
 		if (exec->argv[i + 1] != NULL)
-			write(1, " ", 1);
+			ft_putchar_fd(' ', exec->write_fd);
 		i++;
 	}
+	if (!exec->argv[1] || (exec->argv[1] && ft_strcmp(exec->argv[1], "-n")))
+		ft_putchar_fd('\n', exec->write_fd);
 	if (exec->write_fd != 1)
 		close(exec->write_fd);
-	if (exec->argv[1] && !ft_strcmp(exec->argv[1], "-n"))
-		return ;
-	else if (exec->write_fd == 1)
-		write(1, "\n", 1);
+	set_exit_status(data, 0);
 }

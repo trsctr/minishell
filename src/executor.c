@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:40:59 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/08 17:11:03 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/08 21:42:50 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -235,11 +235,11 @@ void	run_builtin(t_exec *exec, int spec, t_data *data)
 	if (spec == 2)
 		builtin_env(data, exec);
 	if (spec == 3)
-		builtin_pwd(exec);
+		builtin_pwd(data, exec);
 	if (spec == 4)
 		builtin_export(data, exec);
 	if (spec == 5)
 		builtin_unset(data, exec);
 	if (spec == 6)
-		builtin_echo(exec);
+		builtin_echo(data, exec);
 }

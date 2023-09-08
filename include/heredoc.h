@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 12:53:19 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/08 15:33:33 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/08 16:30:00 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,9 @@
 # include "env_var.h"
 
 int	create_heredoc(t_data *data, t_exec *exec, t_token *token);
-void	name_heredoc(t_exec *exec);
+int	name_heredoc(t_exec *exec);
 int handle_heredocs(t_data *data);
-int	redir_heredoc(t_exec *exec, t_token *token);
+int	redir_heredoc(t_data *data, t_exec *exec, t_token *token);
+
 
 #endif

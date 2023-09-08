@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 14:48:54 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/08 16:04:24 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/08 16:29:03 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	redir_out_app(t_exec *cmd, t_token *token)
 	return (0);
 }
 
-int	handle_rds(t_exec *cmd)
+int	handle_rds(t_data *data, t_exec *cmd)
 {
 	t_token	*tok;
 
@@ -96,7 +96,7 @@ int	handle_rds(t_exec *cmd)
 		}
 		if (tok->type == T_RD_D_L)
 		{
-			if (redir_heredoc(cmd, tok->next))
+			if (redir_heredoc(data, cmd, tok->next))
 				return (1);
 		}
 		if (tok->type == T_RD_S_R)
@@ -206,7 +206,7 @@ void	parser(t_data *data)
 	{
 		if (fill_exec_from_tokens(cmd))
 			break ;
-		if (handle_rds(cmd))
+		if (handle_rds(data, cmd))
 			break ;
 		cmd = cmd->next;
 	}

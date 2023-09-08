@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 12:53:01 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/08 16:03:05 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/08 16:29:23 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	create_heredoc(t_data *data, t_exec *exec, t_token *token)
 	char	*line;
 
 	g_sig_status = 0;
-  fd = open(exec->heredoc, O_CREAT| O_RDWR| O_TRUNC, 0777);
+	fd = open(exec->heredoc, O_CREAT| O_RDWR| O_TRUNC, 0777);
 	line = readline(">");
 	while (line && ft_strcmp(line, token->str))
 	{
@@ -27,7 +27,7 @@ int	create_heredoc(t_data *data, t_exec *exec, t_token *token)
 			break ;
 		if (line[0] == '$')
 			line = expand_ev(data, line);
-    write(fd, line, ft_strlen(line));
+		write(fd, line, ft_strlen(line));
 		write(fd, "\n", 1);
 		free (line);
 		line = readline(">");
@@ -58,11 +58,11 @@ int	name_heredoc(t_exec *exec)
 	return (0);
 }
 
-int	redir_heredoc(t_exec *exec, t_token *token)
+int	redir_heredoc(t_data *data, t_exec *exec, t_token *token)
 {
 	if (name_heredoc(exec))
 		return (1);
-	if (create_heredoc(exec, token))
+	if (create_heredoc(data, exec, token))
 		return (1);
 	exec->has_heredoc = 1;
 	return (0);

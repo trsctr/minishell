@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 14:58:52 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/08 21:58:05 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/08 22:16:51 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,7 @@ void	free_list_dmh(t_data *data);
 
 /* lexer_executables.c */
 
-int		check_executable(t_data *data);
-
+void	check_token_pipes(t_data *data);
 t_token	*check_token_redirect(t_data *data, t_token *tmp);
 void	check_token(t_data *data);
 

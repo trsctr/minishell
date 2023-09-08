@@ -6,13 +6,14 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 14:54:26 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/06 19:52:50 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/07 18:13:14 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "builtins.h"
 #include "env_var.h"
+#include "prompt.h"
 
 /**
  * @brief builtin "cd" command which changes the current working directory

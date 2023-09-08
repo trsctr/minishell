@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 19:06:29 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/07 12:52:34 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/08 16:06:40 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void heredoc_signals()
 	sigemptyset(&sigset);
 	sigaddset(&sigset, SIGQUIT);
 	sigprocmask(SIG_BLOCK, &sigset, NULL);
-	signal(SIGINT, handle_sig_int);
+	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_IGN);
 }
 
@@ -37,17 +37,35 @@ void heredoc_signals()
  */
 void	terminal_setup(t_data *data)
 {
-	sigset_t	sigset;
+	//sigset_t	sigset;
 
 	tcgetattr(STDIN_FILENO, &(data->old_termios));
 	data->new_termios = data->old_termios;
 	data->new_termios.c_lflag &= ~(ECHOCTL);
 	tcsetattr(STDIN_FILENO, TCSANOW, &(data->new_termios));
-	sigemptyset(&sigset);
-	sigaddset(&sigset, SIGQUIT);
-	sigprocmask(SIG_BLOCK, &sigset, NULL);
-	signal(SIGINT, handle_sig_int);
-	signal(SIGQUIT, SIG_IGN);
+	sigemptyset(&(data->sa.sa_mask));
+	data->sa.sa_sigaction = &handle_sig_int;
+	sigaction(SIGINT, &(data->sa), NULL);
+	// sigaddset(&sigset, SIGQUIT);
+	// sigprocmask(SIG_BLOCK, &sigset, NULL);
+	// signal(SIGINT, handle_sig_int);
+	signal(SIGQUIT,SIG_IGN);
+	// sigaction(SIGQUIT, &(data->sa), NULL);
+}
+
+void	toggle_echoctl(void)
+{
+	struct termios	termios_attributes;
+
+	tcgetattr(STDIN_FILENO, &termios_attributes);
+	termios_attributes.c_lflag &= ~(ECHOCTL);
+	tcsetattr(STDIN_FILENO, TCSAFLUSH, &termios_attributes);
+}
+
+void	reset_signals(void)
+{
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 }
 
 void	terminal_reset(t_data *data)
@@ -61,10 +79,13 @@ void	terminal_reset(t_data *data)
  * 
  * @param signal 
  */
-void	handle_sig_int(int signal)
+void	handle_sig_int(int signal, siginfo_t *info, void *context)
 {
+	(void) info;
+	(void) context;
 	if (signal == SIGINT)
 	{
+		g_sig_status = 1;
 		write(1, "\n", 1);
 		rl_on_new_line();
 		rl_replace_line("", 0);

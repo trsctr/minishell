@@ -3,19 +3,51 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_expandables.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoskine <akoskine@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 19:02:34 by akoskine          #+#    #+#             */
-/*   Updated: 2023/09/07 15:46:06 by akoskine         ###   ########.fr       */
+/*   Updated: 2023/09/08 22:02:53 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell.h"
 #include "lexer.h"
+
+int	check_question_mark(t_data *data, int i)
+{
+	char *tmp;
+	
+	if(data->lexer.exp[i] == '?')
+	{
+		tmp = ft_itoa(data->exit_status);
+		if(i > 1)
+		{
+			data->lexer.exp_tmp = ft_strndup_dmh(data, data->lexer.exp, i - 1);
+			data->lexer.exp_tmp = ft_strjoin_dmh(data, data->lexer.exp_tmp,
+				tmp);
+			data->lexer.exp_tmp = ft_strjoin_dmh(data, data->lexer.exp_tmp,
+				data->lexer.exp + (i + 1));
+		}
+		else
+		{
+			data->lexer.exp_tmp = ft_strdup_dmh(data, tmp);
+			data->lexer.exp_tmp = ft_strjoin_dmh(data, data->lexer.exp_tmp,
+				data->lexer.exp + (i + 1));
+		}
+		data->lexer.exp = ft_strdup_dmh(data, data->lexer.exp_tmp);
+		return(ft_strlen(data->lexer.exp));
+	}
+	return (i);
+}
 
 int	fill_exp_from_middle(t_data *data, int i, int j)
 {
 	int new_i;
 
+	if(ft_getenv(data, data->lexer.exp_tmp) == NULL)											// korvaa omalla vastaavalla jos tarvii
+		data->lexer.exp_env = NULL;
+	else
+		data->lexer.exp_env = ft_strdup_dmh(data, ft_getenv(data, data->lexer.exp_tmp));		// korvaa omalla vastaavalla jos tarvii
 	data->lexer.exp_tmp = ft_strndup_dmh(data, data->lexer.exp, j);
 		if(data->lexer.exp_env != NULL)
 		{
@@ -38,6 +70,10 @@ int	fill_exp_from_start(t_data *data, int i)
 {
 	int new_i;
 
+	if(ft_getenv(data, data->lexer.exp_tmp) == NULL)											// korvaa omalla vastaavalla jos tarvii
+		data->lexer.exp_env = NULL;
+	else
+		data->lexer.exp_env = ft_strdup_dmh(data, ft_getenv(data, data->lexer.exp_tmp));		// korvaa omalla vastaavalla jos tarvii
 	if(data->lexer.exp_env != NULL)
 		{
 			data->lexer.exp_tmp = ft_strdup_dmh(data, data->lexer.exp_env);
@@ -47,8 +83,8 @@ int	fill_exp_from_start(t_data *data, int i)
 		}
 		else
 		{
-			new_i = i;
-			data->lexer.exp_tmp = ft_strdup_dmh(data, data->lexer.exp);
+			new_i = 0;
+			data->lexer.exp_tmp = ft_strdup_dmh(data, data->lexer.exp + i);
 		}
 	return (new_i);
 }
@@ -58,7 +94,13 @@ int	fill_expandable(t_data *data, int i)
 	int j;
 
 	j = i;
-	if((data->lexer.exp[i] >= 'a' && data->lexer.exp[i] <= 'z')
+	if(data->lexer.exp[i] >= '0' && data->lexer.exp[i] <= '9')
+	{
+		i++;
+		data->lexer.exp_tmp = ft_strndup_dmh(data,
+			data->lexer.exp + j, i - j);
+	}
+	else if((data->lexer.exp[i] >= 'a' && data->lexer.exp[i] <= 'z')
 		|| (data->lexer.exp[i] >= 'A' && data->lexer.exp[i] <= 'Z')
 		|| (data->lexer.exp[i] >= '_'))
 		{
@@ -69,15 +111,9 @@ int	fill_expandable(t_data *data, int i)
 				i++;
 			data->lexer.exp_tmp = ft_strndup_dmh(data,
 				data->lexer.exp + j, i - j);
-			if(getenv(data->lexer.exp_tmp) == NULL)						// korvaa omalla vastaavalla jos tarvii
-				data->lexer.exp_env = NULL;
-			else
-				data->lexer.exp_env = ft_strdup_dmh(data,
-					getenv(data->lexer.exp_tmp));						// korvaa omalla vastaavalla jos tarvii
 		}
-	j -= 1;
-	if(j > 0)
-		return(fill_exp_from_middle(data, i, j));
+	if(i > 1)
+		return(fill_exp_from_middle(data, i, j - 1));
 	else
 		return(fill_exp_from_start(data, i));
 }
@@ -92,22 +128,18 @@ void	check_expandable(t_data *data, int start, int len)
 	{
 		if(data->lexer.exp[i] == '$')
 		{
-			//while(data->lexer.exp[i] == '$')
+			while(data->lexer.exp[i] == '$')
 				i++;
 			if(data->lexer.exp[i] == ' ' || data->lexer.exp[i] == '\t'
-				|| data->lexer.exp[i] == '\0')
+				|| data->lexer.exp[i] == '\0' || data->lexer.exp[i] == '?')
+			{
+				i = check_question_mark(data, i);
 				continue;
+			}
 			i = fill_expandable(data, i);
 			data->lexer.exp = ft_strdup_dmh(data, data->lexer.exp_tmp);
-			printf("%s\n", data->lexer.exp);
 		}
 		else
 			i++;
 	}
 }
-
-// $	->	$
-// $$$	->	$$$
-// $!	->	$!
-// $e1	->	(tyhja)
-// $1e	->	e

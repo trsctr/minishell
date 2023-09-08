@@ -3,68 +3,67 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_executables.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoskine <akoskine@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 19:00:15 by akoskine          #+#    #+#             */
-/*   Updated: 2023/09/06 23:27:03 by akoskine         ###   ########.fr       */
+/*   Updated: 2023/09/08 21:59:42 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell.h"
 #include "lexer.h"
 
-int	check_executable_solver(char *word, char *part, int i, int j)
+t_token	*check_token_redirect(t_data *data, t_token *tmp)
 {
-	char *res;
-
-	res = malloc(sizeof(char) * (ft_strlen(word) + ft_strlen(part) + 2));
-	if(res == NULL)
-		exit_error(NULL, "malloc error\n");						// kayta oikeaa exit error
-	while(part[++i])
-		res[i] = part[i];
-	res[i] = '/';
-	i++;
-	while(word[j])
+	if(tmp->type == T_RD_S_L || tmp->type == T_RD_S_R
+		|| tmp->type == T_RD_D_L || tmp->type == T_RD_D_R)
 	{
-		res[i] = word[j];
-		i++;
-		j++;
+		if(tmp->next && (tmp->next->type == T_WORD
+			|| tmp->next->type == T_EMPTY_WORD))
+		{
+			tmp = tmp->next;
+			data->lexer.rd_flag = 1;
+		}
+		else
+			data->lexer.syntax_error = 1;
 	}
-	res[i] = '\0';
-	if(access(res, X_OK) == 0)
-	{
-		free(res);
-		return(1);
-	}
-	free(res);
-	return(0);
+	return(tmp);
 }
 
-int	check_executable(t_data *data, char *word)
+void	check_token(t_data *data)
 {
-	char	*path;												// liian pitka funktio
-	int	start;
-	int	result;
-	int	i;
+	t_token *tmp;
 
-	result = 0;
-	i = 0;
-	if(!ft_strcmp(word, "echo") || !ft_strcmp(word, "cd")
-	|| !ft_strcmp(word, "pwd") || !ft_strcmp(word, "export")
-	|| !ft_strcmp(word, "unset") || !ft_strcmp(word, "env")
-	|| !ft_strcmp(word, "exit"))
-		return (1);
-	path = getenv("PATH");										// korvaa omalla vastaavalla jos tarvii
-	if(path == NULL)
-		exit_error(NULL, "failed to get path\n");				// kayta oikeaa exit error
-	while(path[i])
+	tmp = data->lexer.token;
+	while(tmp && data->lexer.syntax_error == 0)
 	{
-		start = i;
-		while(path[i] != ':' && path[i] != '\0')
-			i++;
-		result += check_executable_solver(word, ft_strndup_dmh(data,
-			path + start, i - start), -1, 0);
-        if(path[i] == ':')
-            i++;
+		if(tmp->type == T_PIPE)
+		{
+			if(data->lexer.rd_flag == 0 && data->lexer.cmd_flag == 0)
+				data->lexer.syntax_error = 1;
+			else
+			{
+				data->lexer.rd_flag = 0;
+				data->lexer.cmd_flag = 0;
+			}
+		}
+		if((tmp->type == T_WORD || tmp->type == T_EMPTY_WORD)
+			&& data->lexer.cmd_flag == 0)
+		{
+			tmp->type = T_CMD;
+			data->lexer.cmd_flag = 1;
+		}
+		tmp = check_token_redirect(data, tmp);
+		tmp = tmp->next;
 	}
-	return(result);
 }
+
+// nama pitaa toimia
+
+// > file1 | echo jee
+
+// > file1 | > file2
+
+// > file1 | > file2 | > file3
+
+// > file1 | echo jee | > file2

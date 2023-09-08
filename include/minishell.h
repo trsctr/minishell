@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 14:58:52 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/08 20:55:53 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/08 21:57:56 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,9 @@ typedef struct s_lexer {
 	int			s_quote_open;
 	int			d_quote_open;
 	int			str_open;
-	int			words;
+	int			syntax_error;
+	int			rd_flag;
+	int			cmd_flag;
 	t_token		*token;
 	t_dmh		*dmh_list;
 } t_lexer;

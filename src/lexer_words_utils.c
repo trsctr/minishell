@@ -3,13 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_words_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoskine <akoskine@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 18:54:45 by akoskine          #+#    #+#             */
-/*   Updated: 2023/09/06 18:59:12 by akoskine         ###   ########.fr       */
+/*   Updated: 2023/09/08 22:00:12 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell.h"
 #include "lexer.h"
 
 char	quote_status(t_data *data)

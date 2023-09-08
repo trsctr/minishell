@@ -3,20 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_specials.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 18:51:54 by akoskine          #+#    #+#             */
-/*   Updated: 2023/09/07 17:15:00 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/08 22:00:07 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell.h"
 #include "lexer.h"
 
-void	exit_error(t_data *data, char *error)
+int	check_syntax(t_data *data)
 {
-	printf("%s\n", error);
-	(void)data;
-	exit(1);
+	if(data->lexer.syntax_error == 1)
+	{
+		ft_errormsg(SYNTAX_ERROR, NULL);
+		free_list_dmh(data);
+		free_list_token(data);
+		free(data->input);
+		return(1);
+	}
+	return(0);
 }
 
 void	init_data_lexer(t_data *data)
@@ -29,12 +36,12 @@ void	init_data_lexer(t_data *data)
 	data->lexer.s_quote_open = 0;
 	data->lexer.d_quote_open = 0;
     data->lexer.str_open = 0;
-	data->lexer.words = 0;
+	data->lexer.syntax_error = 0;
+	data->lexer.rd_flag = 0;
+	data->lexer.cmd_flag = 0;
 	data->lexer.token = NULL;
 	while(data->input[data->lexer.input_len])
-	{
 		data->lexer.input_len++;
-	}
 }
 
 int		handle_spaces(t_data *data, int i)

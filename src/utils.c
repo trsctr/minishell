@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:46:07 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/08 15:42:24 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/08 17:33:52 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,24 @@ void	free_exec(t_exec *exec)
 		exec->next = NULL;
 		exec = temp;
 	}
+}
+
+/**
+ * @brief prints an error message based on given error code
+ * 
+ * @param errorcode 
+ * @param cmd required if printing "bad command or file name"
+ */
+void	ft_errormsg(int errorcode, char *cmd)
+{
+	if (errorcode == BAD_CMD)
+		ft_dprintf(2, "minishell: Command not found: %s\n", cmd);
+	else if (errorcode == MALLOC_FAIL)
+		ft_dprintf(2, "minishell: Memory allocation failed)\n");
+	else if (errorcode == PIPE_FAIL)
+		ft_dprintf(2, "minishell: Piping failed\n");
+	else if (errorcode == FORK_FAIL)
+		ft_dprintf(2, "minishell: Fork error\n");
+	else if (errorcode == SYNTAX_ERROR)
+		ft_dprintf(2, "minishell: Syntax error\n");
 }

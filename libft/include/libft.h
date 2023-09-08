@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 18:46:06 by oandelin          #+#    #+#             */
-/*   Updated: 2023/08/21 16:49:55 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/08 16:58:23 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,14 +90,15 @@ t_list	*ft_lstlast(t_list *lst);
 //      FT_PRINTF
 
 int		ft_printf(const char *format, ...);
-int		check_specifier(const char *format, va_list args, int i);
-int		parse_format(const char *format, va_list args);
-int		printhex(unsigned long n, char c);
-int		convert_x(unsigned int n, char c);
-int		convert_p(void *p);
-int		convert_id(int n);
-int		convert_u(unsigned int n);
-int		convert_c(int c);
-int		convert_str(char *s);
+int		ft_dprintf(int fd, const char *format, ...);
+int		check_specifier(const char *format, va_list args, int i, int fd);
+int		parse_format(const char *format, va_list args, int fd);
+int		printhex(unsigned long n, char c, int fd);
+int		convert_x(unsigned int n, char c, int fd);
+int		convert_p(void *p, int fd);
+int		convert_id(int n, int fd);
+int		convert_u(unsigned int n, int fd);
+int		convert_c(int c, int fd);
+int		convert_str(char *s, int fd);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 15:39:30 by oandelin          #+#    #+#             */
-/*   Updated: 2023/08/30 15:04:49 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/08 16:49:59 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,10 @@ void	builtin_echo(t_exec *exec)
 			write(1, " ", 1);
 		i++;
 	}
+	if (exec->write_fd != 1)
+		close(exec->write_fd);
 	if (exec->argv[1] && !ft_strcmp(exec->argv[1], "-n"))
 		return ;
-	else
+	else if (exec->write_fd == 1)
 		write(1, "\n", 1);
 }

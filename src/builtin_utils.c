@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 16:54:59 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/04 16:58:51 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/08 17:12:01 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,16 @@ int	key_is_valid(char *key)
 		i++;
 	}
 	return (1);
+}
+
+void export_print_vars(t_ev **vars, int fd)
+{
+	t_ev	*curr;
+
+	curr = *vars;
+	while (curr)
+	{
+		ft_dprintf(fd, "declare -x %s=%s\n", curr->key, curr->value);
+		curr = curr->next;
+	}
 }

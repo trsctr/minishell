@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:40:59 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/08 15:58:21 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/08 17:11:03 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -233,7 +233,7 @@ void	run_builtin(t_exec *exec, int spec, t_data *data)
 	if (spec == 1)
 		builtin_cd(data, exec);
 	if (spec == 2)
-		builtin_env(data);
+		builtin_env(data, exec);
 	if (spec == 3)
 		builtin_pwd(exec);
 	if (spec == 4)

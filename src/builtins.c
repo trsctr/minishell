@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 14:54:26 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/07 18:13:14 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/08 17:26:11 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,14 +82,14 @@ void	builtin_pwd(t_exec *exec)
  * 
  * @param data 
  */
-void	builtin_env(t_data *data)
+void	builtin_env(t_data *data, t_exec *exec)
 {
 	t_ev	*curr;
 
 	curr = data->env_var;
 	while (curr)
 	{
-		ft_printf("%s=%s\n", curr->key, curr->value);
+		ft_dprintf(exec->write_fd, "%s=%s\n", curr->key, curr->value);
 		curr = curr->next;
 	}
 }
@@ -111,7 +111,7 @@ void	builtin_export(t_data *data, t_exec *exec)
 
 	i = 1;
 	if (!exec->argv[i])
-		return ;
+		export_print_vars(&data->env_var, exec->write_fd);
 	else
 	{
 		while (exec->argv[i])
@@ -124,8 +124,7 @@ void	builtin_export(t_data *data, t_exec *exec)
 			key = get_ev_key(exec->argv[i]);
 			if (!key_is_valid(key))
 			{
-				ft_printf_stderr(
-					"minishell: export: '%s' not a valid identifier\n",
+				ft_dprintf(2, "minishell: export: '%s' not a valid identifier\n",
 					exec->argv[i]);
 				free(key);
 				i++;
@@ -161,6 +160,8 @@ void	builtin_unset(t_data *data, t_exec *exec)
 	i = 1;
 	while (exec->argv[i])
 	{
+		if(!key_is_valid(exec->argv[i]))
+			ft_dprintf(2, "unset: '%s' not a valid identifier\n", exec->argv[i]);
 		ft_delete_var(&data->env_var, exec->argv[i]);
 		i++;
 	}

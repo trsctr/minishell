@@ -7,13 +7,13 @@ RLFLAG		=	-lreadline -L ~/.brew/opt/readline/lib -I ~/.brew/opt/readline/include
 LIBFT 		= 	libft/libft.a
 SRCDIR		=	src/
 SRCFILES	= 	minishell.c prompt.c prompt_utils.c env_var.c env_var_utils.c builtins.c executor.c utils.c echo.c \
-				builtin_utils.c error_output.c heredoc.c parser.c lexer.c lexer_dmh.c lexer_executables.c lexer_libft_mods.c \
+				builtin_utils.c heredoc.c parser.c lexer.c lexer_dmh.c lexer_executables.c lexer_libft_mods.c \
 				lexer_pipes_redirects.c lexer_specials.c lexer_tokenizer.c lexer_words_utils.c lexer_words.c lexer_expandables.c
 OBJ_DIR		= 	obj/
 OBJFILES	= 	$(SRCFILES:.c=.o)
-INC_DIR		=	include
-INC_FILES	=	$(NAME).h prompt.h
-HEADER		=	$(INC_DIR)/$(NAME).h $()
+INC_DIR		=	include/
+INC_FILES	=	$(NAME).h prompt.h builtins.h env_var.h executor.h lexer.h parser.h prompt.h utils.h
+HEADER		=	$(addprefix $(INC_DIR), $(INC_FILES))
 SRCS 		=	$(addprefix $(SRCDIR), $(SRCFILES))
 OBJS		=	$(addprefix $(OBJ_DIR), $(OBJFILES))
 RED 		:= 	\033[0;31m

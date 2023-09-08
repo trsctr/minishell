@@ -6,13 +6,14 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 14:55:03 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/06 19:46:57 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/07 18:12:57 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "builtins.h"
 #include "env_var.h"
+#include "prompt.h"
 
 /**
  * @brief saves environment variables to a linked list inside the ms struct

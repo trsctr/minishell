@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:24:25 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/06 19:06:44 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/08 15:32:02 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	run_command_line(t_data *data)
 	i = 0;
 	input = 0;
 	cmd = data->exec;
-	handle_heredocs(cmd);
+	handle_heredocs(data);
 	while (cmd)
 	{
 		if (cmd->next)
@@ -85,6 +85,11 @@ void	prompt(t_data *data)
 			clear_history();
 			break ;
 		}
+		else if (input[0] == '\0' || input[0] == '\n' || !only_spaces(input))
+		{
+			free(input);
+			continue ;
+		}
 		else if (is_builtin(input))
 		{
 			data->exec->argv = ft_split(input, ' ');
@@ -124,3 +129,4 @@ char	*get_input(void)
 		add_history(line);
 	return (line);
 }
+

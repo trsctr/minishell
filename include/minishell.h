@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 14:58:52 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/06 18:46:12 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/08 15:45:48 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@
 # define PIPE_FAIL 3
 # define SYNTAX_ERROR 4
 
+int	g_sig_status;
+
 typedef struct s_ev {
 	char		*key;
 	char		*value;
@@ -59,6 +61,7 @@ typedef struct s_exec{
 typedef struct s_data {
 	t_ev				*env_var;
 	t_exec				*exec;
+	char				*input;
 	struct termios		old_termios;
 	struct termios		new_termios;
 	struct sigaction	sa;
@@ -68,6 +71,7 @@ void	rl_replace_line(const char *text, int clear_undo);
 
 t_data	*init_data(void);
 void	save_env_var(char **env, t_data *data);
+char *expand_ev(t_data *data, char *line);
 
 // char	*get_input(void);
 // void	prompt(t_data *data);

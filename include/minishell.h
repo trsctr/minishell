@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 14:58:52 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/08 15:45:48 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/08 17:57:33 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,17 +32,20 @@
 # define INPUT_FILE 1
 # define INPUT_HEREDOC 2
 
-# define BAD_CMD 1
-# define MALLOC_FAIL 2
-# define PIPE_FAIL 3
-# define SYNTAX_ERROR 4
+int	g_sig_status;
+
+enum e_errors {
+	BAD_CMD = 1,
+	MALLOC_FAIL = 2,
+	PIPE_FAIL = 3,
+	FORK_FAIL = 4,
+	SYNTAX_ERROR = 5,
+};
 
 typedef struct s_dmh {
 	char 			*mem_hold;
 	struct s_dmh	*next;
 } t_dmh;
-
-int	g_sig_status;
 
 typedef struct s_ev {
 	char		*key;
@@ -98,6 +101,9 @@ t_data	*init_data(void);
 t_exec	*init_exec(void);
 void	save_env_var(char **env, t_data *data);
 char *expand_ev(t_data *data, char *line);
+
+//		OUTPUT
+void	ft_errormsg(int errorcode, char *cmd);
 
 // char	*get_input(void);
 // void	prompt(t_data *data);

@@ -11,9 +11,9 @@ SRCFILES	= 	minishell.c prompt.c prompt_utils.c env_var.c env_var_utils.c builti
 				lexer_pipes_redirects.c lexer_specials.c lexer_tokenizer.c lexer_words_utils.c lexer_words.c lexer_expandables.c
 OBJ_DIR		= 	obj/
 OBJFILES	= 	$(SRCFILES:.c=.o)
-INC_DIR		=	include
-INC_FILES	=	$(NAME).h prompt.h
-HEADER		=	$(INC_DIR)/$(NAME).h $()
+INC_DIR		=	include/
+INC_FILES	=	$(NAME).h prompt.h builtins.h env_var.h executor.h lexer.h parser.h prompt.h utils.h
+HEADER		=	$(addprefix $(INC_DIR), $(INC_FILES))
 SRCS 		=	$(addprefix $(SRCDIR), $(SRCFILES))
 OBJS		=	$(addprefix $(OBJ_DIR), $(OBJFILES))
 RED 		:= 	\033[0;31m

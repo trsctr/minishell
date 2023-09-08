@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 14:59:13 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/08 15:13:55 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/08 18:07:35 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,6 @@ int	main(int argc, char **argv, char **environ)
 		free(data);
 	}
 	else
-		ft_printf_stderr("Please run me without arguments\n");
+		ft_dprintf(2, "Please run me without arguments\n");
 	return (0);
 }

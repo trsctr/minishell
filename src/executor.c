@@ -6,7 +6,7 @@
 /*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:40:59 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/08 15:45:20 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/08 15:58:21 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ char	**create_envp(t_data *data)
 }
 
 /**
- * @brief executes the command as absolute path
+ * @brief executes the command, requires absolute path
  * 
  * @param data 
  * @param cmd 

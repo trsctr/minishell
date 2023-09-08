@@ -6,7 +6,7 @@
 /*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 14:48:54 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/08 15:44:48 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/08 16:04:24 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,7 @@ void	create_execs(t_data *data)
 	}
 }
 
-void	fill_exec_from_tokens(t_exec *exec)
+int	fill_exec_from_tokens(t_exec *exec)
 {
 	int		size;
 	int		i;
@@ -167,6 +167,8 @@ void	fill_exec_from_tokens(t_exec *exec)
 		tok = tok->next;
 	}
 	exec->argv = ft_calloc((1 + size), sizeof(char *));
+	if (exec->argv == NULL)
+		return (1);
 	tok = exec->token;
 	i = 0;
 	while (tok)
@@ -174,16 +176,23 @@ void	fill_exec_from_tokens(t_exec *exec)
 		if (tok->type == T_CMD)
 		{
 			exec->cmd = ft_strdup(tok->str);
+			if (exec->cmd == NULL)
+				return (1);
 			exec->argv[i] = ft_strdup(tok->str);
+			if (exec->argv[i] == NULL)
+				return (1);
 			i++;
 		}
 		if (tok->type == T_WORD)
 		{
 			exec->argv[i] = ft_strdup(tok->str);
+			if (exec->argv[i] == NULL)
+				return (1);
 			i++;
 		}
 		tok = tok->next;
 	}
+	return (0);
 }
 
 void	parser(t_data *data)
@@ -195,7 +204,8 @@ void	parser(t_data *data)
 	create_pipes(cmd);
 	while (cmd)
 	{
-		fill_exec_from_tokens(cmd);
+		if (fill_exec_from_tokens(cmd))
+			break ;
 		if (handle_rds(cmd))
 			break ;
 		cmd = cmd->next;

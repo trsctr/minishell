@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 17:04:46 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/04 17:36:04 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/07 20:07:30 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,3 +56,22 @@ int	ft_printf_stderr(const char *format, ...)
 	va_end(args);
 	return (ret);
 }
+
+/**
+ * @brief prints an error message based on given error code
+ * 
+ * @param errorcode 
+ * @param cmd required if printing "bad command or file name"
+ */
+void	ft_errormsg(int errorcode, char *cmd)
+{
+	if (errorcode == BAD_CMD)
+		ft_printf_stderr("minishell: Command not found: %s\n", cmd);
+	else if (errorcode == MALLOC_FAIL)
+		ft_printf_stderr("minishell: Memory allocation failed)\n");
+	else if (errorcode == PIPE_FAIL)
+		ft_printf_stderr("minishell: Piping failed\n");
+	else if (errorcode == SYNTAX_ERROR)
+		ft_printf_stderr("minishell: Syntax error\n");
+}
+

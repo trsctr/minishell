@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:24:25 by oandelin          #+#    #+#             */
 /*   Updated: 2023/09/08 14:46:53 by slampine         ###   ########.fr       */
@@ -62,16 +62,17 @@ void	prompt(t_data *data)
 			ft_putendl_fd("exit", 2);
 			if (input)
 				free(input);
-			//ft_lstclear(&data->env_var, &free);
-			//free(data);
-			//free(data->exec->next);
 			clear_history();
 			break ;
+		}
+ 		else if (input[0] == '\0' || input[0] == '\n' || !only_spaces(input))
+		{
+			free(input);
+			continue ;
 		}
 		lexer(data);
 		parser(data);
 		run_command_line(data);
-		//free_exec(data->exec);
 		free(input);
 	}
 }
@@ -89,20 +90,13 @@ void	prompt(t_data *data)
  */
 char	*get_input(void)
 {
-	char	*line;
+	char				*line;
 
-	toggle_echoctl();
-	listen_signals();
 	line = readline(BYELLOW PROMPT RESET);
 	if (!line)
-	{
-		toggle_echoctl();
-		reset_signals();
 		return (NULL);
-	}
-	if (line[0] != '\0' && line[0] != '\n')
+	if (line[0] != '\0' && line[0] != '\n' && only_spaces(line))
 		add_history(line);
-	toggle_echoctl();
-	reset_signals();
 	return (line);
 }
+

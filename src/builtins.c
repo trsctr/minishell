@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 14:54:26 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/05 17:23:24 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/07 18:13:14 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "builtins.h"
 #include "env_var.h"
+#include "prompt.h"
 
 /**
  * @brief builtin "cd" command which changes the current working directory
@@ -123,7 +124,9 @@ void	builtin_export(t_data *data, t_exec *exec)
 			key = get_ev_key(exec->argv[i]);
 			if (!key_is_valid(key))
 			{
-				ft_printf("export: %s is not a valid identifier\n", exec->argv[i]);
+				ft_printf_stderr(
+					"minishell: export: '%s' not a valid identifier\n",
+					exec->argv[i]);
 				free(key);
 				i++;
 				continue ;

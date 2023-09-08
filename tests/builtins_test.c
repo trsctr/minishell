@@ -3,7 +3,8 @@
 #include "builtins.h"
 #include "prompt.h"
 #include "env_var.h"
-
+#include "heredoc.h"
+#include "utils.h"
 
 
 t_exec	*makeshift_parser(char *input, t_data *data);
@@ -123,19 +124,19 @@ char	*get_input(void)
 {
 	char				*line;
 
-	toggle_echoctl();
-	listen_signals();
+	// toggle_echoctl();
+	// listen_signals();
 	line = readline(BYELLOW PROMPT RESET);
 	if (!line)
 	{
-		toggle_echoctl();
-		reset_signals();
+		// toggle_echoctl();
+		// reset_signals();
 		return (NULL);
 	}
-	if (line[0] != '\0' && line[0] != '\n')
+	if (line[0] != '\0' && line[0] != '\n' && only_spaces(line))
 		add_history(line);
-	toggle_echoctl();
-	reset_signals();
+	// toggle_echoctl();
+	//reset_signals();
 	return (line);
 }
 
@@ -149,15 +150,22 @@ t_data	*init_data(void)
 	return (data);
 }
 
-int	main(void)
+int	main(int argc, char **argv, char **environ)
 {
 	t_data		*data;
-	extern char	**environ;
-
-	data = init_data();
-	save_env_var(environ, data);
-	prompt(data);
-	ft_clear_evlist(data);
-	free(data);
+	
+	(void) argv;
+	if (argc == 1)
+	{
+		data = init_data();
+		save_env_var(environ, data);
+		terminal_setup(data);
+		prompt(data);
+		terminal_reset(data);
+		ft_clear_evlist(data);
+		free(data);
+	}
+	else
+		ft_printf_stderr("Please run me without arguments\n");
 	return (0);
 }

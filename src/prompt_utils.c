@@ -6,7 +6,7 @@
 /*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 19:06:29 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/08 15:43:02 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/08 16:06:40 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,50 +14,48 @@
 #include "prompt.h"
 
 /**
- * @brief sets signal handling for heredoc. crtl+\ is ignored, crtl+c will abort heredoc
- *  crtl+d will quit as if user had input limiter
- */
-void	heredoc_signals(void)
-{
-	sigset_t	sigset;
+ * @brief sets up terminal for our minishell session and saves original settings
+ * to our struct so they can be restored when exiting
 
-	sigemptyset(&sigset);
-	sigaddset(&sigset, SIGQUIT);
-	sigprocmask(SIG_BLOCK, &sigset, NULL);
-	signal(SIGINT, handle_sig_int);
-	signal(SIGQUIT, SIG_IGN);
+ * 
+ * @param data 
+ */
+void	terminal_setup(t_data *data)
+{
+	//sigset_t	sigset;
+
+	tcgetattr(STDIN_FILENO, &(data->old_termios));
+	data->new_termios = data->old_termios;
+	data->new_termios.c_lflag &= ~(ECHOCTL);
+	tcsetattr(STDIN_FILENO, TCSANOW, &(data->new_termios));
+	sigemptyset(&(data->sa.sa_mask));
+	data->sa.sa_sigaction = &handle_sig_int;
+	sigaction(SIGINT, &(data->sa), NULL);
+	// sigaddset(&sigset, SIGQUIT);
+	// sigprocmask(SIG_BLOCK, &sigset, NULL);
+	// signal(SIGINT, handle_sig_int);
+	signal(SIGQUIT,SIG_IGN);
+	// sigaction(SIGQUIT, &(data->sa), NULL);
 }
 
-/**
- * @brief sets up signal listening. ctrl+\ will be ignored. ctrl+c will be
- * handled by handle_sig_int
- * 
- */
-void	listen_signals(void)
+void	toggle_echoctl(void)
 {
-	sigset_t	sigset;
+	struct termios	termios_attributes;
 
-	sigemptyset(&sigset);
-	sigaddset(&sigset, SIGQUIT);
-	sigprocmask(SIG_BLOCK, &sigset, NULL);
-	signal(SIGINT, handle_sig_int);
-	signal(SIGQUIT, SIG_IGN);
+	tcgetattr(STDIN_FILENO, &termios_attributes);
+	termios_attributes.c_lflag &= ~(ECHOCTL);
+	tcsetattr(STDIN_FILENO, TCSAFLUSH, &termios_attributes);
 }
 
-/**
- * @brief this resets signal handling to normal settings
- * 
- */
 void	reset_signals(void)
 {
-	sigset_t	sigset;
-
-	sigemptyset(&sigset);
-	sigaddset(&sigset, SIGQUIT);
-	sigprocmask(SIG_UNBLOCK, &sigset, NULL);
-	signal(SIGINT, handle_sig_int);
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
+}
+
+void	terminal_reset(t_data *data)
+{
+	tcsetattr(STDIN_FILENO, TCSANOW, &(data->old_termios));
 }
 
 /**
@@ -66,27 +64,37 @@ void	reset_signals(void)
  * 
  * @param signal 
  */
-void	handle_sig_int(int signal)
+void	handle_sig_int(int signal, siginfo_t *info, void *context)
 {
-	(void) signal;
-	write(1, "\n", 1);
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
+	(void) info;
+	(void) context;
+	if (signal == SIGINT)
+	{
+		g_sig_status = 1;
+		write(1, "\n", 1);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
 }
 
 /**
- * @brief this function is called in the beginning and end of get_input
- * it toggles the status of ECHOCTL in terminal settings. we don't want to
- * display control characters (such as ^C or ^\) in the command prompt, but
- * it is good to also reset the terminal settings.
+ * @brief checks if the line received from user is not just full of spaces
  * 
+ * @param line 
+ * @return int 0 if only spaces, 1 if there is something else too
  */
-void	toggle_echoctl(void)
+int	only_spaces(char *line)
 {
-	struct termios	termios_attributes;
+	int	i;
 
-	tcgetattr(STDIN_FILENO, &termios_attributes);
-	termios_attributes.c_lflag &= ~(ECHOCTL);
-	tcsetattr(STDIN_FILENO, TCSAFLUSH, &termios_attributes);
+	i = 0;
+	while (line[i])
+	{
+		if (line[i] != ' ' && line[i] != '\t'
+			&& line[i] != '\n' && line[i] != '\0')
+			return (1);
+		i++;
+	}
+	return (0);
 }

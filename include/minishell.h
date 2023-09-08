@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 14:58:52 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/08 09:05:16 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/08 15:45:48 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include "../libft/include/libft.h"
 # include <stdlib.h>
 # include <termios.h>
+# include <signal.h>
 # include <fcntl.h>
 
 # define BYELLOW "\001\e[0;33m\002"
@@ -31,10 +32,17 @@
 # define INPUT_FILE 1
 # define INPUT_HEREDOC 2
 
+# define BAD_CMD 1
+# define MALLOC_FAIL 2
+# define PIPE_FAIL 3
+# define SYNTAX_ERROR 4
+
 typedef struct s_dmh {
 	char 			*mem_hold;
 	struct s_dmh	*next;
 } t_dmh;
+
+int	g_sig_status;
 
 typedef struct s_ev {
 	char		*key;
@@ -79,6 +87,9 @@ typedef struct s_data {
 	t_ev	*env_var;
 	t_exec	*exec;
 	int		exit_status;
+	struct termios		old_termios;
+	struct termios		new_termios;
+	struct sigaction	sa;
 }	t_data;
 
 void	rl_replace_line(const char *text, int clear_undo);
@@ -86,6 +97,7 @@ void	rl_replace_line(const char *text, int clear_undo);
 t_data	*init_data(void);
 t_exec	*init_exec(void);
 void	save_env_var(char **env, t_data *data);
+char *expand_ev(t_data *data, char *line);
 
 // char	*get_input(void);
 // void	prompt(t_data *data);

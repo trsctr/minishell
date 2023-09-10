@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:46:07 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/08 20:03:04 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/10 19:57:02 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ void	ft_errormsg(int errorcode, char *cmd)
 		ft_dprintf(2, "minishell: Fork error\n");
 	else if (errorcode == SYNTAX_ERROR)
 		ft_dprintf(2, "minishell: Syntax error\n");
+	else if (errorcode == EXPORT_NOT_VALID)
+		ft_dprintf(2, "minishell: export: '%s' not a valid identifier\n", cmd);
 }
 
 void	set_exit_status(t_data *data, int status)

@@ -6,7 +6,7 @@
 /*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 18:51:54 by akoskine          #+#    #+#             */
-/*   Updated: 2023/09/11 14:51:31 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/11 15:38:39 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	check_syntax(t_data *data)
 	if(data->lexer.syntax_error == 1)
 	{
 		ft_errormsg(SYNTAX_ERROR, NULL);
-		//free_list_dmh(data);
+		free_list_dmh(data);
 		free_list_token(data);
 		free(data->input);
 		return(1);

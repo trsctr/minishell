@@ -6,7 +6,7 @@
 /*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 14:48:54 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/11 15:17:59 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/11 15:52:11 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,7 +163,7 @@ void	create_execs(t_data *data)
 			if (tok->next)
 			{
 				if (tok->next->type == T_PIPE)
-					tok->next = NULL;
+					break ;
 			}
 			tok = tok->next;
 		}
@@ -184,6 +184,8 @@ int	fill_exec_from_tokens(t_exec *exec)
 	{
 		if (tok->type == T_WORD || tok->type == T_EMPTY_WORD)
 			size++;
+		if (tok->type == T_PIPE)
+			break ;
 		tok = tok->next;
 	}
 	exec->argv = ft_calloc((1 + size), sizeof(char *));
@@ -211,6 +213,8 @@ int	fill_exec_from_tokens(t_exec *exec)
 				return (1);
 			i++;
 		}
+		if (tok->type == T_PIPE)
+			break ;
 		prev = tok->type;
 		tok = tok->next;
 	}
@@ -232,4 +236,5 @@ void	parser(t_data *data)
 			break ;
 		cmd = cmd->next;
 	}
+	free_list_token(data);
 }

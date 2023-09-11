@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 15:20:52 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/08 19:46:34 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/11 14:10:37 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 // UTILS
 int	key_is_valid(char *key);
-void export_print_vars(t_ev **vars, int fd);
 
 // COMMANDS
 void	builtin_env(t_data *data, t_exec *exec);

@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 14:54:26 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/10 20:08:22 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/11 14:08:43 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,8 @@ void	builtin_env(t_data *data, t_exec *exec)
 void	builtin_unset(t_data *data, t_exec *exec)
 {
 	int	i;
-	int error;
-	
+	int	error;
+
 	error = 0;
 	i = 1;
 	while (exec->argv[i])

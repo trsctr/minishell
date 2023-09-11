@@ -6,11 +6,12 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 16:54:59 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/08 19:20:58 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/11 14:11:16 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "builtins.h"
 
 /**
  * @brief this function is a helper function for builtin_export
@@ -34,16 +35,4 @@ int	key_is_valid(char *key)
 		i++;
 	}
 	return (1);
-}
-
-void export_print_vars(t_ev **vars, int fd)
-{
-	t_ev	*curr;
-
-	curr = *vars;
-	while (curr)
-	{
-		ft_dprintf(fd, "declare -x %s=%s\n", curr->key, curr->value);
-		curr = curr->next;
-	}
 }

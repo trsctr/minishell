@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:46:07 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/11 15:46:03 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/11 17:16:42 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	free_exec(t_exec *exec)
 {
 	t_exec	*temp_exec;
 	int 	i;
-	
+
 	while (exec)
 	{
 		free(exec->cmd);
@@ -103,8 +103,8 @@ char	*ft_getenv(t_data *data, char *key)
 
 	temp = ft_find_var(&data->env_var, key);
 	if (!temp)
-		return (ft_strdup(""));
+		return (NULL);
 	else
-		return (ft_strdup(temp->value));
+		return (temp->value);
 }
 

@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 16:34:52 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/11 14:35:33 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/11 16:22:04 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,7 @@ t_ev	*ft_new_evnode(char *key, char *value)
 
 	node = (t_ev *)malloc(sizeof(t_ev));
 	if (!node)
-	{
-		ft_errormsg(MALLOC_FAIL, NULL);
 		return (NULL);
-	}
 	if (!key)
 		node->key = NULL;
 	else

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 12:53:01 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/11 15:26:23 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/11 16:06:46 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,11 @@ int	create_heredoc(t_data *data, t_exec *exec, t_token *token)
 		if (g_sig_status == 1)
 			break ;
 		if (line[0] == '$')
+		{
 			line = ft_getenv(data, line + 1);
+			if (!line)
+				line = ft_strdup("");
+		}
 		write(fd, line, ft_strlen(line));
 		write(fd, "\n", 1);
 		free (line);

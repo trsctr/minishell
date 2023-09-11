@@ -6,23 +6,31 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 20:49:06 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/11 14:49:03 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/11 17:19:38 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "lexer.h"
+#include "prompt.h"
 
 void	malloc_error(t_data *data)
 {
 	ft_errormsg(MALLOC_FAIL, NULL);
+	terminal_reset(data);
 	clear_data(data);
+	free_list_dmh(data);
+	if (data->lexer.token != NULL)
+		free_list_token(data);
 	exit(1);
 }
 
 void	clear_data(t_data *data)
 {
-	ft_clear_evlist(data);
 	clear_history();
+	ft_clear_evlist(data);
+	if (data)
+		free(data);
 }
 
 /**

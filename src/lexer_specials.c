@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_specials.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 18:51:54 by akoskine          #+#    #+#             */
-/*   Updated: 2023/09/11 15:38:39 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/11 17:07:46 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ int		handle_spaces(t_data *data, int i)
 void	free_list_token(t_data *data)
 {
 	t_token *tmp;
+	
 	while(data->lexer.token)
 	{
 		tmp = data->lexer.token->next;

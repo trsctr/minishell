@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:24:25 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/11 15:15:04 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/11 17:20:42 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	run_command_line(t_data *data)
 		exec = exec->next;
 	}
 	exec = data->exec;
-	free_exec(exec);
+	free_exec(data->exec);
 }
 
 /**
@@ -58,11 +58,11 @@ void	prompt(t_data *data)
 	while (420)
 	{
 		input = get_input();
-		data->input = input;
 		if (!input)
 		{
 			if (input)
 				free(input);
+			terminal_reset(data);
 			clear_data(data);
 			exit(0);
 		}
@@ -71,12 +71,13 @@ void	prompt(t_data *data)
 			free(input);
 			continue ;
 		}
+		data->input = input;
 		lexer(data);
+		free(input);
 		if (check_syntax(data))
 			continue ;
 		parser(data);
 		run_command_line(data);
-		free(input);
 	}
 }
 

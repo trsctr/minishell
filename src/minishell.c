@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 14:59:13 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/08 21:46:23 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/11 16:21:11 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ int	main(int argc, char **argv, char **environ)
 			ft_errormsg(MALLOC_FAIL, NULL);
 			exit (1);
 		}
-		save_env_var(environ, data);
 		terminal_setup(data);
+		save_env_var(environ, data);
 		prompt(data);
 		terminal_reset(data);
 		clear_data(data);

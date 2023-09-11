@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_executables.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 19:00:15 by akoskine          #+#    #+#             */
-/*   Updated: 2023/09/08 22:16:57 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/11 10:10:27 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

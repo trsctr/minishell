@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 14:54:26 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/11 14:08:43 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/11 15:29:43 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,4 +83,30 @@ void	builtin_unset(t_data *data, t_exec *exec)
 		i++;
 	}
 	set_exit_status(data, error);
+}
+
+void	builtin_exit(t_data *data, t_exec *exec)
+{
+	int	status;
+
+	status = 0;
+	if (!exec->argv[1])
+		ft_printf("exit\n");
+	else
+	{
+		if (!ft_isanumber(exec->argv[1]))
+		{
+			ft_errormsg(EXIT_BAD_VALUE, exec->argv[1]);
+			status = 255;
+		}
+		else
+		{
+			status = ft_atoi(exec->argv[1]);
+			if (status > 255)
+				status = status % 256;
+			ft_printf("exit\n");
+		}
+	}
+	clear_data(data);
+	exit(status);
 }

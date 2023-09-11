@@ -34,11 +34,11 @@ $(OBJ_DIR):
 
 $(OBJ_DIR)%.o: $(SRCDIR)%.c $(HEADER)
 	@echo "Building object file: $(CYAN)$@$(RESET) from source file $(MAGENTA)$<$(RESET)"
-	@$(CC) $(CFLAGS)  $(DBFLAG)  -I$(INC_DIR) $< -c -o $@
+	@$(CC) $(CFLAGS) $(DBFLAG) -I$(INC_DIR) $< -c -o $@
 
 $(NAME): $(LIBFT) $(OBJS) $(HEADER)
 	@echo "Compiling $(RED)minishell$(RESET) binary"
-	@$(CC) $(CFLAGS) $(DBFLAG)  $(RLFLAG) $(LIBFT) $(OBJS) -o $(NAME)
+	@$(CC) $(CFLAGS) $(DBFLAG) $(RLFLAG) $(LIBFT) $(OBJS) -o $(NAME)
 	@echo "$(GREEN)Finished!$(RESET)"
 
 debug:

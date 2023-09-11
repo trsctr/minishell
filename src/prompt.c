@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:24:25 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/08 22:19:58 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/11 15:07:55 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,13 +57,12 @@ void	prompt(t_data *data)
 	{
 		input = get_input();
 		data->input = input;
-		if (!input || !ft_strncmp(input, "exit", 4))
+		if (!input)
 		{
-			ft_putendl_fd("exit", 1);
 			if (input)
 				free(input);
-			clear_history();
-			break ;
+			clear_data(data);
+			exit(0);
 		}
 		else if (input[0] == '\0' || input[0] == '\n' || !only_spaces(input))
 		{

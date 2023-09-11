@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:40:59 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/08 21:42:50 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/11 15:10:16 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,6 +218,8 @@ int	is_builtin(char *cmd)
 		return (5);
 	else if (!ft_strcmp(cmd, "echo"))
 		return (6);
+	else if (!ft_strcmp(cmd, "exit"))
+		return (7);
 	return (0);
 }
 
@@ -242,4 +244,6 @@ void	run_builtin(t_exec *exec, int spec, t_data *data)
 		builtin_unset(data, exec);
 	if (spec == 6)
 		builtin_echo(data, exec);
+	if (spec == 7)
+		builtin_exit(data, exec);
 }

@@ -6,7 +6,7 @@
 #    By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/01 16:51:49 by oandelin          #+#    #+#              #
-#    Updated: 2023/09/08 16:59:00 by oandelin         ###   ########.fr        #
+#    Updated: 2023/09/11 15:25:48 by oandelin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,7 @@ SRCFILES 	= 	ft_isalpha \
 				ft_isalnum \
 				ft_isascii \
 				ft_isprint \
+				ft_isanumber \
 				ft_toupper \
 				ft_tolower \
 				ft_strlen \

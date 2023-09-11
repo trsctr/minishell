@@ -1,36 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_utils.c                                    :+:      :+:    :+:   */
+/*   ft_isanumber.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/04 16:54:59 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/11 15:54:25 by oandelin         ###   ########.fr       */
+/*   Created: 2023/09/11 15:25:22 by oandelin          #+#    #+#             */
+/*   Updated: 2023/09/11 15:25:31 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "builtins.h"
+#include "libft.h"
 
-/**
- * @brief this function is a helper function for builtin_export
- * key can contain alphanumeric characters and underscores
- * but can't start with a digit
- * 
- * @param key 
- * @return int returns 1 if key is valid, 0 if not.
- */
-int	key_is_valid(char *key)
+int	ft_isanumber(char *str)
 {
 	int	i;
 
 	i = 0;
-	if (key[0] == '\0' || ft_isdigit(key[0]))
-		return (0);
-	while (key[i])
+	while (str[i])
 	{
-		if (!ft_isalnum(key[i]) && key[i] != '_')
+		if (!ft_isdigit(str[i]))
 			return (0);
 		i++;
 	}

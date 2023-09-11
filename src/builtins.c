@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 14:54:26 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/11 14:08:43 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/11 14:31:33 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,13 @@
  */
 void	builtin_pwd(t_data *data, t_exec *exec)
 {
+	char	*wd;
 	if (!exec->argv[1])
 	{
-		ft_putendl_fd(getcwd(NULL, 0), exec->write_fd);
+		wd = getcwd(NULL, 0);
+		ft_putendl_fd(wd, exec->write_fd);
 		set_exit_status(data, 0);
+		free(wd);
 	}
 	else
 	{

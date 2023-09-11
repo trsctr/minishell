@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:46:07 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/10 19:57:02 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/11 15:46:03 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,21 +49,21 @@ int	ft_envsize(t_ev *lst)
  */
 void	free_exec(t_exec *exec)
 {
-	int		i;
-	t_exec	*temp;
-
+	t_exec	*temp_exec;
+	int 	i;
+	
 	while (exec)
 	{
-		temp = exec->next;
+		free(exec->cmd);
 		i = 0;
 		while (exec->argv[i])
 		{
 			free(exec->argv[i]);
 			i++;
 		}
-		free(exec->argv);
-		exec->next = NULL;
-		exec = temp;
+		temp_exec = exec->next;
+		free(exec);
+		exec = temp_exec;
 	}
 }
 

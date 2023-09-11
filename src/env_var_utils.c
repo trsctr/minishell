@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 16:34:52 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/06 19:50:23 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/11 14:35:33 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,27 +132,10 @@ void	ft_change_var(t_ev **vars, char *key, char *value)
 
 	change = ft_find_var(vars, key);
 	if (!change)
-		return ;
+		ft_new_env_var(vars, ft_new_evnode(key, value));
 	else
-		free(change->value);
-	change->value = ft_strdup(value);
-}
-
-/**
- * @brief deletes and frees the linked list so we can exit gracefully
- * 
- * @param ms 
- */
-void	ft_clear_evlist(t_data *data)
-{
-	t_ev	*temp;
-
-	temp = data->env_var;
-	while (temp)
 	{
-		free(temp->key);
-		free(temp->value);
-		free(temp);
-		temp = temp->next;
+		free(change->value);
+		change->value = ft_strdup(value);
 	}
 }

@@ -71,7 +71,8 @@ void	free_exec(t_exec *exec)
  * @brief prints an error message based on given error code
  * 
  * @param errorcode 
- * @param cmd required if printing "bad command or file name"
+ * @param cmd required if printing an error containing the command
+ * or argument
  */
 void	ft_errormsg(int errorcode, char *cmd)
 {
@@ -87,6 +88,8 @@ void	ft_errormsg(int errorcode, char *cmd)
 		ft_dprintf(2, "minishell: Syntax error\n");
 	else if (errorcode == EXPORT_NOT_VALID)
 		ft_dprintf(2, "minishell: export: '%s' not a valid identifier\n", cmd);
+	else if (errorcode == EXIT_BAD_VALUE)
+		ft_dprintf(2, "minishell: exit: %s: numeric argument needed\n", cmd);
 }
 
 void	set_exit_status(t_data *data, int status)
@@ -104,3 +107,4 @@ char	*ft_getenv(t_data *data, char *key)
 	else
 		return (ft_strdup(temp->value));
 }
+

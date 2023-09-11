@@ -59,13 +59,12 @@ void	prompt(t_data *data)
 	{
 		input = get_input();
 		data->input = input;
-		if (!input || !ft_strncmp(input, "exit", 4))
+		if (!input)
 		{
-			ft_putendl_fd("exit", 1);
 			if (input)
 				free(input);
-			clear_history();
-			break ;
+			clear_data(data);
+			exit(0);
 		}
 		else if (input[0] == '\0' || input[0] == '\n' || !only_spaces(input))
 		{

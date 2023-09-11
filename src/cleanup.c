@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 20:49:06 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/11 14:36:16 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/11 14:49:03 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	malloc_error(t_data *data)
 void	clear_data(t_data *data)
 {
 	ft_clear_evlist(data);
+	clear_history();
 }
 
 /**

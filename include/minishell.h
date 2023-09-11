@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 14:58:52 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/10 19:57:39 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/11 15:18:17 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ enum e_errors {
 	FORK_FAIL = 4,
 	SYNTAX_ERROR = 5,
 	EXPORT_NOT_VALID = 6,
+	EXIT_BAD_VALUE = 7,
 };
 
 typedef struct s_dmh {

@@ -3,14 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_libft_mods.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: akoskine <akoskine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 22:44:59 by akoskine          #+#    #+#             */
-/*   Updated: 2023/09/08 21:59:58 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/08 21:30:33 by akoskine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "lexer.h"
 
 char	*ft_strdup_dmh(t_data *data, const char *s1)

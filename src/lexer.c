@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: akoskine <akoskine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 18:34:45 by akoskine          #+#    #+#             */
-/*   Updated: 2023/09/11 17:36:34 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/11 17:28:07 by akoskine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,5 @@ void	lexer(t_data *data)
 			tokenize(data, T_WORD, data->lexer.tmp_str);
 		check_token(data);
 	}
+	free_list_dmh(data);
 }

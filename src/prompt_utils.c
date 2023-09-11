@@ -6,7 +6,7 @@
 /*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 19:06:29 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/08 16:06:40 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/11 12:38:36 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@
  */
 void	terminal_setup(t_data *data)
 {
-	//sigset_t	sigset;
-
 	tcgetattr(STDIN_FILENO, &(data->old_termios));
 	data->new_termios = data->old_termios;
 	data->new_termios.c_lflag &= ~(ECHOCTL);
@@ -31,11 +29,7 @@ void	terminal_setup(t_data *data)
 	sigemptyset(&(data->sa.sa_mask));
 	data->sa.sa_sigaction = &handle_sig_int;
 	sigaction(SIGINT, &(data->sa), NULL);
-	// sigaddset(&sigset, SIGQUIT);
-	// sigprocmask(SIG_BLOCK, &sigset, NULL);
-	// signal(SIGINT, handle_sig_int);
-	signal(SIGQUIT,SIG_IGN);
-	// sigaction(SIGQUIT, &(data->sa), NULL);
+	signal(SIGQUIT, SIG_IGN);
 }
 
 void	toggle_echoctl(void)

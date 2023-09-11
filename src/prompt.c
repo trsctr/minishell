@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:24:25 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/08 22:19:58 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/11 15:15:04 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ void	run_command_line(t_data *data)
 		}
 		exec = exec->next;
 	}
+	exec = data->exec;
+	free_exec(exec);
 }
 
 /**
@@ -72,7 +74,7 @@ void	prompt(t_data *data)
 		}
 		lexer(data);
 		if (check_syntax(data))
-			continue;
+			continue ;
 		parser(data);
 		run_command_line(data);
 		free(input);
@@ -101,4 +103,3 @@ char	*get_input(void)
 		add_history(line);
 	return (line);
 }
-

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:40:59 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/08 21:42:50 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/11 15:21:56 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,11 +188,6 @@ int	executor(t_data *data, t_exec *exec)
 	}
 	exec->write_fd = 1;
 	exec->read_fd = 0;
-	if (exec->has_heredoc)
-	{
-		unlink(exec->heredoc);
-		free(exec->heredoc);
-	}
 	return (0);
 }
 

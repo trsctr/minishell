@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 14:48:54 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/08 16:29:03 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/11 15:17:59 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	create_pipes(t_exec *cmd)
 			status = pipe(pipe_fd[i]);
 			if (status == -1)
 			{
-				printf("Error with pipe\n");
+				ft_errormsg(PIPE_FAIL, NULL);
 				continue ;
 			}
 			cmd->read_fd = input;
@@ -82,6 +82,21 @@ int	redir_out_app(t_exec *cmd, t_token *token)
 	return (0);
 }
 
+int	handle_out(t_exec *cmd, t_token *tok)
+{
+	if (tok->type == T_RD_S_R)
+	{
+		if (redir_out_trunc(cmd, tok->next))
+			return (1);
+	}
+	if (tok->type == T_RD_D_R)
+	{
+		if (redir_out_app(cmd, tok->next))
+			return (1);
+	}
+	return (0);
+}
+
 int	handle_rds(t_data *data, t_exec *cmd)
 {
 	t_token	*tok;
@@ -99,14 +114,9 @@ int	handle_rds(t_data *data, t_exec *cmd)
 			if (redir_heredoc(data, cmd, tok->next))
 				return (1);
 		}
-		if (tok->type == T_RD_S_R)
+		if (tok->type == T_RD_D_R || tok->type == T_RD_S_R)
 		{
-			if (redir_out_trunc(cmd, tok->next))
-				return (1);
-		}
-		if (tok->type == T_RD_D_R)
-		{
-			if (redir_out_app(cmd, tok->next))
+			if (handle_out(cmd, tok))
 				return (1);
 		}
 		tok = tok->next;
@@ -114,7 +124,7 @@ int	handle_rds(t_data *data, t_exec *cmd)
 	return (0);
 }
 
-void	create_execs(t_data *data)
+void	give_tokens(t_data *data)
 {
 	t_exec	*cmd;
 	t_exec	*temp;
@@ -135,6 +145,15 @@ void	create_execs(t_data *data)
 		}
 		tok = tok->next;
 	}
+}
+
+void	create_execs(t_data *data)
+{
+	t_exec	*cmd;
+	t_token	*tok;
+
+	cmd = init_exec();
+	give_tokens(data);
 	cmd = data->exec;
 	while (cmd)
 	{
@@ -156,13 +175,14 @@ int	fill_exec_from_tokens(t_exec *exec)
 {
 	int		size;
 	int		i;
+	int		prev;
 	t_token	*tok;
 
 	size = 1;
 	tok = exec->token;
 	while (tok)
 	{
-		if (tok->type == T_WORD)
+		if (tok->type == T_WORD || tok->type == T_EMPTY_WORD)
 			size++;
 		tok = tok->next;
 	}
@@ -171,6 +191,7 @@ int	fill_exec_from_tokens(t_exec *exec)
 		return (1);
 	tok = exec->token;
 	i = 0;
+	prev = 0;
 	while (tok)
 	{
 		if (tok->type == T_CMD)
@@ -183,13 +204,14 @@ int	fill_exec_from_tokens(t_exec *exec)
 				return (1);
 			i++;
 		}
-		if (tok->type == T_WORD)
+		if ((tok->type == T_WORD || tok->type == T_EMPTY_WORD) && !(prev >= 46 && prev <= 49))
 		{
 			exec->argv[i] = ft_strdup(tok->str);
 			if (exec->argv[i] == NULL)
 				return (1);
 			i++;
 		}
+		prev = tok->type;
 		tok = tok->next;
 	}
 	return (0);

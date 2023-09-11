@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_specials.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 18:51:54 by akoskine          #+#    #+#             */
-/*   Updated: 2023/09/08 22:18:12 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/11 14:51:31 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	check_syntax(t_data *data)
 	if(data->lexer.syntax_error == 1)
 	{
 		ft_errormsg(SYNTAX_ERROR, NULL);
-		free_list_dmh(data);
+		//free_list_dmh(data);
 		free_list_token(data);
 		free(data->input);
 		return(1);

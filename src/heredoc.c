@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 12:53:01 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/08 21:32:43 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/11 15:26:23 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,14 @@ int	create_heredoc(t_data *data, t_exec *exec, t_token *token)
 	{
 		printf("EOF received\n");
 		close (fd);
+		unlink(exec->heredoc);
+		free(exec->heredoc);
 		return (1);
 	}
 	free(line);
 	close (fd);
+	unlink(exec->heredoc);
+	free(exec->heredoc);
 	return (0);
 }
 
@@ -49,12 +53,15 @@ int	name_heredoc(t_exec *exec)
 {
 	static int	i = 0;
 	char		*num;
+	char		*id;
 
 	num = ft_itoa(i);
-	exec->heredoc = ft_strjoin("temp_heredoc_file_", num);
+	id = ft_itoa(getpid());
+	exec->heredoc = ft_strjoin(id, num);
 	if (!exec->heredoc)
 		return (1);
 	free(num);
+	free(id);
 	i++;
 	return (0);
 }

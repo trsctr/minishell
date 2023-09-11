@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 14:58:52 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/11 16:39:15 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/11 17:41:21 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ char	*ft_getenv(t_data *data, char *key);
 //		OUTPUT
 void	ft_errormsg(int errorcode, char *cmd);
 
+void	malloc_error(t_data *data);
 
 //	UTILS
 void set_exit_status(t_data *data, int status);

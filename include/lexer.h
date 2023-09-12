@@ -3,15 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 14:58:52 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/11 10:10:30 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/11 17:39:33 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEXER_H
 # define LEXER_H
+
+# include "minishell.h"
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <stdlib.h>
+# include <string.h>
+# include <unistd.h>
+
 
 # define T_CMD			42
 # define T_WORD			43
@@ -21,12 +29,6 @@
 # define T_RD_S_R		47
 # define T_RD_D_L		48
 # define T_RD_D_R		49
-
-# include <readline/readline.h>
-# include <readline/history.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
 
 /* lexer_dmh.c */
 
@@ -88,11 +90,5 @@ int		handle_quotes(t_data *data, int i);
 
 int		handle_specials(t_data *data, int i);
 void	lexer(t_data *data);
-
-
-/* naa romut pois*/
-
-void		malloc_error(t_data *data);
-void		ft_errormsg(int errorcode, char *cmd);
 
 #endif

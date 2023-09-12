@@ -111,6 +111,7 @@ char	*ft_getenv(t_data *data, char *key);
 //		OUTPUT
 void	ft_errormsg(int errorcode, char *cmd);
 
+void	malloc_error(t_data *data);
 
 //	UTILS
 void set_exit_status(t_data *data, int status);

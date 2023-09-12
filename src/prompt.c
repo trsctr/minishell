@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:24:25 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/11 17:20:42 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/12 16:16:45 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,14 +57,13 @@ void	prompt(t_data *data)
 
 	while (420)
 	{
+		terminal_setup(data);
 		input = get_input();
 		if (!input)
 		{
 			if (input)
 				free(input);
-			terminal_reset(data);
-			clear_data(data);
-			exit(0);
+			builtin_exit(data, NULL);
 		}
 		else if (input[0] == '\0' || input[0] == '\n' || !only_spaces(input))
 		{
@@ -78,6 +77,7 @@ void	prompt(t_data *data)
 			continue ;
 		parser(data);
 		run_command_line(data);
+		terminal_reset(data);
 	}
 }
 

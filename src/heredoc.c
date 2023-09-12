@@ -3,17 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 12:53:01 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/12 15:09:27 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/12 17:39:32 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "heredoc.h"
-
-char	*expand_ev(t_data *data, char *line);
 
 int	create_heredoc(t_data *data, t_exec *exec, t_token *token)
 {
@@ -22,10 +20,12 @@ int	create_heredoc(t_data *data, t_exec *exec, t_token *token)
 
 	g_sig_status = 0;
 	fd = open(exec->heredoc, O_CREAT | O_RDWR | O_TRUNC, 0777);
-	line = readline(">");
-	while (line && ft_strcmp(line, token->str))
+	line = readline("> ");
+	while (line)
 	{
-		if (g_sig_status == 1)
+		if (((ft_strlen(line) == ft_strlen(token->str)) \
+		&& !ft_memcmp(line, token->str, ft_strlen(line))) \
+		|| g_sig_status)
 			break ;
 		if (line[0] == '$')
 		{
@@ -36,21 +36,21 @@ int	create_heredoc(t_data *data, t_exec *exec, t_token *token)
 		write(fd, line, ft_strlen(line));
 		write(fd, "\n", 1);
 		free (line);
-		line = readline(">");
+		line = readline("> ");
 	}
 	if (g_sig_status == 1)
 	{
-		terminal_reset(data);
+	//	terminal_reset(data);
 		return (1);
 	}
 	exec->read_fd = fd;
 	if (!line)
 	{
-		terminal_reset(data);
+	//	terminal_reset(data);
 		return (0);
 	}
 	free(line);
-	terminal_reset(data);
+	//terminal_reset(data);
 	return (0);
 }
 
@@ -79,15 +79,4 @@ int	redir_heredoc(t_data *data, t_exec *exec, t_token *token)
 		return (1);
 	exec->has_heredoc = 1;
 	return (0);
-}
-
-char	*expand_ev(t_data *data, char *line)
-{
-	t_ev	*temp;
-
-	temp = ft_find_var(&data->env_var, line + 1);
-	if (!temp)
-		return (ft_strdup(""));
-	else
-		return (ft_strdup(temp->value));
 }

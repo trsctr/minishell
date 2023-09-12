@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 14:48:54 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/11 16:53:23 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/12 09:04:24 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,7 +177,7 @@ int	fill_exec_from_tokens(t_exec *exec)
 	int		i;
 	int		prev;
 	t_token	*tok;
-	
+
 	size = 1;
 	tok = exec->token;
 	while (tok)
@@ -206,13 +206,20 @@ int	fill_exec_from_tokens(t_exec *exec)
 				return (1);
 			i++;
 		}
-		if ((tok->type == T_WORD || tok->type == T_EMPTY_WORD) && !(prev >= 46 && prev <= 49))
+		if ((tok->type == T_WORD) && !(prev >= 46 && prev <= 49))
 		{
 			exec->argv[i] = ft_strdup(tok->str);
 			if (exec->argv[i] == NULL)
 				return (1);
 			i++;
 		}
+		if (tok->type == T_EMPTY_WORD)
+			{
+				exec->argv[i] = ft_strdup("");
+				if (exec->argv[i] == NULL)
+					return (1);
+				i++;
+			}
 		if (tok->type == T_PIPE)
 			break ;
 		prev = tok->type;

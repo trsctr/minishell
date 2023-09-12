@@ -6,7 +6,7 @@
 /*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:24:25 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/12 09:18:03 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/12 09:38:26 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,8 @@ void	prompt(t_data *data)
 		if (check_syntax(data))
 			continue ;
 		free(input);
-		parser(data);
-		run_command_line(data);
+		if (parser(data) == 0)
+			run_command_line(data);
 	}
 }
 

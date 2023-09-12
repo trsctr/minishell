@@ -6,7 +6,7 @@
 /*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 14:48:54 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/12 09:04:24 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/12 11:09:10 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	create_pipes(t_exec *cmd)
 			if (status == -1)
 			{
 				ft_errormsg(PIPE_FAIL, NULL);
-				continue ;
+				break ;
 			}
 			cmd->read_fd = input;
 			cmd->write_fd = pipe_fd[i][1];
@@ -49,7 +49,7 @@ int	redir_in(t_exec *cmd, t_token *token)
 
 	fd = open(token->str, O_RDONLY);
 	if (fd == -1)
-		return (1);
+		ft_errormsg(FILE_NOT_FOUND, token->str);
 	if (cmd->read_fd > 2)
 		close(cmd->read_fd);
 	cmd->read_fd = fd;
@@ -171,30 +171,16 @@ void	create_execs(t_data *data)
 	}
 }
 
-int	fill_exec_from_tokens(t_exec *exec)
+int	filler_util(t_exec *exec)
 {
-	int		size;
 	int		i;
 	int		prev;
 	t_token	*tok;
 
-	size = 1;
-	tok = exec->token;
-	while (tok)
-	{
-		if (tok->type == T_WORD || tok->type == T_EMPTY_WORD)
-			size++;
-		if (tok->type == T_PIPE)
-			break ;
-		tok = tok->next;
-	}
-	exec->argv = ft_calloc((1 + size), sizeof(char *));
-	if (exec->argv == NULL)
-		return (1);
 	tok = exec->token;
 	i = 0;
 	prev = 0;
-	while (tok)
+	while (tok && tok->type != T_PIPE)
 	{
 		if (tok->type == T_CMD)
 		{
@@ -214,21 +200,42 @@ int	fill_exec_from_tokens(t_exec *exec)
 			i++;
 		}
 		if (tok->type == T_EMPTY_WORD)
-			{
-				exec->argv[i] = ft_strdup("");
-				if (exec->argv[i] == NULL)
-					return (1);
-				i++;
-			}
-		if (tok->type == T_PIPE)
-			break ;
+		{
+			exec->argv[i] = ft_strdup("");
+			if (exec->argv[i] == NULL)
+				return (1);
+			i++;
+		}
 		prev = tok->type;
 		tok = tok->next;
 	}
 	return (0);
 }
 
-void	parser(t_data *data)
+int	fill_exec_from_tokens(t_exec *exec)
+{
+	int		size;
+	t_token	*tok;
+
+	size = 1;
+	tok = exec->token;
+	while (tok)
+	{
+		if (tok->type == T_WORD || tok->type == T_EMPTY_WORD)
+			size++;
+		if (tok->type == T_PIPE)
+			break ;
+		tok = tok->next;
+	}
+	exec->argv = ft_calloc((1 + size), sizeof(char *));
+	if (exec->argv == NULL)
+		return (1);
+	if (filler_util(exec))
+		return (1);
+	return (0);
+}
+
+int	parser(t_data *data)
 {
 	t_exec	*cmd;
 
@@ -238,10 +245,14 @@ void	parser(t_data *data)
 	while (cmd)
 	{
 		if (fill_exec_from_tokens(cmd))
-			break ;
+		{
+			ft_errormsg(MALLOC_FAIL, NULL);
+			return (1);
+		}
 		if (handle_rds(data, cmd))
-			break ;
+			return (1);
 		cmd = cmd->next;
 	}
 	free_list_token(data);
+	return (0);
 }

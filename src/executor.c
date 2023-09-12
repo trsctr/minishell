@@ -6,7 +6,7 @@
 /*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:40:59 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/12 12:19:55 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/12 15:14:55 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,10 @@ char	**create_envp(t_data *data)
 	int		i;
 
 	env = data->env_var;
-	array = malloc(sizeof(char *) * (ft_envsize(data->env_var) + 1));
+	array = ft_calloc(sizeof(char *), (ft_envsize(data->env_var) + 1));
 	i = 0;
 	env = data->env_var;
-	while (env->next)
+	while (env)
 	{
 		temp = ft_strjoin(env->key, "=");
 		array[i] = ft_strjoin(temp, env->value);
@@ -94,17 +94,6 @@ char	**create_envp(t_data *data)
 		i++;
 		env = env->next;
 	}
-	temp = ft_strjoin(env->key, "=");
-	array[i] = ft_strjoin(temp, env->value);
-	if (!array[i])
-	{
-		ft_errormsg(MALLOC_FAIL, NULL);
-		free_array(array);
-		return (NULL);
-	}
-	i++;
-	free(temp);
-	array[i] = NULL;
 	return (array);
 }
 
@@ -187,6 +176,12 @@ int	executor(t_data *data, t_exec *exec)
 			exec_abs_path(data, exec, exec->cmd);
 		else
 			find_n_exec(exec, data);
+	}
+	if (exec->has_heredoc)
+	{
+		close (exec->read_fd);
+		unlink(exec->heredoc);
+		free(exec->heredoc);
 	}
 	exec->write_fd = 1;
 	exec->read_fd = 0;

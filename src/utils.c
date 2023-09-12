@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:46:07 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/11 17:16:42 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/12 09:41:16 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,8 @@ void	ft_errormsg(int errorcode, char *cmd)
 		ft_dprintf(2, "minishell: export: '%s' not a valid identifier\n", cmd);
 	else if (errorcode == EXIT_BAD_VALUE)
 		ft_dprintf(2, "minishell: exit: %s: numeric argument needed\n", cmd);
+	else if (errorcode == FILE_NOT_FOUND)
+		ft_dprintf(2, "minishell: %s no such file or directory\n", cmd);
 }
 
 void	set_exit_status(t_data *data, int status)

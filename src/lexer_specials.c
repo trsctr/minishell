@@ -6,7 +6,7 @@
 /*   By: akoskine <akoskine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 18:51:54 by akoskine          #+#    #+#             */
-/*   Updated: 2023/09/11 16:32:57 by akoskine         ###   ########.fr       */
+/*   Updated: 2023/09/11 18:00:21 by akoskine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,10 @@ void	free_list_token(t_data *data)
 	{
 		tmp = data->lexer.token->next;
 		if (data->lexer.token != NULL)
+		{
+			free(data->lexer.token->str);
 			free(data->lexer.token);
+		}
 		data->lexer.token = tmp;
 	}
 }

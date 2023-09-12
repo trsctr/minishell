@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:40:59 by slampine          #+#    #+#             */
 /*   Updated: 2023/09/12 15:14:55 by slampine         ###   ########.fr       */
@@ -123,6 +123,7 @@ void	exec_abs_path(t_data *data, t_exec *cmd, char *cmd_path)
 			exit (0);
 		dup2(cmd->read_fd, 0);
 		dup2(cmd->write_fd, 1);
+		reset_signals();
 		execve(cmd_path, cmd->argv, envp);
 	}
 	if (cmd->read_fd > 2)

@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:31:33 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/11 17:40:55 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/12 12:22:22 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,4 +29,6 @@ void	ft_errormsg(int errorcode, char *cmd);
 void	terminal_reset(t_data *data);
 void	terminal_setup(t_data *data);
 int		only_spaces(char *line);
+void	reset_signals(void);
+
 #endif

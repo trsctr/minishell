@@ -6,6 +6,7 @@
 /*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 14:54:26 by oandelin          #+#    #+#             */
+/*   Updated: 2023/09/12 12:17:16 by oandelin         ###   ########.fr       */
 /*   Updated: 2023/09/12 15:15:17 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -94,7 +95,7 @@ void	builtin_exit(t_data *data, t_exec *exec)
 	int	status;
 
 	status = 0;
-	if (!exec->argv[1])
+	if (!exec || !exec->argv[1])
 		ft_printf("exit\n");
 	else
 	{

@@ -6,7 +6,7 @@
 /*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 14:48:54 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/13 11:33:03 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/13 11:52:57 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,7 @@ void	give_tokens(t_data *data)
 		{
 			temp = init_exec();
 			cmd->next = temp;
+			temp->prev = cmd;
 			cmd = cmd->next;
 			temp->token = tok->next;
 		}

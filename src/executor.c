@@ -6,7 +6,7 @@
 /*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:40:59 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/13 11:24:28 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/13 11:51:28 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,6 @@ void	exec_abs_path(t_data *data, t_exec *cmd, char *cmd_path)
 		dup2(cmd->write_fd, 1);
 		execve(cmd_path, cmd->argv, envp);
 	}
-	cmd->pid = pid;
 	if (cmd->read_fd > 2)
 		close(cmd->read_fd);
 	if (cmd->write_fd > 2)

@@ -6,7 +6,7 @@
 /*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 14:58:52 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/13 11:50:11 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/13 11:51:59 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ typedef struct s_exec{
 	int		write_fd;
 	int		has_heredoc;
 	char	*heredoc;
+	struct s_exec	*prev;
 	struct s_exec	*next;
 	t_token		*token;
 }				t_exec;

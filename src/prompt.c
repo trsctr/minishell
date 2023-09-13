@@ -6,7 +6,7 @@
 /*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:24:25 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/13 11:38:40 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/13 11:56:34 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,18 @@
 #include "utils.h"
 #include "heredoc.h"
 
+t_exec	*ft_execlast(t_exec *lst)
+{
+	t_exec	*curr;
+
+	if (!lst)
+		return (NULL);
+	curr = lst;
+	while (curr->next != NULL)
+		curr = curr->next;
+	return (curr);
+}
+
 /**
  * @brief creates pipes if necessary and runs every command
  * 	(still in progress)
@@ -27,7 +39,7 @@ void	run_command_line(t_data *data)
 {
 	t_exec	*exec;
 
-	exec = data->exec;
+	exec = ft_execlast(data->exec);
 	while (exec)
 	{
 		if (exec->cmd != NULL)
@@ -37,7 +49,7 @@ void	run_command_line(t_data *data)
 			else
 				executor(data, exec);
 		}
-		exec = exec->next;
+		exec = exec->prev;
 	}
 	exec = data->exec;
 	free_exec(data->exec);

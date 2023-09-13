@@ -6,7 +6,7 @@
 /*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:24:25 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/13 11:56:34 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/13 15:21:27 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,9 @@ t_exec	*ft_execlast(t_exec *lst)
 void	run_command_line(t_data *data)
 {
 	t_exec	*exec;
+	int		status;
 
-	exec = ft_execlast(data->exec);
+	exec = data->exec;
 	while (exec)
 	{
 		if (exec->cmd != NULL)
@@ -49,7 +50,17 @@ void	run_command_line(t_data *data)
 			else
 				executor(data, exec);
 		}
-		exec = exec->prev;
+		exec = exec->next;
+	}
+	exec = data->exec;
+	while (exec)
+	{
+		if (exec->pid)
+		{
+		waitpid(exec->pid, &status, 0);
+		data->exit_status = status;
+		}
+		exec = exec->next;
 	}
 	exec = data->exec;
 	free_exec(data->exec);

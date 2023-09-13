@@ -6,7 +6,7 @@
 /*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:40:59 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/13 11:51:28 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/13 15:21:32 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,6 @@ char	**create_envp(t_data *data)
 void	exec_abs_path(t_data *data, t_exec *cmd, char *cmd_path)
 {
 	char	**envp;
-	int		status;
 	pid_t	pid;
 
 	envp = create_envp(data);
@@ -125,13 +124,12 @@ void	exec_abs_path(t_data *data, t_exec *cmd, char *cmd_path)
 		dup2(cmd->write_fd, 1);
 		execve(cmd_path, cmd->argv, envp);
 	}
+	cmd->pid = pid;
 	if (cmd->read_fd > 2)
 		close(cmd->read_fd);
 	if (cmd->write_fd > 2)
 		close(cmd->write_fd);
 	free_array(envp);
-	waitpid(pid, &status, 0);
-	data->exit_status = status;
 }
 
 /**

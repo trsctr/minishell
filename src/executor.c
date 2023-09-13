@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:40:59 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/13 15:29:37 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/13 17:45:29 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ int cmd_is_dir(t_data *data, t_exec *exec)
 		|| !ft_strcmp(exec->cmd, "/"))
 	{
 		ft_errormsg(CMD_IS_DIR, exec->cmd);
-		return(1);
+		return (1);
 	}
-		else
+	else
 		return(0);
 }
 
@@ -196,9 +196,9 @@ int	executor(t_data *data, t_exec *exec)
 {
 	if (exec->argv[0])
 	{
-		if (cmd_is_dir(data, exec))
-			set_exit_status(data, 126);
-		else if (is_abs_path(exec->cmd))
+		// if (cmd_is_dir(data, exec))
+		// 	set_exit_status(data, 126);
+		if (is_abs_path(exec->cmd))
 			exec_abs_path(data, exec, exec->cmd);
 		else
 			find_n_exec(exec, data);

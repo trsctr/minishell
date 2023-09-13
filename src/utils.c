@@ -6,7 +6,7 @@
 /*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:46:07 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/13 16:47:13 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/13 17:26:19 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ void	free_exec(t_exec *exec)
 			unlink(exec->heredoc);
 			free(exec->heredoc);
 		}
+		free(exec);
 		exec = temp_exec;
 	}
 }

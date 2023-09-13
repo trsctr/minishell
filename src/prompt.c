@@ -6,7 +6,7 @@
 /*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:24:25 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/13 16:47:24 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/13 17:19:36 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,8 @@ void	run_command_line(t_data *data)
 		if (exec->pid)
 		{
 		waitpid(exec->pid, &status, 0);
-		data->exit_status = status;
+		if (WIFEXITED(status))
+		set_exit_status(data,WEXITSTATUS(status));
 		}
 		exec = exec->next;
 	}

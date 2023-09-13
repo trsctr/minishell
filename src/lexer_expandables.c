@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_expandables.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoskine <akoskine@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 19:02:34 by akoskine          #+#    #+#             */
-/*   Updated: 2023/09/11 16:46:54 by akoskine         ###   ########.fr       */
+/*   Updated: 2023/09/13 17:22:35 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int	check_question_mark(t_data *data, int i)
 					data->lexer.exp + (i + 1));
 		}
 		data->lexer.exp = ft_strdup_dmh(data, data->lexer.exp_tmp);
+		free(tmp);
 		return (ft_strlen(data->lexer.exp));
 	}
 	return (i);

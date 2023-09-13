@@ -6,7 +6,7 @@
 /*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:24:25 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/13 15:21:27 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/13 15:28:38 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,6 @@ void	run_command_line(t_data *data)
 		}
 		exec = exec->next;
 	}
-	exec = data->exec;
-	free_exec(data->exec);
 }
 
 /**
@@ -77,6 +75,7 @@ void	run_command_line(t_data *data)
 void	prompt(t_data *data)
 {
 	char	*input;
+	t_exec	*exec;
 
 	while (420)
 	{
@@ -101,6 +100,9 @@ void	prompt(t_data *data)
 		free(input);
 		if (parser(data) == 0)
 			run_command_line(data);
+
+		exec = data->exec;
+		free_exec(data->exec);
 	}
 }
 

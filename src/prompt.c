@@ -6,7 +6,7 @@
 /*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:24:25 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/13 16:43:00 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/13 16:47:24 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,17 +75,15 @@ void	run_command_line(t_data *data)
 void	prompt(t_data *data)
 {
 	char	*input;
-
 	while (420)
 	{
+		terminal_setup(data);
 		input = get_input();
 		if (!input)
 		{
 			if (input)
 				free(input);
-			terminal_reset(data);
-			clear_data(data);
-			exit(0);
+			builtin_exit(data, NULL);
 		}
 		else if (input[0] == '\0' || input[0] == '\n' || !only_spaces(input))
 		{
@@ -100,6 +98,7 @@ void	prompt(t_data *data)
 		if (parser(data) == 0)
 			run_command_line(data);
 		free_exec(data->exec);
+		terminal_reset(data);
 	}
 }
 

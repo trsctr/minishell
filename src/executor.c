@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:40:59 by slampine          #+#    #+#             */
 /*   Updated: 2023/09/13 15:29:37 by slampine         ###   ########.fr       */
@@ -15,6 +15,21 @@
 #include "env_var.h"
 #include "executor.h"
 #include "heredoc.h"
+
+
+int cmd_is_dir(t_data *data, t_exec *exec)
+{
+	(void) data;
+	if (!ft_strcmp(exec->cmd, "/home")
+		|| !ft_strcmp(exec->cmd, "/bin")
+		|| !ft_strcmp(exec->cmd, "/"))
+	{
+		ft_errormsg(CMD_IS_DIR, exec->cmd);
+		return(1);
+	}
+		else
+		return(0);
+}
 
 /**
  * @brief checks using access() whether command is abs or relative path
@@ -58,7 +73,6 @@ char	*get_cmd_path(char *path_line, char *cmd)
 		free(cmd_path);
 		i++;
 	}
-	ft_errormsg(BAD_CMD, cmd);
 	free_array(allpaths);
 	return (NULL);
 }
@@ -114,6 +128,7 @@ void	exec_abs_path(t_data *data, t_exec *cmd, char *cmd_path)
 	if (pid == -1)
 	{
 		ft_errormsg(PIPE_FAIL, NULL);
+		set_exit_status(data, 1);
 		exit (1);
 	}
 	if (pid == 0)
@@ -122,7 +137,12 @@ void	exec_abs_path(t_data *data, t_exec *cmd, char *cmd_path)
 			exit (0);
 		dup2(cmd->read_fd, 0);
 		dup2(cmd->write_fd, 1);
-		execve(cmd_path, cmd->argv, envp);
+		reset_signals();
+		if (execve(cmd_path, cmd->argv, envp))
+		{
+			ft_errormsg(EXEC_FAIL, cmd->argv[0]);
+			exit(1);
+		}
 	}
 	cmd->pid = pid;
 	if (cmd->read_fd > 2)
@@ -148,10 +168,16 @@ void	find_n_exec(t_exec *exec, t_data *data)
 	if (!path_line)
 	{
 		ft_errormsg(BAD_CMD, exec->cmd);
+		set_exit_status(data, 127);
 		return ;
 	}
 	cmd_path = get_cmd_path(path_line->value, exec->cmd);
-	if (cmd_path)
+	if (!cmd_path)
+	{
+		ft_errormsg(BAD_CMD, exec->cmd);
+		set_exit_status(data, 127);
+	}
+	else
 	{
 		exec_abs_path(data, exec, cmd_path);
 		free(cmd_path);
@@ -170,7 +196,9 @@ int	executor(t_data *data, t_exec *exec)
 {
 	if (exec->argv[0])
 	{
-		if (is_abs_path(exec->cmd))
+		if (cmd_is_dir(data, exec))
+			set_exit_status(data, 126);
+		else if (is_abs_path(exec->cmd))
 			exec_abs_path(data, exec, exec->cmd);
 		else
 			find_n_exec(exec, data);
@@ -220,16 +248,16 @@ void	run_builtin(t_exec *exec, int spec, t_data *data)
 {
 	if (spec == 1)
 		builtin_cd(data, exec);
-	if (spec == 2)
+	else if (spec == 2)
 		builtin_env(data, exec);
-	if (spec == 3)
+	else if (spec == 3)
 		builtin_pwd(data, exec);
-	if (spec == 4)
+	else if (spec == 4)
 		builtin_export(data, exec);
-	if (spec == 5)
+	else if (spec == 5)
 		builtin_unset(data, exec);
-	if (spec == 6)
+	else if (spec == 6)
 		builtin_echo(data, exec);
-	if (spec == 7)
+	else if (spec == 7)
 		builtin_exit(data, exec);
 }

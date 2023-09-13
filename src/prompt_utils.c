@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 19:06:29 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/11 12:38:36 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/12 12:19:16 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,6 @@ void	terminal_setup(t_data *data)
 	data->sa.sa_sigaction = &handle_sig_int;
 	sigaction(SIGINT, &(data->sa), NULL);
 	signal(SIGQUIT, SIG_IGN);
-}
-
-void	toggle_echoctl(void)
-{
-	struct termios	termios_attributes;
-
-	tcgetattr(STDIN_FILENO, &termios_attributes);
-	termios_attributes.c_lflag &= ~(ECHOCTL);
-	tcsetattr(STDIN_FILENO, TCSAFLUSH, &termios_attributes);
 }
 
 void	reset_signals(void)

@@ -6,7 +6,7 @@
 /*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:46:07 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/13 16:44:27 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/13 16:47:13 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ void	free_exec(t_exec *exec)
 			unlink(exec->heredoc);
 			free(exec->heredoc);
 		}
-		free(exec);
 		exec = temp_exec;
 	}
 }
@@ -93,6 +92,10 @@ void	ft_errormsg(int errorcode, char *cmd)
 		ft_dprintf(2, "minishell: exit: %s: numeric argument needed\n", cmd);
 	else if (errorcode == FILE_NOT_FOUND)
 		ft_dprintf(2, "minishell: %s no such file or directory\n", cmd);
+	else if (errorcode == CMD_IS_DIR)
+		ft_dprintf(2, "minishell: %s is a directory\n", cmd);
+	else if (errorcode == EXEC_FAIL)
+		ft_dprintf(2, "minishell: %s: error with execution\n", cmd);
 }
 
 void	set_exit_status(t_data *data, int status)

@@ -6,7 +6,7 @@
 /*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 12:53:01 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/13 11:29:01 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/13 16:36:01 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,9 +77,9 @@ int	redir_heredoc(t_data *data, t_exec *exec, t_token *token)
 {
 	if (name_heredoc(exec))
 		return (1);
+	exec->has_heredoc = 1;
 	if (create_heredoc(data, exec, token))
 		return (1);
-	exec->has_heredoc = 1;
 	return (0);
 }
 

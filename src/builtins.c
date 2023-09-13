@@ -6,10 +6,10 @@
 /*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 14:54:26 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/12 12:17:16 by oandelin         ###   ########.fr       */
-/*   Updated: 2023/09/12 15:15:17 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/13 18:25:06 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "minishell.h"
 #include "builtins.h"

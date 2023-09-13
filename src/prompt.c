@@ -6,7 +6,7 @@
 /*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:24:25 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/13 17:19:36 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/13 18:44:32 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,24 @@ t_exec	*ft_execlast(t_exec *lst)
 	return (curr);
 }
 
+void	ft_wait_cmds(t_data *data)
+{
+	t_exec	*exec;
+	int		status;
+
+	exec = data->exec;
+	while (exec)
+	{
+		if (exec->pid)
+		{
+			waitpid(exec->pid, &status, 0);
+			if (WIFEXITED(status))
+				set_exit_status(data, WEXITSTATUS(status));
+		}
+		exec = exec->next;
+	}
+}
+
 /**
  * @brief creates pipes if necessary and runs every command
  * 	(still in progress)
@@ -38,7 +56,6 @@ t_exec	*ft_execlast(t_exec *lst)
 void	run_command_line(t_data *data)
 {
 	t_exec	*exec;
-	int		status;
 
 	exec = data->exec;
 	while (exec)
@@ -52,17 +69,7 @@ void	run_command_line(t_data *data)
 		}
 		exec = exec->next;
 	}
-	exec = data->exec;
-	while (exec)
-	{
-		if (exec->pid)
-		{
-		waitpid(exec->pid, &status, 0);
-		if (WIFEXITED(status))
-		set_exit_status(data,WEXITSTATUS(status));
-		}
-		exec = exec->next;
-	}
+	ft_wait_cmds(data);
 }
 
 /**
@@ -76,6 +83,7 @@ void	run_command_line(t_data *data)
 void	prompt(t_data *data)
 {
 	char	*input;
+
 	while (420)
 	{
 		terminal_setup(data);

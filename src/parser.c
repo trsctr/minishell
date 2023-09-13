@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 14:48:54 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/13 16:44:11 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/13 18:41:39 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,11 @@ void	create_pipes(t_exec *cmd)
 			}
 			cmd->read_fd = input;
 			cmd->write_fd = pipe_fd[i][1];
-			input = pipe_fd[i][0];
+			input = pipe_fd[i++][0];
 		}
 		else
 			cmd->read_fd = input;
 		cmd = cmd->next;
-		i++;
 	}
 }
 
@@ -170,6 +169,34 @@ void	create_execs(t_data *data)
 	}
 }
 
+int	fill_cmd(t_exec *exec, t_token *tok, int i)
+{
+	exec->cmd = ft_strdup(tok->str);
+	if (exec->cmd == NULL)
+		return (1);
+	exec->argv[i] = ft_strdup(tok->str);
+	if (exec->argv[i] == NULL)
+		return (1);
+	return (0);
+}
+
+int	fill_word(t_exec *exec, t_token *tok, int i, int prev)
+{
+	if ((tok->type == T_WORD) && !(prev >= 46 && prev <= 49))
+	{
+		exec->argv[i] = ft_strdup(tok->str);
+		if (exec->argv[i] == NULL)
+			return (1);
+	}
+	else if (tok->type == T_EMPTY_WORD)
+	{
+		exec->argv[i] = ft_strdup("");
+		if (exec->argv[i] == NULL)
+			return (1);
+	}
+	return (0);
+}
+
 int	filler_util(t_exec *exec)
 {
 	int		i;
@@ -183,28 +210,16 @@ int	filler_util(t_exec *exec)
 	{
 		if (tok->type == T_CMD)
 		{
-			exec->cmd = ft_strdup(tok->str);
-			if (exec->cmd == NULL)
+			if (fill_cmd(exec, tok, i))
 				return (1);
-			exec->argv[i] = ft_strdup(tok->str);
-			if (exec->argv[i] == NULL)
-				return (1);
-			i++;
 		}
-		else if ((tok->type == T_WORD) && !(prev >= 46 && prev <= 49))
+		else if (((tok->type == T_WORD) && !(prev >= 46 && prev <= 49))
+			|| tok->type == T_EMPTY_WORD)
 		{
-			exec->argv[i] = ft_strdup(tok->str);
-			if (exec->argv[i] == NULL)
+			if (fill_word(exec, tok, i, prev))
 				return (1);
-			i++;
 		}
-		else if (tok->type == T_EMPTY_WORD)
-		{
-			exec->argv[i] = ft_strdup("");
-			if (exec->argv[i] == NULL)
-				return (1);
-			i++;
-		}
+		i++;
 		prev = tok->type;
 		tok = tok->next;
 	}
@@ -226,11 +241,11 @@ int	fill_exec_from_tokens(t_exec *exec)
 			break ;
 		tok = tok->next;
 	}
-	exec->argv = ft_calloc((1 + size) , sizeof(char *));
+	exec->argv = ft_calloc((1 + size), sizeof(char *));
 	if (exec->argv == NULL)
-	 	return (1);
+		return (1);
 	if (filler_util(exec))
-	 	return (1);
+		return (1);
 	return (0);
 }
 
@@ -243,14 +258,14 @@ int	parser(t_data *data)
 	create_pipes(cmd);
 	while (cmd)
 	{
-	 	if (fill_exec_from_tokens(cmd))
-	 	{
-	 		ft_errormsg(MALLOC_FAIL, NULL);
-	 		return (1);
-	 	}
+		if (fill_exec_from_tokens(cmd))
+		{
+			ft_errormsg(MALLOC_FAIL, NULL);
+			return (1);
+		}
 		if (handle_rds(data, cmd))
-	 		return (1);
-	 	cmd = cmd->next;
+			return (1);
+		cmd = cmd->next;
 	}
 	free_list_token(data);
 	return (0);

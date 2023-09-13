@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 12:53:01 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/13 16:36:01 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/13 18:45:15 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ int	create_heredoc(t_data *data, t_exec *exec, t_token *token)
 	char	*line;
 
 	g_sig_status = 0;
-
 	fd = open(exec->heredoc, O_CREAT | O_RDWR | O_TRUNC, 0777);
 	line = readline("> ");
 	while (line)
@@ -55,7 +54,6 @@ int	create_heredoc(t_data *data, t_exec *exec, t_token *token)
 	free(line);
 	terminal_reset(data);
 	redir_in(exec, exec->heredoc);
-
 	return (0);
 }
 

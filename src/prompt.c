@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:24:25 by oandelin          #+#    #+#             */
 /*   Updated: 2023/09/13 19:17:27 by oandelin         ###   ########.fr       */
@@ -30,6 +30,24 @@ t_exec	*ft_execlast(t_exec *lst)
 	return (curr);
 }
 
+void	ft_wait_cmds(t_data *data)
+{
+	t_exec	*exec;
+	int		status;
+
+	exec = data->exec;
+	while (exec)
+	{
+		if (exec->pid)
+		{
+			waitpid(exec->pid, &status, 0);
+			if (WIFEXITED(status))
+				set_exit_status(data, WEXITSTATUS(status));
+		}
+		exec = exec->next;
+	}
+}
+
 /**
  * @brief creates pipes if necessary and runs every command
  * 	(still in progress)
@@ -38,7 +56,6 @@ t_exec	*ft_execlast(t_exec *lst)
 void	run_command_line(t_data *data)
 {
 	t_exec	*exec;
-	int		status;
 
 	exec = data->exec;
 	while (exec)
@@ -52,6 +69,7 @@ void	run_command_line(t_data *data)
 		}
 		exec = exec->next;
 	}
+//	ft_wait_cmds(data);
 	exec = data->exec;
 	while (exec)
 	{

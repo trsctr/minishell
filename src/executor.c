@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:40:59 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/13 17:45:29 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/13 18:27:36 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,7 @@
 #include "executor.h"
 #include "heredoc.h"
 
-
-int cmd_is_dir(t_data *data, t_exec *exec)
+int	cmd_is_dir(t_data *data, t_exec *exec)
 {
 	(void) data;
 	if (!ft_strcmp(exec->cmd, "/home")
@@ -28,7 +27,7 @@ int cmd_is_dir(t_data *data, t_exec *exec)
 		return (1);
 	}
 	else
-		return(0);
+		return (0);
 }
 
 /**
@@ -111,6 +110,20 @@ char	**create_envp(t_data *data)
 	return (array);
 }
 
+void	child(t_exec *cmd, char *cmd_path, char **envp)
+{
+	if (cmd->write_fd == -1 || cmd->read_fd == -1)
+		exit (0);
+	dup2(cmd->read_fd, 0);
+	dup2(cmd->write_fd, 1);
+	reset_signals();
+	if (execve(cmd_path, cmd->argv, envp))
+	{
+		ft_errormsg(EXEC_FAIL, cmd->argv[0]);
+		exit(1);
+	}
+}
+
 /**
  * @brief executes the command, requires absolute path
  * 
@@ -132,18 +145,7 @@ void	exec_abs_path(t_data *data, t_exec *cmd, char *cmd_path)
 		exit (1);
 	}
 	if (pid == 0)
-	{
-		if (cmd->write_fd == -1 || cmd->read_fd == -1)
-			exit (0);
-		dup2(cmd->read_fd, 0);
-		dup2(cmd->write_fd, 1);
-		reset_signals();
-		if (execve(cmd_path, cmd->argv, envp))
-		{
-			ft_errormsg(EXEC_FAIL, cmd->argv[0]);
-			exit(1);
-		}
-	}
+		child(cmd, cmd_path, envp);
 	cmd->pid = pid;
 	if (cmd->read_fd > 2)
 		close(cmd->read_fd);

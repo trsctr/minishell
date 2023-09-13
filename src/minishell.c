@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 14:59:13 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/13 17:29:14 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/13 16:44:06 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ t_exec	*init_exec(void)
 	exec->argv = NULL;
 	exec->next = NULL;
 	exec->pid = 0;
-	exec->prev = NULL;
 	exec->token = NULL;
 	return (exec);
 }

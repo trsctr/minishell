@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 14:58:52 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/13 14:14:08 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/13 16:43:59 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ typedef struct s_exec{
 	int		has_heredoc;
 	char	*heredoc;
 	pid_t	pid;
-	struct s_exec	*prev;
 	struct s_exec	*next;
 	t_token		*token;
 }				t_exec;

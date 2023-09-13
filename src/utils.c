@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:46:07 by slampine          #+#    #+#             */
 /*   Updated: 2023/09/13 19:16:51 by oandelin         ###   ########.fr       */
@@ -56,12 +56,12 @@ void	free_exec(t_exec *exec)
 	{
 		free(temp->cmd);
 		free_array(temp->argv);
-		if (exec->has_heredoc)
+		if (temp->has_heredoc)
 		{
-			if (exec->read_fd > 2)
+			if (temp->read_fd > 2)
 				close (exec->read_fd);
-			unlink(exec->heredoc);
-			free(exec->heredoc);
+			unlink(temp->heredoc);
+			free(temp->heredoc);
 		}
 		free(temp);
 		temp = temp->next;

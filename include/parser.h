@@ -6,7 +6,7 @@
 /*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 15:06:16 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/12 09:37:47 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/13 11:10:22 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,4 +26,5 @@
 # define T_RD_D_R       49
 
 int	parser(t_data *data);
+int	redir_in(t_exec *cmd, char *file);
 # endif

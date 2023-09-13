@@ -6,7 +6,7 @@
 /*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 14:48:54 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/12 12:26:44 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/13 11:33:03 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,24 +43,24 @@ void	create_pipes(t_exec *cmd)
 	}
 }
 
-int	redir_in(t_exec *cmd, t_token *token)
+int	redir_in(t_exec *cmd, char *file)
 {
 	int	fd;
 
-	fd = open(token->str, O_RDONLY);
+	fd = open(file, O_RDONLY);
 	if (fd == -1)
-		ft_errormsg(FILE_NOT_FOUND, token->str);
+		ft_errormsg(FILE_NOT_FOUND, file);
 	if (cmd->read_fd > 2)
 		close(cmd->read_fd);
 	cmd->read_fd = fd;
 	return (0);
 }
 
-int	redir_out_trunc(t_exec *cmd, t_token *token)
+int	redir_out_trunc(t_exec *cmd, char *file)
 {
 	int	fd;
 
-	fd = open(token->str, O_CREAT | O_WRONLY | O_TRUNC, 0777);
+	fd = open(file, O_CREAT | O_WRONLY | O_TRUNC, 0777);
 	if (fd == -1)
 		return (1);
 	if (cmd->write_fd > 2)
@@ -69,11 +69,11 @@ int	redir_out_trunc(t_exec *cmd, t_token *token)
 	return (0);
 }
 
-int	redir_out_app(t_exec *cmd, t_token *token)
+int	redir_out_app(t_exec *cmd, char *file)
 {
 	int	fd;
 
-	fd = open(token->str, O_CREAT | O_WRONLY | O_APPEND, 0777);
+	fd = open(file, O_CREAT | O_WRONLY | O_APPEND, 0777);
 	if (fd == -1)
 		return (1);
 	if (cmd->write_fd > 2)
@@ -86,12 +86,12 @@ int	handle_out(t_exec *cmd, t_token *tok)
 {
 	if (tok->type == T_RD_S_R)
 	{
-		if (redir_out_trunc(cmd, tok->next))
+		if (redir_out_trunc(cmd, tok->next->str))
 			return (1);
 	}
 	if (tok->type == T_RD_D_R)
 	{
-		if (redir_out_app(cmd, tok->next))
+		if (redir_out_app(cmd, tok->next->str))
 			return (1);
 	}
 	return (0);
@@ -102,11 +102,11 @@ int	handle_rds(t_data *data, t_exec *cmd)
 	t_token	*tok;
 
 	tok = cmd->token;
-	while (tok)
+	while (tok && tok->type != T_PIPE)
 	{
 		if (tok->type == T_RD_S_L)
 		{
-			if (redir_in(cmd, tok->next))
+			if (redir_in(cmd, tok->next->str))
 				return (1);
 		}
 		if (tok->type == T_RD_D_L)

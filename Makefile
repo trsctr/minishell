@@ -42,7 +42,7 @@ $(NAME): $(LIBFT) $(OBJS) $(HEADER)
 	@echo "$(GREEN)Finished!$(RESET)"
 
 debug:
-	$(CC) $(CFLAGS) $(DBFLAG) $(RLFLAG) -I$(INC_DIR) $(LIBFT) $(SRCS) -o $(NAME)
+	$(CC) $(CFLAGS) $(DBFLAG)  $(MEMDBFLAG) $(RLFLAG) -I$(INC_DIR) $(LIBFT) $(SRCS) -o $(NAME)
 
 debugleaks:
 	$(CC) $(CFLAGS) $(DBFLAG) $(MEMDBFLAG) $(RLFLAG) -I$(INC_DIR) $(LIBFT)  $(SRCS) -o $(NAME)

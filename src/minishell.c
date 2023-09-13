@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 14:59:13 by oandelin          #+#    #+#             */
 /*   Updated: 2023/09/13 14:14:30 by slampine         ###   ########.fr       */
@@ -23,6 +23,7 @@ t_exec	*init_exec(void)
 	exec->read_fd = 0;
 	exec->write_fd = 1;
 	exec->has_heredoc = 0;
+	exec->argv = NULL;
 	exec->next = NULL;
 	exec->pid = 0;
 	exec->prev = NULL;

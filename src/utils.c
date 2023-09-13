@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:46:07 by slampine          #+#    #+#             */
 /*   Updated: 2023/09/13 15:32:20 by slampine         ###   ########.fr       */
@@ -49,28 +49,30 @@ int	ft_envsize(t_ev *lst)
  */
 void	free_exec(t_exec *exec)
 {
-	t_exec	*temp_exec;
-	int 	i;
-
-	while (exec)
+	t_exec	*temp;
+	
+	temp = exec;
+	while (temp)
 	{
-		free(exec->cmd);
-		i = 0;
-		while (exec->argv[i])
-		{
-			free(exec->argv[i]);
-			i++;
-		}
-		temp_exec = exec->next;
-		if (exec->has_heredoc)
+		free(temp->cmd);
+		free_array(temp->argv);
+    if (exec->has_heredoc)
 		{
 			if (exec->read_fd > 2)
 				close (exec->read_fd);
 			unlink(exec->heredoc);
 			free(exec->heredoc);
 		}
-		free(exec);
-		exec = temp_exec;
+		free(temp);
+		temp = temp->next;
+		
+		// while (exec->argv[i])
+		// {
+		// 	free(exec->argv[i]);
+		// 	i++;
+		// }
+		//free(temp->argv);
+		
 	}
 }
 
@@ -99,6 +101,10 @@ void	ft_errormsg(int errorcode, char *cmd)
 		ft_dprintf(2, "minishell: exit: %s: numeric argument needed\n", cmd);
 	else if (errorcode == FILE_NOT_FOUND)
 		ft_dprintf(2, "minishell: %s no such file or directory\n", cmd);
+	else if (errorcode == CMD_IS_DIR)
+		ft_dprintf(2, "minishell: %s is a directory\n", cmd);
+	else if (errorcode == EXEC_FAIL)
+		ft_dprintf(2, "minishell: %s: error with execution\n", cmd);
 }
 
 void	set_exit_status(t_data *data, int status)

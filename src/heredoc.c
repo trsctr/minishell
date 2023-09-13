@@ -17,12 +17,12 @@ int	create_heredoc(t_data *data, t_exec *exec, t_token *token)
 {
 	int		fd;
 	char	*line;
+	char	*temp;
 
 	g_sig_status = 0;
 	fd = open(exec->heredoc, O_CREAT | O_RDWR | O_TRUNC, 0777);
 	line = readline("> ");
 	while (line)
-  //while (line && ft_strcmp(line, token->str))
 	{
 		if (((ft_strlen(line) == ft_strlen(token->str)) \
 		&& !ft_memcmp(line, token->str, ft_strlen(line))) \
@@ -30,9 +30,12 @@ int	create_heredoc(t_data *data, t_exec *exec, t_token *token)
 			break ;
 		if (line[0] == '$')
 		{
-			line = ft_getenv(data, line + 1);
-			if (!line)
+			temp = ft_getenv(data, line + 1);
+			free(line);
+			if (!temp)
 				line = ft_strdup("");
+			else
+				line = ft_strdup(temp);
 		}
 		write(fd, line, ft_strlen(line));
 		write(fd, "\n", 1);
@@ -42,17 +45,15 @@ int	create_heredoc(t_data *data, t_exec *exec, t_token *token)
 	close(fd);
 	if (g_sig_status == 1)
 	{
-	//	terminal_reset(data);
+		free(line);
 		return (1);
 	}
 	if (!line)
 	{
-		terminal_reset(data);
 		redir_in(exec, exec->heredoc);
 		return (0);
 	}
 	free(line);
-	terminal_reset(data);
 	redir_in(exec, exec->heredoc);
 	return (0);
 }

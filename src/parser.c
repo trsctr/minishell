@@ -223,6 +223,7 @@ int	filler_util(t_exec *exec)
 		prev = tok->type;
 		tok = tok->next;
 	}
+	exec->argv[i] = NULL;
 	return (0);
 }
 
@@ -260,11 +261,16 @@ int	parser(t_data *data)
 	{
 		if (fill_exec_from_tokens(cmd))
 		{
+			free_list_token(data);
 			ft_errormsg(MALLOC_FAIL, NULL);
 			return (1);
 		}
 		if (handle_rds(data, cmd))
+		{
+			free_list_token(data);
 			return (1);
+		}
+		ft_change_var(&data->env_var, "_", cmd->cmd);
 		cmd = cmd->next;
 	}
 	free_list_token(data);

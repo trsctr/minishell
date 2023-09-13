@@ -39,7 +39,7 @@ t_data	*init_data(void)
 		return (NULL);
 	data->env_var = NULL;
 	data->exec = NULL;
-	data->exit_status = 0;
+	data->exit_status = 123;
 	return (data);
 }
 

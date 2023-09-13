@@ -6,7 +6,7 @@
 /*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:46:07 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/13 17:26:19 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/13 19:16:51 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,22 +49,22 @@ int	ft_envsize(t_ev *lst)
  */
 void	free_exec(t_exec *exec)
 {
-	t_exec	*temp_exec;
+	t_exec	*temp;
 
-	while (exec)
+	temp = exec;
+	while (temp)
 	{
-		free(exec->cmd);
-		free_array(exec->argv);
-		temp_exec = exec->next;
-		if (exec->has_heredoc)
+		free(temp->cmd);
+		free_array(temp->argv);
+		if (temp->has_heredoc)
 		{
-			if (exec->read_fd > 2)
+			if (temp->read_fd > 2)
 				close (exec->read_fd);
-			unlink(exec->heredoc);
-			free(exec->heredoc);
+			unlink(temp->heredoc);
+			free(temp->heredoc);
 		}
-		free(exec);
-		exec = temp_exec;
+		free(temp);
+		temp = temp->next;
 	}
 }
 
@@ -101,6 +101,8 @@ void	ft_errormsg(int errorcode, char *cmd)
 
 void	set_exit_status(t_data *data, int status)
 {
+	if (status > 255)
+		status = status % 256;
 	data->exit_status = status;
 }
 

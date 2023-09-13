@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_expandables.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 19:02:34 by akoskine          #+#    #+#             */
-/*   Updated: 2023/09/13 17:22:35 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/13 17:39:13 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

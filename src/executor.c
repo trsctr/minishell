@@ -198,9 +198,9 @@ int	executor(t_data *data, t_exec *exec)
 {
 	if (exec->argv[0])
 	{
-		if (cmd_is_dir(data, exec))
-			set_exit_status(data, 126);
-		else if (is_abs_path(exec->cmd))
+		// if (cmd_is_dir(data, exec))
+		// 	set_exit_status(data, 126);
+		if (is_abs_path(exec->cmd))
 			exec_abs_path(data, exec, exec->cmd);
 		else
 			find_n_exec(exec, data);

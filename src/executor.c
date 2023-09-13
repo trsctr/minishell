@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:40:59 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/12 19:28:54 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/13 15:29:37 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,6 @@ char	**create_envp(t_data *data)
 void	exec_abs_path(t_data *data, t_exec *cmd, char *cmd_path)
 {
 	char	**envp;
-	int		status;
 	pid_t	pid;
 
 	envp = create_envp(data);
@@ -145,13 +144,12 @@ void	exec_abs_path(t_data *data, t_exec *cmd, char *cmd_path)
 			exit(1);
 		}
 	}
+	cmd->pid = pid;
 	if (cmd->read_fd > 2)
 		close(cmd->read_fd);
 	if (cmd->write_fd > 2)
 		close(cmd->write_fd);
 	free_array(envp);
-	waitpid(pid, &status, 0);
-	set_exit_status(data, status);
 }
 
 /**
@@ -206,11 +204,7 @@ int	executor(t_data *data, t_exec *exec)
 			find_n_exec(exec, data);
 	}
 	if (exec->has_heredoc)
-	{
 		close (exec->read_fd);
-		unlink(exec->heredoc);
-		free(exec->heredoc);
-	}
 	exec->write_fd = 1;
 	exec->read_fd = 0;
 	return (0);

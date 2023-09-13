@@ -18,6 +18,18 @@
 #include "utils.h"
 #include "heredoc.h"
 
+t_exec	*ft_execlast(t_exec *lst)
+{
+	t_exec	*curr;
+
+	if (!lst)
+		return (NULL);
+	curr = lst;
+	while (curr->next != NULL)
+		curr = curr->next;
+	return (curr);
+}
+
 /**
  * @brief creates pipes if necessary and runs every command
  * 	(still in progress)
@@ -26,6 +38,7 @@
 void	run_command_line(t_data *data)
 {
 	t_exec	*exec;
+	int		status;
 
 	exec = data->exec;
 	while (exec)
@@ -40,7 +53,15 @@ void	run_command_line(t_data *data)
 		exec = exec->next;
 	}
 	exec = data->exec;
-	free_exec(data->exec);
+	while (exec)
+	{
+		if (exec->pid)
+		{
+		waitpid(exec->pid, &status, 0);
+		data->exit_status = status;
+		}
+		exec = exec->next;
+	}
 }
 
 /**
@@ -54,7 +75,7 @@ void	run_command_line(t_data *data)
 void	prompt(t_data *data)
 {
 	char	*input;
-
+	
 	while (420)
 	{
 		terminal_setup(data);
@@ -76,7 +97,8 @@ void	prompt(t_data *data)
 			continue ;
 		free(input);
 		if (parser(data) == 0)
-		 	run_command_line(data);
+			run_command_line(data);
+		free_exec(data->exec);
 		terminal_reset(data);
 	}
 }

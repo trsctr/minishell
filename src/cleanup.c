@@ -6,13 +6,14 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 20:49:06 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/11 17:19:38 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/13 15:32:24 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "lexer.h"
 #include "prompt.h"
+#include "utils.h"
 
 void	malloc_error(t_data *data)
 {
@@ -29,6 +30,8 @@ void	clear_data(t_data *data)
 {
 	clear_history();
 	ft_clear_evlist(data);
+	// if (data->exec)
+	// 	free_exec(data->exec);
 	if (data)
 		free(data);
 }

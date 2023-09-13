@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:46:07 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/12 20:17:00 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/13 15:30:10 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,15 +58,10 @@ void	free_exec(t_exec *exec)
 		free(temp->cmd);
 		i = 0;
 		free_array(temp->argv);
-		// while (exec->argv[i])
-		// {
-		// 	free(exec->argv[i]);
-		// 	i++;
-		// }
-		//free(temp->argv);
 		free(temp);
 		temp = temp->next;
 	}
+	//free(temp);
 }
 
 /**

@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 14:48:54 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/12 20:17:56 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/12 20:42:51 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,6 +209,7 @@ int	filler_util(t_exec *exec)
 		prev = tok->type;
 		tok = tok->next;
 	}
+	exec->argv[i] = NULL;
 	return (0);
 }
 
@@ -244,14 +245,14 @@ int	parser(t_data *data)
 	create_pipes(cmd);
 	while (cmd)
 	{
-	 	if (fill_exec_from_tokens(cmd))
-	 	{
-	 		ft_errormsg(MALLOC_FAIL, NULL);
-	 		return (1);
-	 	}
+		if (fill_exec_from_tokens(cmd))
+		{
+			ft_errormsg(MALLOC_FAIL, NULL);
+			return (1);
+		}
 		if (handle_rds(data, cmd))
-	 		return (1);
-	 	cmd = cmd->next;
+			return (1);
+		cmd = cmd->next;
 	}
 	free_list_token(data);
 	return (0);

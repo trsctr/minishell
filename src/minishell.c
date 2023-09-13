@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 14:59:13 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/13 14:14:30 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/13 17:29:14 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ t_data	*init_data(void)
 		return (NULL);
 	data->env_var = NULL;
 	data->exec = NULL;
-	data->exit_status = 0;
+	data->exit_status = 123;
 	return (data);
 }
 

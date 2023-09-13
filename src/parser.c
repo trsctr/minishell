@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 14:48:54 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/13 14:41:38 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/13 18:15:24 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,6 @@ void	create_execs(t_data *data)
 	t_exec	*cmd;
 	t_token	*tok;
 
-	cmd = init_exec();
 	give_tokens(data);
 	cmd = data->exec;
 	while (cmd)
@@ -248,11 +247,16 @@ int	parser(t_data *data)
 	{
 		if (fill_exec_from_tokens(cmd))
 		{
+			free_list_token(data);
 			ft_errormsg(MALLOC_FAIL, NULL);
 			return (1);
 		}
 		if (handle_rds(data, cmd))
+		{
+			free_list_token(data);
 			return (1);
+		}
+		ft_change_var(&data->env_var, "_", cmd->cmd);
 		cmd = cmd->next;
 	}
 	free_list_token(data);

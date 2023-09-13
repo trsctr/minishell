@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 20:49:06 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/13 15:32:24 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/13 22:38:43 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,15 @@ void	clear_data(t_data *data)
 void	ft_clear_evlist(t_data *data)
 {
 	t_ev	*temp;
-
-	temp = data->env_var;
-	while (temp)
+	t_ev	*var;
+	
+	var = data->env_var;
+	while (var)
 	{
-		free(temp->key);
-		free(temp->value);
-		free(temp);
-		temp = temp->next;
+		free(var->key);
+		free(var->value);
+		temp = var->next;
+		free(var);
+		var = temp;
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:46:07 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/13 19:16:51 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/13 22:34:36 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,20 +51,21 @@ void	free_exec(t_exec *exec)
 {
 	t_exec	*temp;
 
-	temp = exec;
-	while (temp)
+	//temp = exec;
+	while (exec)
 	{
-		free(temp->cmd);
-		free_array(temp->argv);
-		if (temp->has_heredoc)
+		free(exec->cmd);
+		free_array(exec->argv);
+		if (exec->has_heredoc)
 		{
-			if (temp->read_fd > 2)
+			if (exec->read_fd > 2)
 				close (exec->read_fd);
-			unlink(temp->heredoc);
-			free(temp->heredoc);
+			unlink(exec->heredoc);
+			free(exec->heredoc);
 		}
-		free(temp);
-		temp = temp->next;
+		temp = exec->next;
+		free(exec);
+		exec = temp;
 	}
 }
 

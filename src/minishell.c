@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 14:59:13 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/13 19:28:49 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/13 22:31:59 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ t_data	*init_data(void)
 	if (!data)
 		return (NULL);
 	data->env_var = NULL;
+	data->lexer.dmh_list = NULL;
 	data->exec = NULL;
 	data->exit_status = 0;
 	return (data);

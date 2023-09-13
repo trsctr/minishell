@@ -74,6 +74,7 @@ void	free_exec(t_exec *exec)
 		//free(temp->argv);
 		
 	}
+	//free(temp);
 }
 
 /**

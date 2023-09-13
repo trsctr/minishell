@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: akoskine <akoskine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 14:58:52 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/11 17:39:33 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/13 21:30:15 by akoskine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ int		handle_pipes_redirects(t_data *data, int i);
 int		check_syntax(t_data *data);
 void	init_data_lexer(t_data *data);
 int		handle_spaces(t_data *data, int i);
+int		handle_under_score(t_data *data, int i, int j);
 void	free_list_token(t_data *data);
 
 /* lexer_tokenizer.c */

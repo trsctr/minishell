@@ -6,7 +6,7 @@
 /*   By: akoskine <akoskine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 18:51:54 by akoskine          #+#    #+#             */
-/*   Updated: 2023/09/11 18:00:21 by akoskine         ###   ########.fr       */
+/*   Updated: 2023/09/13 21:27:16 by akoskine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,26 @@ int	handle_spaces(t_data *data, int i)
 	while (data->input[i] == ' ' || data->input[i] == '\t')
 		i++;
 	return (i);
+}
+
+int	handle_under_score(t_data *data, int i, int j)
+{
+	int	new_i;
+
+	data->lexer.exp_env = NULL;
+	if (i == 2)
+	{
+		data->lexer.exp_tmp = ft_strdup_dmh(data, "_");
+		return (1);
+	}
+	else
+	{
+		data->lexer.exp_tmp = ft_strndup_dmh(data, data->lexer.exp, j);
+		new_i = ft_strlen(data->lexer.exp_tmp);
+		data->lexer.exp_tmp = ft_strjoin_dmh(data, data->lexer.exp_tmp,
+				ft_strdup_dmh(data, data->lexer.exp + (i - 1)));
+		return (new_i);
+	}
 }
 
 void	free_list_token(t_data *data)

@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:46:07 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/12 20:17:00 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/13 15:32:20 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,22 +50,29 @@ int	ft_envsize(t_ev *lst)
 void	free_exec(t_exec *exec)
 {
 	t_exec	*temp;
-	int 	i;
-
+	
 	temp = exec;
 	while (temp)
 	{
 		free(temp->cmd);
-		i = 0;
 		free_array(temp->argv);
+    if (exec->has_heredoc)
+		{
+			if (exec->read_fd > 2)
+				close (exec->read_fd);
+			unlink(exec->heredoc);
+			free(exec->heredoc);
+		}
+		free(temp);
+		temp = temp->next;
+		
 		// while (exec->argv[i])
 		// {
 		// 	free(exec->argv[i]);
 		// 	i++;
 		// }
 		//free(temp->argv);
-		free(temp);
-		temp = temp->next;
+		
 	}
 }
 

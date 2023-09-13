@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 12:53:01 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/12 17:39:32 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/13 11:29:01 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,11 @@ int	create_heredoc(t_data *data, t_exec *exec, t_token *token)
 	char	*line;
 
 	g_sig_status = 0;
+
 	fd = open(exec->heredoc, O_CREAT | O_RDWR | O_TRUNC, 0777);
 	line = readline("> ");
 	while (line)
+  //while (line && ft_strcmp(line, token->str))
 	{
 		if (((ft_strlen(line) == ft_strlen(token->str)) \
 		&& !ft_memcmp(line, token->str, ft_strlen(line))) \
@@ -38,19 +40,22 @@ int	create_heredoc(t_data *data, t_exec *exec, t_token *token)
 		free (line);
 		line = readline("> ");
 	}
+	close(fd);
 	if (g_sig_status == 1)
 	{
 	//	terminal_reset(data);
 		return (1);
 	}
-	exec->read_fd = fd;
 	if (!line)
 	{
-	//	terminal_reset(data);
+		terminal_reset(data);
+		redir_in(exec, exec->heredoc);
 		return (0);
 	}
 	free(line);
-	//terminal_reset(data);
+	terminal_reset(data);
+	redir_in(exec, exec->heredoc);
+
 	return (0);
 }
 

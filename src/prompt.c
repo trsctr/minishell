@@ -6,7 +6,7 @@
 /*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:24:25 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/13 19:17:27 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/14 12:01:50 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,12 @@ void	ft_wait_cmds(t_data *data)
 		if (exec->pid)
 		{
 			waitpid(exec->pid, &status, 0);
-			if (WIFEXITED(status))
-				set_exit_status(data, WEXITSTATUS(status));
+			if (g_sig_status)
+				set_exit_status(data, 130);
+			else if (status == 0)
+				set_exit_status(data, 0);
+			else
+				set_exit_status(data, WIFEXITED(status));
 		}
 		exec = exec->next;
 	}
@@ -69,22 +73,7 @@ void	run_command_line(t_data *data)
 		}
 		exec = exec->next;
 	}
-//	ft_wait_cmds(data);
-	exec = data->exec;
-	while (exec)
-	{
-		if (exec->pid)
-		{
-		waitpid(exec->pid, &status, 0);
-		if (g_sig_status)
-			set_exit_status(data, 130);
-		else if (status == 0)
-		 	set_exit_status(data, 0);
-		else
-			set_exit_status(data, WIFEXITED(status));
-		}
-		exec = exec->next;
-	}
+	ft_wait_cmds(data);
 }
 
 /**

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 19:58:41 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/11 14:30:39 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/14 12:11:52 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,10 @@ void	builtin_cd(t_data *data, t_exec *exec)
 	oldpwd = getcwd(NULL, 0);
 	if (!exec->argv[1])
 	{
+		free(exec->argv[0]);
+		free(exec->argv);
+		exec->argv = ft_calloc(3, sizeof(char *));
+		exec->argv[0] = ft_strdup("cd");
 		home = ft_find_var(&data->env_var, "HOME");
 		if (!home)
 		{

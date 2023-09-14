@@ -6,7 +6,7 @@
 /*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:46:07 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/13 19:16:51 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/14 12:36:28 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,4 +116,3 @@ char	*ft_getenv(t_data *data, char *key)
 	else
 		return (temp->value);
 }
-

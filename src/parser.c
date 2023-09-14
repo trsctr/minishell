@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 14:48:54 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/14 18:12:11 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/14 18:50:49 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,9 +107,10 @@ int	parser(t_data *data)
 		if (handle_rds(data, cmd))
 		{
 			free_list_token(data);
-			return (1);
+			return (2);
 		}
-		ft_change_var(&data->env_var, "_", cmd->cmd);
+		if (ft_strcmp(cmd->cmd, "<<"))
+			ft_change_var(&data->env_var, "_", cmd->cmd);
 		cmd = cmd->next;
 	}
 	free_list_token(data);

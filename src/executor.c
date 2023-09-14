@@ -6,7 +6,7 @@
 /*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:40:59 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/14 12:42:56 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/14 12:54:53 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,14 +59,6 @@ void	child(t_exec *cmd, char *cmd_path, char **envp)
 	reset_signals();
 	if (execve(cmd_path, cmd->argv, envp))
 	{
-		int i = 0;
-		ft_dprintf(2,"cmd is %s\n",cmd->cmd);
-		while (cmd->argv[i])
-		{
-			ft_dprintf(2, "argv[%i] is %s\n",i, cmd->argv[i]);
-			i++;
-		}
-		write(2,"ERR\n",4);
 		ft_errormsg(EXEC_FAIL, cmd->argv[0]);
 		exit(1);
 	}

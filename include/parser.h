@@ -6,7 +6,7 @@
 /*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 15:06:16 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/13 11:10:22 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/14 11:21:47 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,4 +27,8 @@
 
 int	parser(t_data *data);
 int	redir_in(t_exec *cmd, char *file);
+int	fill_cmd(t_exec *exec, t_token *tok, int i);
+int	fill_word(t_exec *exec, t_token *tok, int i, int prev);
+int	filler_util(t_exec *exec);
+int	fill_exec_from_tokens(t_exec *exec);
 # endif

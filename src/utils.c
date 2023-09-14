@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:46:07 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/13 22:34:36 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/14 16:03:48 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ void	free_exec(t_exec *exec)
 {
 	t_exec	*temp;
 
-	//temp = exec;
 	while (exec)
 	{
 		free(exec->cmd);
@@ -117,4 +116,3 @@ char	*ft_getenv(t_data *data, char *key)
 	else
 		return (temp->value);
 }
-

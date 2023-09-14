@@ -1,2 +1,0 @@
-gcc -lreadline -L ~/.brew/opt/readline/lib -I ~/.brew/opt/readline/include -g -Iinclude tests/builtins_test.c src/builtin_utils.c src/error_output.c src/utils.c src/executor.c src/echo.c src/builtins.c src/prompt_utils.c src/env_var.c src/env_var_utils.c libft/libft.a -o bitest
-./bitest

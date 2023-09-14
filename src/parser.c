@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 14:48:54 by slampine          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/09/14 13:00:55 by slampine         ###   ########.fr       */
-=======
-/*   Updated: 2023/09/14 11:21:13 by slampine         ###   ########.fr       */
->>>>>>> Found 2 issues, fixed them
+/*   Updated: 2023/09/14 16:11:41 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

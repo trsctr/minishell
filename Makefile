@@ -9,11 +9,7 @@ SRCDIR		=	src/
 SRCFILES	=   minishell.c prompt.c prompt_utils.c env_var.c env_var_utils.c builtins.c executor.c utils.c echo.c \
 				builtin_utils.c heredoc.c parser.c lexer.c lexer_dmh.c lexer_executables.c lexer_libft_mods.c \
 				lexer_pipes_redirects.c lexer_specials.c lexer_tokenizer.c lexer_words_utils.c lexer_words.c lexer_expandables.c \
-<<<<<<< HEAD
 				cleanup.c builtin_cd.c builtin_export.c exec_utils.c parser_utils.c parser_rd_utils.c
-=======
-				cleanup.c builtin_cd.c builtin_export.c exec_utils.c parser_utils.c
->>>>>>> Found 2 issues, fixed them
 OBJ_DIR		= 	obj/
 OBJFILES	= 	$(SRCFILES:.c=.o)
 INC_DIR		=	include/

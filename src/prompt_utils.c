@@ -14,9 +14,10 @@
 #include "prompt.h"
 
 /**
- * @brief sets up terminal for our minishell session and saves original settings
- * to our struct so they can be restored when exiting
-
+ * @brief sets up terminal and signals for our minishell session and saves original
+ * settings to our struct so they can be restored when exiting, and also
+ * in the end of loop to avoid some hiccups if user happens to run top and
+ * exits from it abruptly
  * 
  * @param data 
  */
@@ -32,12 +33,22 @@ void	terminal_setup(t_data *data)
 	signal(SIGQUIT, SIG_IGN);
 }
 
+/**
+ * @brief resets signal listening to original settings so child processes can
+ * listen to signals normally
+ * 
+ */
 void	reset_signals(void)
 {
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
 }
 
+/**
+ * @brief resets terminal settings
+ * 
+ * @param data 
+ */
 void	terminal_reset(t_data *data)
 {
 	tcsetattr(STDIN_FILENO, TCSANOW, &(data->old_termios));

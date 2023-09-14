@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 19:37:30 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/11 14:31:11 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/14 14:26:51 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,13 @@
 #include "env_var.h"
 #include "builtins.h"
 
+/**
+ * @brief helper function for printing out the environment variables
+ * if export is run without arguments
+ * 
+ * @param vars 
+ * @param fd 
+ */
 static void	export_print_vars(t_ev **vars, int fd)
 {
 	t_ev	*curr;
@@ -26,6 +33,13 @@ static void	export_print_vars(t_ev **vars, int fd)
 	}
 }
 
+/**
+ * @brief export loop is called in the main export function
+ * this handles multiple arguments in the while loop one at the time
+ * 
+ * @param data 
+ * @param exec 
+ */
 static void	export_loop(t_data *data, t_exec *exec)
 {
 	char	*key;

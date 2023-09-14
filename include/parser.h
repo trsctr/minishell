@@ -6,7 +6,7 @@
 /*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 15:06:16 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/14 11:21:47 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/14 13:00:33 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,4 +31,5 @@ int	fill_cmd(t_exec *exec, t_token *tok, int i);
 int	fill_word(t_exec *exec, t_token *tok, int i, int prev);
 int	filler_util(t_exec *exec);
 int	fill_exec_from_tokens(t_exec *exec);
+int	handle_rds(t_data *data, t_exec *cmd);
 # endif

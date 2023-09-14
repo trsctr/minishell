@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_specials.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoskine <akoskine@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 18:51:54 by akoskine          #+#    #+#             */
-/*   Updated: 2023/09/11 18:00:21 by akoskine         ###   ########.fr       */
+/*   Updated: 2023/09/14 13:05:40 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

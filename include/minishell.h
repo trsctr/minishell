@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 14:58:52 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/14 17:39:38 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/14 18:21:37 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ void	terminal_reset(t_data *data);
 void	handle_sig_int(int signal, siginfo_t *info, void *context);
 void	reset_signals(void);
 void	prompt(t_data *data);
-char	*get_input(void);
+char	*get_input(t_data *data);
 int		only_spaces(char *line);
 void	run_command_line(t_data *data);
 

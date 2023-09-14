@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 19:06:29 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/14 14:35:35 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/14 13:49:44 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ void	handle_sig_int(int signal, siginfo_t *info, void *context)
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
-
 }
 
 /**

@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:40:59 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/14 16:13:30 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/14 16:22:06 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,8 +139,8 @@ int	executor(t_data *data, t_exec *exec)
 	if (exec->argv[0])
 	{
 		if (cmd_is_dir(data, exec))
-		 	set_exit_status(data, 126);
-		if (is_abs_path(exec->cmd))
+			set_exit_status(data, 126);
+		else if (is_abs_path(exec->cmd))
 			exec_abs_path(data, exec, exec->cmd);
 		else
 			find_n_exec(exec, data);

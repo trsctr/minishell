@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 14:58:52 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/13 16:43:59 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/14 16:15:05 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,7 @@ void	malloc_error(t_data *data);
 void set_exit_status(t_data *data, int status);
 void clear_data(t_data *data);
 void	ft_clear_evlist(t_data *data);
+int	cmd_is_dir(t_data *data, t_exec *exec);
 
 
 // char	*get_input(void);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 11:20:07 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/14 12:49:36 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/14 18:46:25 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,14 @@ int	filler_util(t_exec *exec)
 			if (fill_cmd(exec, tok, i))
 				return (1);
 		}
-		else if (((tok->type == T_WORD) && !(prev >= 46 && prev <= 49))
+		if (((tok->type == T_WORD) && !(prev >= 46 && prev <= 49))
 			|| tok->type == T_EMPTY_WORD)
 		{
 			if (fill_word(exec, tok, i, prev))
 				return (1);
 		}
+		else if (i == 0)
+			(fill_cmd(exec, tok, i));
 		i++;
 		prev = tok->type;
 		tok = tok->next;

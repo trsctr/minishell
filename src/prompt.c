@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:24:25 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/14 16:13:37 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/14 16:57:59 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,6 @@
 #include "env_var.h"
 #include "utils.h"
 #include "heredoc.h"
-
-t_exec	*ft_execlast(t_exec *lst)
-{
-	t_exec	*curr;
-
-	if (!lst)
-		return (NULL);
-	curr = lst;
-	while (curr->next != NULL)
-		curr = curr->next;
-	return (curr);
-}
 
 void	ft_wait_cmds(t_data *data)
 {
@@ -94,11 +82,7 @@ void	prompt(t_data *data)
 		terminal_setup(data);
 		input = get_input();
 		if (!input)
-		{
-			if (input)
-				free(input);
 			builtin_exit(data, NULL);
-		}
 		else if (input[0] == '\0' || input[0] == '\n' || !only_spaces(input))
 		{
 			free(input);

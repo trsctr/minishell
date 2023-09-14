@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 18:51:54 by akoskine          #+#    #+#             */
-/*   Updated: 2023/09/14 16:13:33 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/14 16:41:20 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	check_syntax(t_data *data)
 		free_list_dmh(data);
 		free_list_token(data);
 		free(data->input);
+		set_exit_status(data, 1);
 		return (1);
 	}
 	return (0);

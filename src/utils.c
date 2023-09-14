@@ -6,26 +6,13 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:46:07 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/13 22:34:36 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/14 14:37:57 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "utils.h"
 #include "env_var.h"
-
-void	free_array(char **array)
-{
-	int	i;
-
-	i = 0;
-	while (array[i])
-	{
-		free(array[i]);
-		i++;
-	}
-	free(array);
-}
 
 int	ft_envsize(t_ev *lst)
 {
@@ -40,33 +27,6 @@ int	ft_envsize(t_ev *lst)
 		i++;
 	}
 	return (i);
-}
-
-/**
- * @brief function to clear and free exec list
- * 
- * @param exec 
- */
-void	free_exec(t_exec *exec)
-{
-	t_exec	*temp;
-
-	//temp = exec;
-	while (exec)
-	{
-		free(exec->cmd);
-		free_array(exec->argv);
-		if (exec->has_heredoc)
-		{
-			if (exec->read_fd > 2)
-				close (exec->read_fd);
-			unlink(exec->heredoc);
-			free(exec->heredoc);
-		}
-		temp = exec->next;
-		free(exec);
-		exec = temp;
-	}
 }
 
 /**
@@ -107,6 +67,14 @@ void	set_exit_status(t_data *data, int status)
 	data->exit_status = status;
 }
 
+/**
+ * @brief our version of getenv function that retrieves the environment
+ * variable from the linked list in the main data struct
+ * 
+ * @param data main data struct
+ * @param key keyword of the variable
+ * @return char* value of the variable, or NULL if not found
+ */
 char	*ft_getenv(t_data *data, char *key)
 {
 	t_ev	*temp;
@@ -117,4 +85,3 @@ char	*ft_getenv(t_data *data, char *key)
 	else
 		return (temp->value);
 }
-

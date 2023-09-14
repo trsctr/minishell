@@ -6,14 +6,11 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 14:59:13 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/13 22:31:59 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/14 17:26:30 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "prompt.h"
-#include "utils.h"
-#include "env_var.h"
 
 t_exec	*init_exec(void)
 {

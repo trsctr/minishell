@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 15:06:16 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/14 16:13:23 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/14 17:40:00 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define PARSER_H
 
 # include "minishell.h"
-# include "heredoc.h"
 
 # define T_CMD          42
 # define T_WORD         43
@@ -32,4 +31,5 @@ int	fill_word(t_exec *exec, t_token *tok, int i, int prev);
 int	filler_util(t_exec *exec);
 int	fill_exec_from_tokens(t_exec *exec);
 int	handle_rds(t_data *data, t_exec *cmd);
-# endif
+
+#endif

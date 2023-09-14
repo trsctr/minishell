@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: trsctr <trsctr@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 19:19:55 by oandelin          #+#    #+#             */
-/*   Updated: 2023/03/24 17:04:09 by trsctr           ###   ########.fr       */
+/*   Updated: 2023/09/14 17:37:08 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ static	size_t	ft_countwords(char const *s, char c)
 	i = 0;
 	count = 0;
 	while (s[i] == c)
-			i++;
+		i++;
 	while (s[i])
-	{	
+	{
 		if (s[i] != c && (s[i + 1] == c || s[i + 1] == '\0'))
 			count++;
 		i++;

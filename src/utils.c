@@ -6,13 +6,11 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:46:07 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/14 16:54:27 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/14 17:36:03 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "utils.h"
-#include "env_var.h"
 
 int	ft_envsize(t_ev *lst)
 {

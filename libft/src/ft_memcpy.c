@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oandelin <oandelin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 16:32:06 by oandelin          #+#    #+#             */
-/*   Updated: 2022/12/09 17:05:36 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/14 17:36:59 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	*ft_memcpy(void *dst, const void *src, size_t n)
 	if (dp || sp)
 	{
 		while (n--)
-		{		
+		{
 			*dp = *sp;
 			dp++;
 			sp++;

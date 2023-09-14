@@ -6,10 +6,11 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 18:34:45 by akoskine          #+#    #+#             */
-/*   Updated: 2023/09/13 18:15:45 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/14 17:25:55 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell.h"
 #include "lexer.h"
 
 /*	*lexer:

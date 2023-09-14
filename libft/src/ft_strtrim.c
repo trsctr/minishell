@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oandelin <oandelin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 15:00:47 by oandelin          #+#    #+#             */
-/*   Updated: 2022/12/12 15:09:55 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/14 17:38:06 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static	int	ft_checkchar(const char c, const char *set)
 
 	i = 0;
 	while (set[i])
-	{	
+	{
 		if (c == set[i])
 			return (1);
 		i++;
@@ -35,7 +35,7 @@ static	const char	*ft_getstart(const char *str, const char *set)
 {
 	while (ft_checkchar(*str, set))
 	{
-			str++;
+		str++;
 	}
 	return (str);
 }
@@ -54,7 +54,7 @@ static	size_t	ft_getlength(const char *str, const char *set)
 	len = ft_strlen(str);
 	while (ft_checkchar(str[len - 1], set))
 	{
-			len--;
+		len--;
 	}
 	return (len);
 }
@@ -73,9 +73,9 @@ static	char	*ft_getstring(char *s2, const char *s1, size_t len)
 	i = 0;
 	while (i < len)
 	{
-			s2[i] = *s1;
-			i++;
-			s1++;
+		s2[i] = *s1;
+		i++;
+		s1++;
 	}
 	s2[i] = '\0';
 	return (s2);

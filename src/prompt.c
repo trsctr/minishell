@@ -6,17 +6,13 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:24:25 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/14 16:57:59 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/14 17:35:55 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "prompt.h"
-#include "builtins.h"
-#include "executor.h"
-#include "env_var.h"
-#include "utils.h"
-#include "heredoc.h"
+#include "parser.h"
+#include "lexer.h"
 
 void	ft_wait_cmds(t_data *data)
 {

@@ -6,12 +6,12 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 12:53:01 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/14 16:54:03 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/14 17:32:20 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "heredoc.h"
+#include "parser.h"
 
 /**
  * @brief helper function to expand environment variables when called in heredoc

@@ -6,13 +6,11 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 19:37:30 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/14 14:26:51 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/14 17:33:30 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "env_var.h"
-#include "builtins.h"
 
 /**
  * @brief helper function for printing out the environment variables

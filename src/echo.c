@@ -6,13 +6,11 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 15:39:30 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/13 17:43:27 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/14 17:33:24 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "builtins.h"
-#include "utils.h"
 
 /**
 * @brief mimics the builtin "echo" command in bash

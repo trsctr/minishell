@@ -6,10 +6,9 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 14:54:26 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/13 19:18:10 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/14 14:36:01 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "minishell.h"
 #include "builtins.h"
@@ -90,6 +89,14 @@ void	builtin_unset(t_data *data, t_exec *exec)
 	set_exit_status(data, error);
 }
 
+/**
+ * @brief exit exits the shell. or first prints the exit message
+ * and exits with the numerical argument user has given, or give an error
+ * message if user gives something else
+ * 
+ * @param data 
+ * @param exec 
+ */
 void	builtin_exit(t_data *data, t_exec *exec)
 {
 	int	status;
@@ -112,6 +119,7 @@ void	builtin_exit(t_data *data, t_exec *exec)
 			ft_printf("exit\n");
 		}
 	}
+	reset_signals();
 	terminal_reset(data);
 	clear_data(data);
 	exit(status);

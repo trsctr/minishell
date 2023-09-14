@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:24:25 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/13 19:28:08 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/14 14:32:12 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,6 @@
 #include "utils.h"
 #include "heredoc.h"
 
-t_exec	*ft_execlast(t_exec *lst)
-{
-	t_exec	*curr;
-
-	if (!lst)
-		return (NULL);
-	curr = lst;
-	while (curr->next != NULL)
-		curr = curr->next;
-	return (curr);
-}
-
 void	ft_wait_cmds(t_data *data)
 {
 	t_exec	*exec;
@@ -40,13 +28,13 @@ void	ft_wait_cmds(t_data *data)
 	{
 		if (exec->pid)
 		{
-		waitpid(exec->pid, &status, 0);
-		if (g_sig_status)
-			set_exit_status(data, 130);
-		else if (status == 0)
-		 	set_exit_status(data, 0);
-		else
-			set_exit_status(data, WIFEXITED(status));
+			waitpid(exec->pid, &status, 0);
+			if (g_sig_status)
+				set_exit_status(data, 130);
+			else if (status == 0)
+				set_exit_status(data, 0);
+			else
+				set_exit_status(data, WIFEXITED(status));
 		}
 		exec = exec->next;
 	}
@@ -94,11 +82,7 @@ void	prompt(t_data *data)
 		terminal_setup(data);
 		input = get_input();
 		if (!input)
-		{
-			if (input)
-				free(input);
 			builtin_exit(data, NULL);
-		}
 		else if (input[0] == '\0' || input[0] == '\n' || !only_spaces(input))
 		{
 			free(input);

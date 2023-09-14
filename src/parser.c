@@ -6,12 +6,13 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 14:48:54 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/14 16:13:35 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/14 17:30:07 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "parser.h"
+#include "lexer.h"
 
 void	create_pipes(t_exec *cmd)
 {

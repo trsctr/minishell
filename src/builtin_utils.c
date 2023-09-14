@@ -6,12 +6,11 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 16:54:59 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/11 15:54:25 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/14 17:33:28 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "builtins.h"
 
 /**
  * @brief this function is a helper function for builtin_export

@@ -6,12 +6,12 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 19:58:41 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/14 16:52:47 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/14 17:31:28 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "env_var.h"
+
 /**
  * @brief if cd is success (ie the given dir is valid)
  * this function updates environment variables for

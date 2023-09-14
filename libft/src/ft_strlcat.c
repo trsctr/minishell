@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oandelin <oandelin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 14:38:40 by oandelin          #+#    #+#             */
-/*   Updated: 2022/12/09 17:02:58 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/14 17:37:26 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
 	if (dst)
 		dstlen = ft_strlen((char *)dst);
 	if (dstsize > dstlen)
-	{	
+	{
 		total = srclen + dstlen;
 		while (dstlen < (dstsize -1) && src[i] != '\0')
 		{

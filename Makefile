@@ -13,7 +13,7 @@ SRCFILES	=   minishell.c prompt.c prompt_utils.c env_var.c env_var_utils.c built
 OBJ_DIR		= 	obj/
 OBJFILES	= 	$(SRCFILES:.c=.o)
 INC_DIR		=	include/
-INC_FILES	=	$(NAME).h prompt.h builtins.h env_var.h executor.h lexer.h parser.h prompt.h utils.h
+INC_FILES	=	$(NAME).h lexer.h parser.h
 HEADER		=	$(addprefix $(INC_DIR), $(INC_FILES))
 SRCS 		=	$(addprefix $(SRCDIR), $(SRCFILES))
 OBJS		=	$(addprefix $(OBJ_DIR), $(OBJFILES))
@@ -34,18 +34,12 @@ $(OBJ_DIR):
 
 $(OBJ_DIR)%.o: $(SRCDIR)%.c $(HEADER)
 	@echo "Building object file: $(CYAN)$@$(RESET) from source file $(MAGENTA)$<$(RESET)"
-	@$(CC) $(CFLAGS) $(DBFLAG) -I$(INC_DIR) $< -c -o $@
+	@$(CC) $(CFLAGS) -I$(INC_DIR) $< -c -o $@
 
 $(NAME): $(LIBFT) $(OBJS) $(HEADER)
 	@echo "Compiling $(RED)minishell$(RESET) binary"
-	@$(CC) $(CFLAGS) $(DBFLAG) $(RLFLAG) $(LIBFT) $(OBJS) -o $(NAME)
+	@$(CC) $(CFLAGS) $(RLFLAG) $(LIBFT) $(OBJS) -o $(NAME)
 	@echo "$(GREEN)Finished!$(RESET)"
-
-debug:
-	$(CC) $(CFLAGS) $(DBFLAG)  $(MEMDBFLAG) $(RLFLAG) -I$(INC_DIR) $(LIBFT) $(SRCS) -o $(NAME)
-
-debugleaks:
-	$(CC) $(CFLAGS) $(DBFLAG) $(MEMDBFLAG) $(RLFLAG) -I$(INC_DIR) $(LIBFT)  $(SRCS) -o $(NAME)
 
 clean:
 	@make clean -C libft

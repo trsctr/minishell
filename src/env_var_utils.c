@@ -6,13 +6,11 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 16:34:52 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/11 16:22:04 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/14 17:31:09 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "env_var.h"
-#include "prompt.h"
 
 /**
  * @brief creates new node to the environment variable linked list

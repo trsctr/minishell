@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoskine <akoskine@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 14:58:52 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/13 21:30:15 by akoskine         ###   ########.fr       */
+/*   Updated: 2023/09/14 17:26:48 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,6 @@
 # define LEXER_H
 
 # include "minishell.h"
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <stdlib.h>
-# include <string.h>
-# include <unistd.h>
-
 
 # define T_CMD			42
 # define T_WORD			43

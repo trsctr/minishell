@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oandelin <oandelin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 16:03:42 by oandelin          #+#    #+#             */
-/*   Updated: 2022/12/12 15:12:59 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/14 17:37:39 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
 	while (*haystack && len >= ndllen)
 	{
 		if (*needle == *haystack)
-		{	
+		{
 			if (ft_strncmp(haystack, needle, ndllen) == 0)
 				return ((char *)haystack);
 		}

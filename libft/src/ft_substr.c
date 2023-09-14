@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oandelin <oandelin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 16:30:43 by oandelin          #+#    #+#             */
-/*   Updated: 2022/12/12 15:10:59 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/14 17:38:15 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,10 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 		return (NULL);
 	while (len)
 	{
-			sub[i] = s[start];
-			start++;
-			i++;
-			len--;
+		sub[i] = s[start];
+		start++;
+		i++;
+		len--;
 	}
 	sub[i] = '\0';
 	return (sub);

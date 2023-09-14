@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_get_next_line.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: trsctr <trsctr@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 18:53:15 by oandelin          #+#    #+#             */
-/*   Updated: 2023/03/23 07:54:24 by trsctr           ###   ########.fr       */
+/*   Updated: 2023/09/14 17:36:36 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ char	*get_next_line(int fd)
 	if ((read(fd, 0, 0)) < 0 || BUFFER_SIZE < 1)
 		return (NULL);
 	if (!scan[fd])
-	{	
+	{
 		scan[fd] = ft_calloc(1, 1);
 		if (!scan[fd])
 			return (NULL);

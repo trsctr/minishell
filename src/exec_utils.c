@@ -6,19 +6,14 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 11:12:38 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/14 16:13:28 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/14 17:33:19 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "prompt.h"
-#include "env_var.h"
-#include "executor.h"
-#include "heredoc.h"
 
-int	cmd_is_dir(t_data *data, t_exec *exec)
+int	cmd_is_dir(t_exec *exec)
 {
-	(void) data;
 	if (!ft_strcmp(exec->cmd, "/home")
 		|| !ft_strcmp(exec->cmd, "/bin")
 		|| !ft_strcmp(exec->cmd, "/"))

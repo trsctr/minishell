@@ -3,19 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   prompt_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 19:06:29 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/14 13:49:44 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/14 17:32:51 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "prompt.h"
 
 /**
- * @brief sets up terminal and signals for our minishell session and saves original
- * settings to our struct so they can be restored when exiting, and also
+ * @brief sets up terminal and signals for our minishell session and saves
+ * original settings to our struct so they can be restored when exiting, and also
  * in the end of loop to avoid some hiccups if user happens to run top and
  * exits from it abruptly
  * 

@@ -3,17 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 14:54:26 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/14 14:36:01 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/14 17:31:21 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "builtins.h"
-#include "env_var.h"
-#include "prompt.h"
 
 /**
  * @brief built in pwd command uses getcwd to get current working directory

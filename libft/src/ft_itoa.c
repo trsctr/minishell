@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oandelin <oandelin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 18:37:51 by oandelin          #+#    #+#             */
-/*   Updated: 2022/12/09 17:05:25 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/14 17:36:51 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static	int	ft_countdigits(int n)
 
 	digits = 0;
 	while (n)
-	{	
+	{
 		n /= 10;
 		digits++;
 	}
@@ -42,7 +42,7 @@ static	char	*ft_getstring(char *dest, int n, int digits)
 		n = n * -1;
 	}
 	while (n)
-	{	
+	{
 		digits--;
 		dest[digits] = (n % 10) + '0';
 		n /= 10;

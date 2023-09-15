@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 11:20:07 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/14 18:46:25 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/15 10:18:49 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,11 @@ int	fill_word(t_exec *exec, t_token *tok, int i, int prev)
 	return (0);
 }
 
-int	filler_util(t_exec *exec)
+int	filler_util(t_exec *exec, t_token *tok)
 {
 	int		i;
 	int		prev;
-	t_token	*tok;
 
-	tok = exec->token;
 	i = 0;
 	prev = 0;
 	while (tok && tok->type != T_PIPE)
@@ -57,7 +55,7 @@ int	filler_util(t_exec *exec)
 			if (fill_cmd(exec, tok, i))
 				return (1);
 		}
-		if (((tok->type == T_WORD) && !(prev >= 46 && prev <= 49))
+		else if (((tok->type == T_WORD) && !(prev >= 46 && prev <= 49))
 			|| tok->type == T_EMPTY_WORD)
 		{
 			if (fill_word(exec, tok, i, prev))
@@ -90,7 +88,8 @@ int	fill_exec_from_tokens(t_exec *exec)
 	exec->argv = ft_calloc((1 + size), sizeof(char *));
 	if (exec->argv == NULL)
 		return (1);
-	if (filler_util(exec))
+	tok = exec->token;
+	if (filler_util(exec, tok))
 		return (1);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:40:59 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/14 17:33:15 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/15 16:23:40 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ void	exec_abs_path(t_data *data, t_exec *cmd, char *cmd_path)
 	pid_t	pid;
 
 	envp = create_envp(data);
+	signal(SIGINT, SIG_IGN);
 	pid = fork();
 	if (pid == -1)
 	{

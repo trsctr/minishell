@@ -6,7 +6,7 @@
 /*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 14:59:13 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/15 15:30:57 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/15 20:14:45 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ t_data	*init_data(void)
 	data->env_var = NULL;
 	data->lexer.dmh_list = NULL;
 	data->exec = NULL;
+	data->pipe_count = 0;
 	data->exit_status = 0;
 	return (data);
 }

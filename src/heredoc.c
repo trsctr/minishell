@@ -6,7 +6,7 @@
 /*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 12:53:01 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/15 15:43:35 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/15 20:52:22 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,8 +98,6 @@ int	name_heredoc(t_exec *exec)
 	id = ft_itoa(getpid());
 	if (exec->heredoc)
 	{
-		if (exec->read_fd > 2)
-			close(exec->read_fd);
 		unlink(exec->heredoc);
 		free(exec->heredoc);
 	}

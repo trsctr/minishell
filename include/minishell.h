@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 14:58:52 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/15 14:49:50 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/15 21:03:28 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,8 @@ typedef struct s_data {
 	t_ev				*env_var;
 	t_exec				*exec;
 	int					exit_status;
+	int					pipe_count;
+	int					*pipes;
 	struct termios		old_termios;
 	struct termios		new_termios;
 	struct sigaction	sa;
@@ -137,6 +139,11 @@ char	*get_input(t_data *data);
 int		only_spaces(char *line);
 void	run_command_line(t_data *data);
 
+// PIPES
+void	create_pipes(t_data *data, t_exec *cmd);
+void	set_pipes(t_data *data, t_exec *cmd);
+void	close_pipes(t_data *data);
+
 // EXECUTION
 int		executor(t_data *data, t_exec *exec);
 int		is_builtin(char *cmd);
@@ -145,6 +152,7 @@ void	find_n_exec(t_exec *exec, t_data *data);
 int		is_abs_path(char *src);
 char	*get_cmd_path(char *path_line, char *cmd);
 int		cmd_is_dir(t_exec *exec);
+void	close_pipes(t_data *data);
 
 // BUILTINS
 void	builtin_env(t_data *data, t_exec *exec);

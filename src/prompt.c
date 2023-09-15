@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:24:25 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/15 18:11:03 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/15 20:57:57 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,9 @@ void	ft_wait_cmds(t_data *data)
 		}
 		exec = exec->next;
 	}
+	close_pipes(data);
+	if (data->pipe_count)
+		free(data->pipes);
 }
 
 /**
@@ -75,6 +78,7 @@ void	prompt(t_data *data)
 	while (420)
 	{
 		g_sig_status = 0;
+		data->pipe_count = 0;
 		terminal_setup(data);
 		input = get_input(data);
 		if (!input)

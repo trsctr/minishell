@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:40:59 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/15 18:56:57 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/15 20:47:29 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,13 @@ char	**create_envp(t_data *data)
 	return (array);
 }
 
-int	child(t_exec *cmd, char *cmd_path, char **envp)
+int	child(t_data *data, t_exec *cmd, char *cmd_path, char **envp)
 {
 	if (cmd->write_fd == -1 || cmd->read_fd == -1)
 		exit (0);
 	dup2(cmd->read_fd, 0);
 	dup2(cmd->write_fd, 1);
+	close_pipes(data);
 	reset_signals();
 	if (execve(cmd_path, cmd->argv, envp))
 	{
@@ -85,7 +86,7 @@ void	exec_abs_path(t_data *data, t_exec *cmd, char *cmd_path)
 		exit (1);
 	}
 	if (pid == 0)
-		child(cmd, cmd_path, envp);
+		child(data, cmd, cmd_path, envp);
 	cmd->pid = pid;
 	if (cmd->read_fd > 2)
 		close(cmd->read_fd);

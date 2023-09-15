@@ -6,7 +6,7 @@
 /*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 20:49:06 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/15 13:31:34 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/15 20:56:25 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ void	clear_data(t_data *data)
 {
 	clear_history();
 	ft_clear_evlist(data);
+	if (data->pipes)
+		free(data->pipes);
 	if (data)
 		free(data);
 }

@@ -6,7 +6,7 @@
 /*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 14:48:54 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/15 10:15:45 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/15 20:58:52 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,34 +14,7 @@
 #include "parser.h"
 #include "lexer.h"
 
-void	create_pipes(t_exec *cmd)
-{
-	int		pipe_fd[OPEN_MAX][2];
-	int		i;
-	int		input;
-	int		status;
 
-	i = 0;
-	input = 0;
-	while (cmd)
-	{
-		if (cmd->next)
-		{
-			status = pipe(pipe_fd[i]);
-			if (status == -1)
-			{
-				ft_errormsg(PIPE_FAIL, NULL);
-				break ;
-			}
-			cmd->read_fd = input;
-			cmd->write_fd = pipe_fd[i][1];
-			input = pipe_fd[i++][0];
-		}
-		else
-			cmd->read_fd = input;
-		cmd = cmd->next;
-	}
-}
 
 void	give_tokens(t_data *data)
 {
@@ -81,7 +54,10 @@ void	create_execs(t_data *data)
 			if (tok->next)
 			{
 				if (tok->next->type == T_PIPE)
+				{
+					data->pipe_count++;
 					break ;
+				}
 			}
 			tok = tok->next;
 		}
@@ -95,7 +71,7 @@ int	parser(t_data *data)
 
 	create_execs(data);
 	cmd = data->exec;
-	create_pipes(cmd);
+	create_pipes(data, cmd);
 	while (cmd)
 	{
 		if (fill_exec_from_tokens(cmd))

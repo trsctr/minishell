@@ -6,7 +6,7 @@
 /*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 14:59:13 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/15 10:04:28 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/15 12:14:29 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ t_exec	*init_exec(void)
 	exec->has_heredoc = 0;
 	exec->argv = NULL;
 	exec->next = NULL;
+	exec->cmd = NULL;
 	exec->pid = 0;
 	exec->token = NULL;
 	return (exec);

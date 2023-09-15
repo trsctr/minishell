@@ -6,7 +6,7 @@
 /*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 11:20:07 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/15 10:18:49 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/15 12:14:08 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,14 @@
 
 int	fill_cmd(t_exec *exec, t_token *tok, int i)
 {
+	printf("Cmd kutsuttu\n");
+	if (exec->cmd)
+		free(exec->cmd);
 	exec->cmd = ft_strdup(tok->str);
 	if (exec->cmd == NULL)
 		return (1);
+	if (exec->argv[i])
+		free(exec->argv[i]);
 	exec->argv[i] = ft_strdup(tok->str);
 	if (exec->argv[i] == NULL)
 		return (1);
@@ -52,7 +57,7 @@ int	filler_util(t_exec *exec, t_token *tok)
 	{
 		if (tok->type == T_CMD)
 		{
-			if (fill_cmd(exec, tok, i))
+			if (fill_cmd(exec, tok, 0))
 				return (1);
 		}
 		else if (((tok->type == T_WORD) && !(prev >= 46 && prev <= 49))

@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 14:54:26 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/14 17:31:21 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/15 16:30:49 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ void	builtin_exit(t_data *data, t_exec *exec)
 {
 	int	status;
 
-	status = 0;
+	status = data->exit_status;
 	if (!exec || !exec->argv[1])
 		ft_printf("exit\n");
 	else

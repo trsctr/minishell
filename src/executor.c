@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:40:59 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/15 16:28:35 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/15 18:56:57 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	**create_envp(t_data *data)
 	return (array);
 }
 
-void	child(t_exec *cmd, char *cmd_path, char **envp)
+int	child(t_exec *cmd, char *cmd_path, char **envp)
 {
 	if (cmd->write_fd == -1 || cmd->read_fd == -1)
 		exit (0);
@@ -58,8 +58,9 @@ void	child(t_exec *cmd, char *cmd_path, char **envp)
 		ft_errormsg(EXEC_FAIL, cmd->argv[0]);
 		close(cmd->read_fd);
 		close(cmd->write_fd);
-		exit(1);
+		exit(126);
 	}
+	return (0);
 }
 
 /**
@@ -139,7 +140,7 @@ int	executor(t_data *data, t_exec *exec)
 	{
 		if (cmd_is_dir(exec))
 			set_exit_status(data, 126);
-		else if (is_abs_path(exec->cmd))
+		else if (ft_strncmp(exec->cmd, "./", 2) == 0 && is_abs_path(exec->cmd))
 			exec_abs_path(data, exec, exec->cmd);
 		else
 			find_n_exec(exec, data);

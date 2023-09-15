@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:24:25 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/15 10:08:39 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/15 18:11:03 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	ft_wait_cmds(t_data *data)
 			else if (status == 0)
 				set_exit_status(data, 0);
 			else
-				set_exit_status(data, WIFEXITED(status));
+				set_exit_status(data, 126);
 		}
 		exec = exec->next;
 	}

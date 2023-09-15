@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 11:12:38 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/15 16:28:31 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/15 17:29:06 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,7 @@ int	cmd_is_dir(t_exec *exec)
 {
 	if (!ft_strcmp(exec->cmd, "/home")
 		|| !ft_strcmp(exec->cmd, "/bin")
-		|| !ft_strcmp(exec->cmd, "/") ||
-			access(exec->cmd, F_OK) == 0)
+		|| !ft_strcmp(exec->cmd, "/"))
 	{
 		ft_errormsg(CMD_IS_DIR, exec->cmd);
 		return (1);

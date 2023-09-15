@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:46:07 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/14 17:36:03 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/15 18:12:51 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	ft_errormsg(int errorcode, char *cmd)
 	else if (errorcode == CMD_IS_DIR)
 		ft_dprintf(2, "minishell: %s is a directory\n", cmd);
 	else if (errorcode == EXEC_FAIL)
-		ft_dprintf(2, "minishell: %s: error with execution\n", cmd);
+		ft_dprintf(2, "minishell: %s: is a file or a directory\n", cmd);
 }
 
 void	set_exit_status(t_data *data, int status)

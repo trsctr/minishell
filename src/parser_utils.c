@@ -6,7 +6,7 @@
 /*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 11:20:07 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/15 12:37:26 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/15 13:42:09 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,16 @@
 
 int	fill_cmd(t_exec *exec, t_token *tok, int i)
 {
+	(void)i;
 	if (exec->cmd)
 		free(exec->cmd);
 	exec->cmd = ft_strdup(tok->str);
 	if (exec->cmd == NULL)
 		return (1);
-	if (exec->argv[i])
-		free(exec->argv[i]);
-	exec->argv[i] = ft_strdup(tok->str);
-	if (exec->argv[i] == NULL)
+	if (exec->argv[0])
+		free(exec->argv[0]);
+	exec->argv[0] = ft_strdup(tok->str);
+	if (exec->argv[0] == NULL)
 		return (1);
 	return (0);
 }
@@ -56,18 +57,17 @@ int	filler_util(t_exec *exec, t_token *tok)
 	{
 		if (tok->type == T_CMD)
 		{
-			if (fill_cmd(exec, tok, 0))
+			if (fill_cmd(exec, tok, i++))
 				return (1);
 		}
 		else if (((tok->type == T_WORD) && !(prev >= 46 && prev <= 49))
 			|| tok->type == T_EMPTY_WORD)
 		{
-			if (fill_word(exec, tok, i, prev))
+			if (fill_word(exec, tok, i++, prev))
 				return (1);
 		}
 		else if (i == 0)
 			(fill_cmd(exec, tok, i));
-		i++;
 		prev = tok->type;
 		tok = tok->next;
 	}

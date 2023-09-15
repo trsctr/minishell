@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 11:12:38 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/14 17:33:19 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/15 15:51:37 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,4 +121,8 @@ void	run_builtin(t_exec *exec, int spec, t_data *data)
 		builtin_echo(data, exec);
 	else if (spec == 7)
 		builtin_exit(data, exec);
+	if (exec->write_fd > 2)
+		close(exec->write_fd);
+	if (exec->read_fd > 2)
+		close(exec->read_fd);
 }

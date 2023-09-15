@@ -6,7 +6,7 @@
 /*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 11:20:07 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/15 12:14:08 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/15 12:37:26 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 int	fill_cmd(t_exec *exec, t_token *tok, int i)
 {
-	printf("Cmd kutsuttu\n");
 	if (exec->cmd)
 		free(exec->cmd);
 	exec->cmd = ft_strdup(tok->str);

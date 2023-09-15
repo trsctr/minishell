@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 12:53:01 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/15 14:49:02 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/15 15:43:35 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,13 @@ int	name_heredoc(t_exec *exec)
 
 	num = ft_itoa(i);
 	id = ft_itoa(getpid());
+	if (exec->heredoc)
+	{
+		if (exec->read_fd > 2)
+			close(exec->read_fd);
+		unlink(exec->heredoc);
+		free(exec->heredoc);
+	}
 	exec->heredoc = ft_strjoin(id, num);
 	if (!exec->heredoc)
 		return (1);

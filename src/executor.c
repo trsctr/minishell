@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:40:59 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/15 16:23:40 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/15 16:28:35 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ void	child(t_exec *cmd, char *cmd_path, char **envp)
 	if (execve(cmd_path, cmd->argv, envp))
 	{
 		ft_errormsg(EXEC_FAIL, cmd->argv[0]);
+		close(cmd->read_fd);
+		close(cmd->write_fd);
 		exit(1);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 12:53:01 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/14 17:32:20 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/15 14:49:02 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,30 @@
 #include "parser.h"
 
 /**
- * @brief helper function to expand environment variables when called in heredoc
+ * @brief this function writes out the line one character at a time
+ * if there is an environment variable in the beginning, it is expanded
+ * if they key is valid, and the loop jumps over it while printing the
+ * line
  * 
  * @param data 
  * @param line 
- * @return char* 
+ * @param fd 
  */
-char	*expand_var_hd(t_data *data, char *line)
+void	heredoc_handle_line(t_data *data, char *line, int fd)
 {
-	char	*temp;
+	int	i;
 
-	temp = ft_getenv(data, line + 1);
-	free(line);
-	if (!temp)
-		return (ft_strdup(""));
+	if (line[0] == '$')
+		i = expand_var_in_heredoc(data, line, fd);
 	else
-		return (ft_strdup(temp));
+		i = 0;
+	while (line[i])
+	{
+		ft_putchar_fd(line[i], fd);
+		i++;
+	}
+	ft_putchar_fd('\n', fd);
+	free (line);
 }
 
 /**
@@ -59,11 +67,7 @@ int	heredoc_loop(t_data *data, char *delim, int fd)
 			free(line);
 			return (1);
 		}
-		if (line[0] == '$')
-			line = expand_var_hd(data, line);
-		write(fd, line, ft_strlen(line));
-		write(fd, "\n", 1);
-		free (line);
+		heredoc_handle_line(data, line, fd);
 		line = readline("> ");
 	}
 	return (0);

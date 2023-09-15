@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 14:58:52 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/14 18:21:37 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/15 14:49:50 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,8 @@ int		name_heredoc(t_exec *exec);
 int		handle_heredocs(t_data *data);
 int		redir_heredoc(t_data *data, t_exec *exec, t_token *token);
 int		heredoc_loop(t_data *data, char *delim, int fd);
-char	*expand_var_hd(t_data *data, char *line);
+void	heredoc_handle_line(t_data *data, char *line, int fd);
+int		expand_var_in_heredoc(t_data *data, char *line, int fd);
 
 //	ERROR AND CLEANUP
 void	malloc_error(t_data *data);

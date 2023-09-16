@@ -6,7 +6,7 @@
 /*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:24:25 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/15 20:57:57 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/16 13:58:00 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,7 @@ void	ft_wait_cmds(t_data *data)
 		exec = exec->next;
 	}
 	close_pipes(data);
-	if (data->pipe_count)
-		free(data->pipes);
+	free(data->pipes);
 }
 
 /**

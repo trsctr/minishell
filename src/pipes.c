@@ -6,7 +6,7 @@
 /*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 20:58:54 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/15 21:04:06 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/16 13:59:02 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	create_pipes(t_data *data, t_exec *cmd)
 {
 	int		i;
 	int		status;
-	
+
 	i = 0;
 	data->pipes = malloc(sizeof(int) * (2 * data->pipe_count));
 	while (i != data->pipe_count)
@@ -32,13 +32,12 @@ void	create_pipes(t_data *data, t_exec *cmd)
 	}
 	set_pipes(data, cmd);
 }
-	
-void set_pipes(t_data *data, t_exec *cmd)
+
+void	set_pipes(t_data *data, t_exec *cmd)
 {
 	int	i;
 	int	input;
 
-	
 	i = 0;
 	input = 0;
 	while (cmd)

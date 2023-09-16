@@ -6,15 +6,13 @@
 /*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 14:48:54 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/15 20:58:52 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/16 13:58:38 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "parser.h"
 #include "lexer.h"
-
-
 
 void	give_tokens(t_data *data)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_expandables.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoskine <akoskine@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 19:02:34 by akoskine          #+#    #+#             */
-/*   Updated: 2023/09/13 21:31:58 by akoskine         ###   ########.fr       */
+/*   Updated: 2023/09/16 18:03:51 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	check_question_mark(t_data *data, int i)
 	return (i);
 }
 
-int	fill_exp_from_middle(t_data *data, int i, int j)
+int	fill_exp_from_middle(t_data *data, int i, int j, int keylen)
 {
 	if (ft_getenv(data, data->lexer.exp_tmp) == NULL
 		&& data->lexer.exp_tmp[0] == '_' && data->lexer.exp_tmp[1] == '\0')
@@ -63,7 +63,9 @@ int	fill_exp_from_middle(t_data *data, int i, int j)
 		data->lexer.exp_tmp = ft_strjoin_dmh(data, data->lexer.exp_tmp,
 				ft_strdup_dmh(data, data->lexer.exp + i));
 	}
-	return (ft_strlen(data->lexer.exp_tmp));
+	if (data->lexer.exp_env == NULL)
+		return (keylen);
+	return (ft_strlen(data->lexer.exp_env));
 }
 
 int	fill_exp_from_start(t_data *data, int i)
@@ -115,7 +117,8 @@ int	fill_expandable(t_data *data, int i)
 		data->lexer.exp_tmp = ft_strndup_dmh(data, data->lexer.exp + j, i - j);
 	}
 	if (j > 1)
-		return (fill_exp_from_middle(data, i, j - 1));
+		return (fill_exp_from_middle(data, i, j - 1, 
+				ft_strlen(data->lexer.exp_tmp)));
 	else
 		return (fill_exp_from_start(data, i));
 }

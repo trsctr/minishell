@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 14:58:52 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/14 18:21:37 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/16 15:51:19 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ enum e_errors {
 	FILE_NOT_FOUND = 8,
 	CMD_IS_DIR = 9,
 	EXEC_FAIL = 10,
+	PERMISSION_DENIED = 11,
 };
 
 typedef struct s_dmh {
@@ -99,6 +100,8 @@ typedef struct s_data {
 	t_ev				*env_var;
 	t_exec				*exec;
 	int					exit_status;
+	int					pipe_count;
+	int					*pipes;
 	struct termios		old_termios;
 	struct termios		new_termios;
 	struct sigaction	sa;
@@ -137,6 +140,11 @@ char	*get_input(t_data *data);
 int		only_spaces(char *line);
 void	run_command_line(t_data *data);
 
+// PIPES
+void	create_pipes(t_data *data, t_exec *cmd);
+void	set_pipes(t_data *data, t_exec *cmd);
+void	close_pipes(t_data *data);
+
 // EXECUTION
 int		executor(t_data *data, t_exec *exec);
 int		is_builtin(char *cmd);
@@ -145,6 +153,7 @@ void	find_n_exec(t_exec *exec, t_data *data);
 int		is_abs_path(char *src);
 char	*get_cmd_path(char *path_line, char *cmd);
 int		cmd_is_dir(t_exec *exec);
+void	close_pipes(t_data *data);
 
 // BUILTINS
 void	builtin_env(t_data *data, t_exec *exec);
@@ -161,7 +170,8 @@ int		name_heredoc(t_exec *exec);
 int		handle_heredocs(t_data *data);
 int		redir_heredoc(t_data *data, t_exec *exec, t_token *token);
 int		heredoc_loop(t_data *data, char *delim, int fd);
-char	*expand_var_hd(t_data *data, char *line);
+void	heredoc_handle_line(t_data *data, char *line, int fd);
+int		expand_var_in_heredoc(t_data *data, char *line, int fd);
 
 //	ERROR AND CLEANUP
 void	malloc_error(t_data *data);

@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 20:49:06 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/14 18:36:00 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/16 16:33:24 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,11 @@ void	malloc_error(t_data *data)
 	ft_errormsg(MALLOC_FAIL, NULL);
 	reset_signals();
 	terminal_reset(data);
-	clear_data(data);
-	free_list_dmh(data);
+	if (data->lexer.dmh_list != NULL)
+		free_list_dmh(data);
 	if (data->lexer.token != NULL)
 		free_list_token(data);
+	clear_data(data);
 	exit(1);
 }
 
@@ -34,6 +35,8 @@ void	clear_data(t_data *data)
 {
 	clear_history();
 	ft_clear_evlist(data);
+	if (data->pipe_count)
+		free(data->pipes);
 	if (data)
 		free(data);
 }

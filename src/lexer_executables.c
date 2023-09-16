@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_executables.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akoskine <akoskine@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 19:00:15 by akoskine          #+#    #+#             */
-/*   Updated: 2023/09/11 16:47:47 by akoskine         ###   ########.fr       */
+/*   Updated: 2023/09/16 17:14:43 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,13 +66,3 @@ void	check_token(t_data *data)
 	if (data->lexer.pipe_flag)
 		data->lexer.syntax_error = 1;
 }
-
-// nama pitaa toimia
-
-// > file1 | echo jee
-
-// > file1 | > file2
-
-// > file1 | > file2 | > file3
-
-// > file1 | echo jee | > file2

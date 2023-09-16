@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 11:12:38 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/14 17:33:19 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/16 15:58:20 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,20 @@
 
 int	cmd_is_dir(t_exec *exec)
 {
-	if (!ft_strcmp(exec->cmd, "/home")
-		|| !ft_strcmp(exec->cmd, "/bin")
-		|| !ft_strcmp(exec->cmd, "/"))
+	if ((exec->cmd[0] == '/' && access(exec->cmd, F_OK) == 0))
 	{
 		ft_errormsg(CMD_IS_DIR, exec->cmd);
 		return (1);
 	}
-	else
-		return (0);
+	if (access(exec->cmd, F_OK) == 0)
+	{
+		if (access(exec->cmd, X_OK) != 0)
+		{
+			ft_errormsg(PERMISSION_DENIED, exec->cmd);
+			return (1);
+		}
+	}
+	return (0);
 }
 
 /**
@@ -121,4 +126,8 @@ void	run_builtin(t_exec *exec, int spec, t_data *data)
 		builtin_echo(data, exec);
 	else if (spec == 7)
 		builtin_exit(data, exec);
+	if (exec->write_fd > 2)
+		close(exec->write_fd);
+	if (exec->read_fd > 2)
+		close(exec->read_fd);
 }

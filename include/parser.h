@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 15:06:16 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/14 17:40:00 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/16 16:24:38 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@
 # define T_RD_D_R       49
 
 int	parser(t_data *data);
-int	redir_in(t_exec *cmd, char *file);
-int	fill_cmd(t_exec *exec, t_token *tok, int i);
+int	redir_in(t_data *data, t_exec *cmd, char *file);
+int	fill_cmd(t_exec *exec, char *str, int i);
 int	fill_word(t_exec *exec, t_token *tok, int i, int prev);
-int	filler_util(t_exec *exec);
+int	filler_util(t_exec *exec, t_token *tok);
 int	fill_exec_from_tokens(t_exec *exec);
 int	handle_rds(t_data *data, t_exec *cmd);
 

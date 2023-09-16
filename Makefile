@@ -6,10 +6,11 @@ MEMDBFLAG 	=	-fsanitize=address
 RLFLAG		=	-lreadline -L ~/.brew/opt/readline/lib -I ~/.brew/opt/readline/include
 LIBFT 		= 	libft/libft.a
 SRCDIR		=	src/
-SRCFILES	=   minishell.c prompt.c prompt_utils.c env_var.c env_var_utils.c builtins.c executor.c utils.c echo.c \
-				builtin_utils.c heredoc.c heredoc_expand.c parser.c lexer.c lexer_dmh.c lexer_executables.c lexer_libft_mods.c \
-				lexer_pipes_redirects.c lexer_specials.c lexer_tokenizer.c lexer_words_utils.c lexer_words.c lexer_expandables.c \
-				cleanup.c builtin_cd.c builtin_export.c exec_utils.c parser_utils.c parser_rd_utils.c
+SRCFILES	=   minishell.c cleanup.c utils.c prompt.c prompt_utils.c env_var.c env_var_utils.c executor.c exec_utils.c \
+				builtins.c builtin_echo.c builtin_exit.c builtin_cd.c builtin_export.c \
+				heredoc.c heredoc_expand.c parser.c parser_utils.c parser_rd_utils.c pipes.c\
+				lexer.c lexer_dmh.c lexer_executables.c lexer_libft_mods.c lexer_pipes_redirects.c lexer_specials.c \
+				lexer_tokenizer.c lexer_words_utils.c lexer_words.c lexer_expandables.c	 
 OBJ_DIR		= 	obj/
 OBJFILES	= 	$(SRCFILES:.c=.o)
 INC_DIR		=	include/

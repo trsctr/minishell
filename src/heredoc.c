@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 12:53:01 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/16 16:25:25 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/16 19:18:32 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ int	heredoc_loop(t_data *data, char *delim, int fd)
 		}
 		if (g_sig_status)
 		{
+			set_exit_status(data, 1);
 			free(line);
 			return (1);
 		}

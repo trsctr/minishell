@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 14:54:26 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/15 16:30:49 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/16 19:23:58 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,40 +84,4 @@ void	builtin_unset(t_data *data, t_exec *exec)
 		i++;
 	}
 	set_exit_status(data, error);
-}
-
-/**
- * @brief exit exits the shell. or first prints the exit message
- * and exits with the numerical argument user has given, or give an error
- * message if user gives something else
- * 
- * @param data 
- * @param exec 
- */
-void	builtin_exit(t_data *data, t_exec *exec)
-{
-	int	status;
-
-	status = data->exit_status;
-	if (!exec || !exec->argv[1])
-		ft_printf("exit\n");
-	else
-	{
-		if (!ft_isanumber(exec->argv[1]))
-		{
-			ft_errormsg(EXIT_BAD_VALUE, exec->argv[1]);
-			status = 255;
-		}
-		else
-		{
-			status = ft_atoi(exec->argv[1]);
-			if (status > 255)
-				status = status % 256;
-			ft_printf("exit\n");
-		}
-	}
-	reset_signals();
-	terminal_reset(data);
-	clear_data(data);
-	exit(status);
 }

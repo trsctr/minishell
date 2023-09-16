@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:46:07 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/16 16:34:12 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/16 19:24:07 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,4 +82,28 @@ char	*ft_getenv(t_data *data, char *key)
 		return (NULL);
 	else
 		return (temp->value);
+}
+
+/**
+ * @brief this function is a helper function for builtin_export and builtin_unset
+ * key can contain alphanumeric characters and underscores
+ * but can't start with a digit
+ * 
+ * @param key 
+ * @return int returns 1 if key is valid, 0 if not.
+ */
+int	key_is_valid(char *key)
+{
+	int	i;
+
+	i = 0;
+	if (key[0] == '\0' || ft_isdigit(key[0]))
+		return (0);
+	while (key[i])
+	{
+		if (!ft_isalnum(key[i]) && key[i] != '_')
+			return (0);
+		i++;
+	}
+	return (1);
 }

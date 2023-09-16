@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 14:58:52 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/14 17:26:48 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/16 18:02:11 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	check_token(t_data *data);
 /* lexer_expandables.c */
 
 int		check_question_mark(t_data *data, int i);
-int		fill_exp_from_middle(t_data *data, int i, int j);
+int		fill_exp_from_middle(t_data *data, int i, int j, int keylen);
 int		fill_exp_from_start(t_data *data, int i);
 int		fill_expandable(t_data *data, int i);
 void	check_expandable(t_data *data, int start, int len);

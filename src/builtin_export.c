@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 19:37:30 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/16 15:29:07 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/16 19:23:51 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,10 @@ static void	export_loop(t_data *data, t_exec *exec)
 	i = 0;
 	while (exec->argv[++i])
 	{
-		if (!ft_strchr(exec->argv[i], '='))
+		if (only_spaces(exec->argv[i]) && !ft_strchr(exec->argv[i], '='))
 			continue ;
 		key = get_ev_key(exec->argv[i]);
-		if (!key_is_valid(key))
+		if (!only_spaces(exec->argv[i]) || !key_is_valid(key))
 		{
 			ft_errormsg(EXPORT_NOT_VALID, exec->argv[i]);
 			free(key);

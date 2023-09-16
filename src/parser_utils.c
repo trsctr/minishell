@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 11:20:07 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/15 21:09:09 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/16 16:49:07 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

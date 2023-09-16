@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:24:25 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/16 13:58:00 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/16 17:14:57 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,8 @@ void	ft_wait_cmds(t_data *data)
 			waitpid(exec->pid, &status, 0);
 			if (g_sig_status)
 				set_exit_status(data, 130);
-			else if (status == 0)
-				set_exit_status(data, 0);
-			else
-				set_exit_status(data, 126);
+			else 
+				set_exit_status(data, status / 256);
 		}
 		exec = exec->next;
 	}

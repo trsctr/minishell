@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 14:58:52 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/15 21:03:28 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/16 15:51:19 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ enum e_errors {
 	FILE_NOT_FOUND = 8,
 	CMD_IS_DIR = 9,
 	EXEC_FAIL = 10,
+	PERMISSION_DENIED = 11,
 };
 
 typedef struct s_dmh {

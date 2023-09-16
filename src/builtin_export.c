@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 19:37:30 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/14 17:33:30 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/16 15:29:07 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ static void	export_loop(t_data *data, t_exec *exec)
 	char	*value;
 	int		i;
 
-	i = 1;
-	while (exec->argv[i])
+	i = 0;
+	while (exec->argv[++i])
 	{
 		if (!ft_strchr(exec->argv[i], '='))
 			continue ;
@@ -55,14 +55,12 @@ static void	export_loop(t_data *data, t_exec *exec)
 			ft_errormsg(EXPORT_NOT_VALID, exec->argv[i]);
 			free(key);
 			set_exit_status(data, 1);
-			i++;
 			continue ;
 		}
 		value = get_ev_value(exec->argv[i]);
 		ft_change_var(&data->env_var, key, value);
 		free(key);
 		free(value);
-		i++;
 	}
 }
 

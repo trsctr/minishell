@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:40:59 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/15 20:47:29 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/16 15:45:15 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,10 @@ void	find_n_exec(t_exec *exec, t_data *data)
 	cmd_path = get_cmd_path(path_line->value, exec->cmd);
 	if (!cmd_path)
 	{
+		if (exec->read_fd > 2)
+			close(exec->read_fd);
+		if (exec->write_fd > 2)
+			close(exec->write_fd);
 		ft_errormsg(BAD_CMD, exec->cmd);
 		set_exit_status(data, 127);
 	}

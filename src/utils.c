@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:46:07 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/15 18:12:51 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/16 16:34:12 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	ft_errormsg(int errorcode, char *cmd)
 	if (errorcode == BAD_CMD)
 		ft_dprintf(2, "minishell: Command not found: %s\n", cmd);
 	else if (errorcode == MALLOC_FAIL)
-		ft_dprintf(2, "minishell: Memory allocation failed)\n");
+		ft_dprintf(2, "minishell: Memory allocation failed\n");
 	else if (errorcode == PIPE_FAIL)
 		ft_dprintf(2, "minishell: Piping failed\n");
 	else if (errorcode == FORK_FAIL)
@@ -55,13 +55,13 @@ void	ft_errormsg(int errorcode, char *cmd)
 	else if (errorcode == CMD_IS_DIR)
 		ft_dprintf(2, "minishell: %s is a directory\n", cmd);
 	else if (errorcode == EXEC_FAIL)
-		ft_dprintf(2, "minishell: %s: is a file or a directory\n", cmd);
+		ft_dprintf(2, "minishell: %s: execution error\n", cmd);
+	else if (errorcode == PERMISSION_DENIED)
+		ft_dprintf(2, "minishell: %s: permission denied\n", cmd);
 }
 
 void	set_exit_status(t_data *data, int status)
 {
-	if (status > 255)
-		status = status % 256;
 	data->exit_status = status;
 }
 

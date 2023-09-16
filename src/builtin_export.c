@@ -6,14 +6,11 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 19:37:30 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/16 19:05:40 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/16 19:23:51 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-
-
 
 /**
  * @brief helper function for printing out the environment variables
@@ -84,4 +81,3 @@ void	builtin_export(t_data *data, t_exec *exec)
 	else
 		export_loop(data, exec);
 }
-

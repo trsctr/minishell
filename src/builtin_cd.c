@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 19:58:41 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/18 14:18:58 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/18 19:25:03 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,11 @@ static void	cd_success(t_data *data, char *oldpwd)
 {
 	char	*newpwd;
 
-	ft_change_var(&data->env_var, "OLDPWD", oldpwd);
+	if (oldpwd != NULL)
+		ft_change_var(&data->env_var, "OLDPWD", oldpwd);
 	newpwd = getcwd(NULL, 0);
-	ft_change_var(&data->env_var, "PWD", newpwd);
+	if (newpwd != NULL)
+		ft_change_var(&data->env_var, "PWD", newpwd);
 	free(newpwd);
 	set_exit_status(data, 0);
 }

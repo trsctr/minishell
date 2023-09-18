@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 20:58:54 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/18 17:47:36 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/18 19:33:23 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int	create_pipes(t_data *data, t_exec *cmd)
 		if (status == -1)
 		{
 			handle_pipe_failure(data, i);
+			set_exit_status(data, 1);
 			ft_errormsg(PIPE_FAIL, NULL);
 			return (1);
 		}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:40:59 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/18 14:05:02 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/18 17:57:11 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,9 @@ void	exec_abs_path(t_data *data, t_exec *cmd, char *cmd_path)
 	pid_t	pid;
 
 	envp = create_envp(data);
-	signal(SIGINT, SIG_IGN);
+	sigemptyset(&(data->sa.sa_mask));
+	data->sa.sa_sigaction = &handle_sig_in_exec;
+	sigaction(SIGINT, &(data->sa), NULL);
 	pid = fork();
 	if (pid == -1)
 	{

@@ -6,7 +6,7 @@ MEMDBFLAG 	=	-fsanitize=address
 RLFLAG		=	-lreadline -L ~/.brew/opt/readline/lib -I ~/.brew/opt/readline/include
 LIBFT 		= 	libft/libft.a
 SRCDIR		=	src/
-SRCFILES	=   minishell.c cleanup.c utils.c prompt.c prompt_utils.c env_var.c env_var_utils.c executor.c exec_utils.c \
+SRCFILES	=   main.c cleanup.c utils.c prompt.c signals.c env_var.c env_var_utils.c executor.c exec_utils.c \
 				builtins.c builtin_echo.c builtin_exit.c builtin_cd.c builtin_export.c \
 				heredoc.c heredoc_expand.c parser.c parser_utils.c parser_rd_utils.c pipes.c\
 				lexer.c lexer_dmh.c lexer_executables.c lexer_libft_mods.c lexer_pipes_redirects.c lexer_specials.c \
@@ -35,11 +35,11 @@ $(OBJ_DIR):
 
 $(OBJ_DIR)%.o: $(SRCDIR)%.c $(HEADER)
 	@echo "Building object file: $(CYAN)$@$(RESET) from source file $(MAGENTA)$<$(RESET)"
-	@$(CC) $(CFLAGS) $(DBFLAG) $(MEMDBFLAG) -I$(INC_DIR) $< -c -o $@
+	@$(CC) $(CFLAGS) -I$(INC_DIR) $< -c -o $@
 
-$(NAME): $(LIBFT) $(OBJS) $(HEADER)
+$(NAME): $(LIBFT) $(OBJ_DIR) $(OBJS) $(HEADER)
 	@echo "Compiling $(RED)minishell$(RESET) binary"
-	@$(CC) $(CFLAGS) $(RLFLAG) $(DBFLAG) $(MEMDBFLAG) $(LIBFT) $(OBJS) -o $(NAME)
+	@$(CC) $(CFLAGS) $(RLFLAG) $(LIBFT) $(OBJS) -o $(NAME)
 	@echo "$(GREEN)Finished!$(RESET)"
 
 clean:

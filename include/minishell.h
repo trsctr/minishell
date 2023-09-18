@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 14:58:52 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/18 17:15:15 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/18 17:58:12 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,8 @@ int		ft_envsize(t_ev *lst);
 // PROMPT, TERMINAL, SIGNALS
 void	terminal_setup(t_data *data);
 void	terminal_reset(t_data *data);
-void	handle_sig_int(int signal, siginfo_t *info, void *context);
+void	handle_sig_in_terminal(int signal, siginfo_t *info, void *context);
+void	handle_sig_in_exec(int signal, siginfo_t *info, void *context);
 void	reset_signals(void);
 void	prompt(t_data *data);
 char	*get_input(t_data *data);

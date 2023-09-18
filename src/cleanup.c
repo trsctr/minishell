@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 20:49:06 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/18 17:10:35 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/18 18:14:38 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,34 +76,18 @@ void	free_exec(t_exec *exec)
 {
 	t_exec	*temp;
 
-	if (exec->cmd == NULL)
-		free_empty_exec(exec);
-	else
-	{
-		while (exec)
-		{
-			free(exec->cmd);
-			free_array(exec->argv);
-			if (exec->has_heredoc)
-			{
-				if (exec->read_fd > 2)
-					close(exec->read_fd);
-				unlink(exec->heredoc);
-				free(exec->heredoc);
-			}
-			temp = exec->next;
-			free(exec);
-			exec = temp;
-		}
-	}
-}
-
-void	free_empty_exec(t_exec *exec)
-{
-	t_exec	*temp;
-
 	while (exec)
 	{
+		free(exec->cmd);
+		if (exec->argv)
+			free_array(exec->argv);
+		if (exec->has_heredoc)
+		{
+			if (exec->read_fd > 2)
+				close(exec->read_fd);
+			unlink(exec->heredoc);
+			free(exec->heredoc);
+		}
 		temp = exec->next;
 		free(exec);
 		exec = temp;

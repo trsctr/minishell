@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 19:03:36 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/16 19:23:38 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/18 18:10:09 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ static int	exit_convert_status(char *str)
 			status = status % 256;
 		while (status < 0)
 			status += 256;
-		ft_printf("exit\n");
 	}
 	return (status);
 }
@@ -49,12 +48,11 @@ void	builtin_exit(t_data *data, t_exec *exec)
 		status = data->exit_status;
 	else
 		status = 0;
-	if (!exec || !exec->argv[1])
-		ft_printf("exit\n");
-	else
+	if (exec && exec->argv[1])
 		status = exit_convert_status(exec->argv[1]);
 	if (data->pipe_count == 0)
 	{
+		ft_printf("exit\n");
 		reset_signals();
 		terminal_reset(data);
 		clear_data(data);

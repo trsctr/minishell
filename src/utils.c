@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:46:07 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/18 17:10:10 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/18 18:13:50 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,4 +73,25 @@ int	key_is_valid(char *key)
 		i++;
 	}
 	return (1);
+}
+
+/**
+ * @brief checks if the line received from user is not just full of spaces
+ * 
+ * @param line 
+ * @return int 0 if only spaces, 1 if there is something else too
+ */
+int	only_spaces(char *line)
+{
+	int	i;
+
+	i = 0;
+	while (line[i])
+	{
+		if (line[i] != ' ' && line[i] != '\t'
+			&& line[i] != '\n' && line[i] != '\0')
+			return (1);
+		i++;
+	}
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 19:03:36 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/18 19:31:42 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/18 19:39:55 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,6 @@ void	builtin_exit(t_data *data, t_exec *exec)
 		reset_signals();
 		terminal_reset(data);
 		clear_data(data);
-		while (1)
-			sleep(1);
 		exit(status);
 	}
 	set_exit_status(data, status);

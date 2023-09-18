@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 19:58:41 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/14 17:31:28 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/18 14:18:58 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,10 @@ void	builtin_cd(t_data *data, t_exec *exec)
 	if (!exec->argv[1])
 	{
 		if (cd_find_home(data, exec))
+		{
+			free(oldpwd);
 			return ;
+		}
 	}
 	if (!chdir(exec->argv[1]))
 		cd_success(data, oldpwd);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 10:40:59 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/16 15:45:15 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/18 14:05:02 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,8 @@ int	executor(t_data *data, t_exec *exec)
 	{
 		if (cmd_is_dir(exec))
 			set_exit_status(data, 126);
-		else if (ft_strncmp(exec->cmd, "./", 2) == 0 && is_abs_path(exec->cmd))
+		else if ((ft_strncmp(exec->cmd, "./", 2) == 0 && is_abs_path(exec->cmd))
+			|| (ft_strchr(exec->cmd, '/') && is_abs_path(exec->cmd)))
 			exec_abs_path(data, exec, exec->cmd);
 		else
 			find_n_exec(exec, data);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_var_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 16:34:52 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/14 17:31:09 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/18 15:21:15 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,16 +94,24 @@ t_ev	*ft_find_var(t_ev **vars, char *key)
  * @param vars environment variable linked list 
  * @param key keyword of the node that needs to be deletd
  */
-void	ft_delete_var(t_ev **vars, char *key)
+void	ft_delete_var(t_data *data, char *key)
 {
 	t_ev	*curr;
 	t_ev	*to_remove;
 
-	curr = *vars;
-	while (curr->next && ft_strcmp(curr->next->key, key))
+	curr = data->env_var;
+	if (ft_strcmp(curr->key, key) == 0)
 	{
-		curr = curr->next;
+		to_remove = curr;
+		curr->next = to_remove->next;
+		free(to_remove->key);
+		free(to_remove->value);
+		free(to_remove);
+		data->env_var = curr->next;
+		return ;
 	}
+	while (curr->next && ft_strcmp(curr->next->key, key))
+		curr = curr->next;
 	if (curr->next && !ft_strcmp(curr->next->key, key))
 	{
 		to_remove = curr->next;

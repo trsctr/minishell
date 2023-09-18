@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 11:12:38 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/16 18:50:44 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/18 14:06:14 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,19 @@
 
 int	cmd_is_dir(t_exec *exec)
 {
-	if ((exec->cmd[0] == '/' && access(exec->cmd, F_OK) == 0))
+	struct stat	path;
+	int			status;
+
+	stat(exec->cmd, &path);
+	status = S_ISREG(path.st_mode);
+	if ((((ft_strchr(exec->cmd, '/') || exec->cmd[0] == '/')
+				&& access(exec->cmd, F_OK) == 0) && status == 0))
 	{
 		ft_errormsg(CMD_IS_DIR, exec->cmd);
 		return (1);
 	}
-	if (access(exec->cmd, F_OK) == 0)
-	{
-		if (access(exec->cmd, X_OK) != 0)
-		{
-			ft_errormsg(PERMISSION_DENIED, exec->cmd);
-			return (1);
-		}
-	}
-	return (0);
+	else
+		return (0);
 }
 
 /**

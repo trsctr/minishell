@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 14:58:52 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/16 15:51:19 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/18 15:14:26 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@
 # include <stdio.h>
 # include <readline/history.h>
 # include <readline/readline.h>
+# include <sys/stat.h>
+# include <sys/types.h>
+# include <unistd.h>
 # include <stdlib.h>
 # include <termios.h>
 # include <signal.h>
@@ -126,7 +129,7 @@ char	*ft_getenv(t_data *data, char *key);
 t_ev	*ft_new_evnode(char *key, char *value);
 void	ft_new_env_var(t_ev **vars, t_ev *new_var);
 t_ev	*ft_find_var(t_ev **vars, char *key);
-void	ft_delete_var(t_ev **vars, char *key);
+void	ft_delete_var(t_data *data, char *key);
 void	ft_change_var(t_ev **vars, char *key, char *value);
 int		ft_envsize(t_ev *lst);
 

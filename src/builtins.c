@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 14:54:26 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/16 19:23:58 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/18 15:14:32 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	builtin_unset(t_data *data, t_exec *exec)
 			ft_dprintf(2, "unset: '%s' not a valid identifier\n", exec->argv[i]);
 			error = 1;
 		}
-		ft_delete_var(&data->env_var, exec->argv[i]);
+		ft_delete_var(data, exec->argv[i]);
 		i++;
 	}
 	set_exit_status(data, error);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 11:12:38 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/18 12:02:43 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/16 18:50:44 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 
 int	cmd_is_dir(t_exec *exec)
 {
-	if ((exec->cmd[0] == '/' && access(exec->cmd, F_OK) == 0)
-		&& !is_abs_path(exec->cmd))
+	if ((exec->cmd[0] == '/' && access(exec->cmd, F_OK) == 0))
 	{
 		ft_errormsg(CMD_IS_DIR, exec->cmd);
 		return (1);

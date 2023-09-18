@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_rd_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 12:55:40 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/16 16:24:10 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/18 12:50:59 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,9 @@ int	redir_in(t_data *data, t_exec *cmd, char *file)
 		else
 			ft_errormsg(FILE_NOT_FOUND, file);
 		set_exit_status(data, 1);
+		if (cmd->read_fd > 2)
+			close(cmd->read_fd);
+		cmd->read_fd = fd;
 		return (1);
 	}
 	if (cmd->read_fd > 2)
@@ -92,17 +95,26 @@ int	handle_rds(t_data *data, t_exec *cmd)
 		if (tok->type == T_RD_S_L)
 		{
 			if (redir_in(data, cmd, tok->next->str))
-				return (1);
+				{
+					tok = tok->next;
+					continue ;
+				}
 		}
 		if (tok->type == T_RD_D_L)
 		{
 			if (redir_heredoc(data, cmd, tok->next))
-				return (1);
+				{
+					tok = tok->next;
+					continue ;
+				}
 		}
 		if (tok->type == T_RD_D_R || tok->type == T_RD_S_R)
 		{
 			if (handle_out(data, cmd, tok))
-				return (1);
+				{
+					tok = tok->next;
+					continue ;
+				}
 		}
 		tok = tok->next;
 	}

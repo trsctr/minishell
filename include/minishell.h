@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 14:58:52 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/18 15:14:26 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/18 17:15:15 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,9 +144,10 @@ int		only_spaces(char *line);
 void	run_command_line(t_data *data);
 
 // PIPES
-void	create_pipes(t_data *data, t_exec *cmd);
+int		create_pipes(t_data *data, t_exec *cmd);
 void	set_pipes(t_data *data, t_exec *cmd);
 void	close_pipes(t_data *data);
+void	handle_pipe_failure(t_data *data, int i);
 
 // EXECUTION
 int		executor(t_data *data, t_exec *exec);
@@ -156,7 +157,6 @@ void	find_n_exec(t_exec *exec, t_data *data);
 int		is_abs_path(char *src);
 char	*get_cmd_path(char *path_line, char *cmd);
 int		cmd_is_dir(t_exec *exec);
-void	close_pipes(t_data *data);
 
 // BUILTINS
 void	builtin_env(t_data *data, t_exec *exec);
@@ -184,5 +184,6 @@ void	clear_data(t_data *data);
 void	ft_clear_evlist(t_data *data);
 void	free_array(char **array);
 void	free_exec(t_exec *exec);
+void	free_empty_exec(t_exec *exec);
 
 #endif

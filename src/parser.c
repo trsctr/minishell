@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/07 14:48:54 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/16 17:16:50 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/18 16:45:44 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,8 @@ int	parser(t_data *data)
 
 	create_execs(data);
 	cmd = data->exec;
-	create_pipes(data, cmd);
+	if (create_pipes(data, cmd))
+		return (1);
 	while (cmd)
 	{
 		if (fill_exec_from_tokens(cmd))

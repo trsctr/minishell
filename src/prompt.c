@@ -6,7 +6,7 @@
 /*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:24:25 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/16 18:48:24 by oandelin         ###   ########.fr       */
+/*   Updated: 2023/09/18 16:47:44 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	prompt(t_data *data)
 		input = get_input(data);
 		if (!input)
 			builtin_exit(data, NULL);
-		else if (input[0] == '\0' || input[0] == '\n' || !only_spaces(input))
+		if (input[0] == '\0' || input[0] == '\n' || !only_spaces(input))
 		{
 			free(input);
 			continue ;
@@ -113,7 +113,7 @@ void	prompt(t_data *data)
  */
 char	*get_input(t_data *data)
 {
-	char				*line;
+	char	*line;
 
 	line = readline(BYELLOW PROMPT RESET);
 	if (g_sig_status)

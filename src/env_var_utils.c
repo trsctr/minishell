@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_var_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 16:34:52 by oandelin          #+#    #+#             */
-/*   Updated: 2023/09/18 15:21:15 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/18 15:34:25 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,11 +103,11 @@ void	ft_delete_var(t_data *data, char *key)
 	if (ft_strcmp(curr->key, key) == 0)
 	{
 		to_remove = curr;
-		curr->next = to_remove->next;
+		curr = curr->next;
 		free(to_remove->key);
 		free(to_remove->value);
 		free(to_remove);
-		data->env_var = curr->next;
+		data->env_var = curr;
 		return ;
 	}
 	while (curr->next && ft_strcmp(curr->next->key, key))

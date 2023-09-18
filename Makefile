@@ -10,7 +10,7 @@ SRCFILES	=   minishell.c cleanup.c utils.c prompt.c prompt_utils.c env_var.c env
 				builtins.c builtin_echo.c builtin_exit.c builtin_cd.c builtin_export.c \
 				heredoc.c heredoc_expand.c parser.c parser_utils.c parser_rd_utils.c pipes.c\
 				lexer.c lexer_dmh.c lexer_executables.c lexer_libft_mods.c lexer_pipes_redirects.c lexer_specials.c \
-				lexer_tokenizer.c lexer_words_utils.c lexer_words.c lexer_expandables.c	 
+				lexer_tokenizer.c lexer_words_utils.c lexer_words.c lexer_expandables.c	error.c
 OBJ_DIR		= 	obj/
 OBJFILES	= 	$(SRCFILES:.c=.o)
 INC_DIR		=	include/
@@ -35,11 +35,11 @@ $(OBJ_DIR):
 
 $(OBJ_DIR)%.o: $(SRCDIR)%.c $(HEADER)
 	@echo "Building object file: $(CYAN)$@$(RESET) from source file $(MAGENTA)$<$(RESET)"
-	@$(CC) $(CFLAGS) $(DBFLAG) -I$(INC_DIR) $< -c -o $@
+	@$(CC) $(CFLAGS) $(DBFLAG) $(MEMDBFLAG) -I$(INC_DIR) $< -c -o $@
 
 $(NAME): $(LIBFT) $(OBJS) $(HEADER)
 	@echo "Compiling $(RED)minishell$(RESET) binary"
-	@$(CC) $(CFLAGS) $(RLFLAG) $(DBFLAG) $(LIBFT) $(OBJS) -o $(NAME)
+	@$(CC) $(CFLAGS) $(RLFLAG) $(DBFLAG) $(MEMDBFLAG) $(LIBFT) $(OBJS) -o $(NAME)
 	@echo "$(GREEN)Finished!$(RESET)"
 
 clean:

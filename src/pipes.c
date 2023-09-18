@@ -3,34 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 20:58:54 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/16 13:59:02 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/18 17:15:33 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "parser.h"
+#include "lexer.h"
 
-void	create_pipes(t_data *data, t_exec *cmd)
+int	create_pipes(t_data *data, t_exec *cmd)
 {
 	int		i;
+	int		j;
 	int		status;
 
 	i = 0;
+	j = 0;
 	data->pipes = malloc(sizeof(int) * (2 * data->pipe_count));
 	while (i != data->pipe_count)
 	{
 		status = pipe(data->pipes + (i * 2));
 		if (status == -1)
 		{
+			handle_pipe_failure(data, i);
 			ft_errormsg(PIPE_FAIL, NULL);
-			break ;
+			return (1);
 		}
 		i++;
 	}
 	set_pipes(data, cmd);
+	return (0);
 }
 
 void	set_pipes(t_data *data, t_exec *cmd)
@@ -65,4 +70,18 @@ void	close_pipes(t_data *data)
 		close(data->pipes[i]);
 		i++;
 	}
+}
+
+void	handle_pipe_failure(t_data *data, int i)
+{
+	int	j;
+
+	j = 0;
+	while (j < i * 2)
+	{
+		close(data->pipes[j]);
+		j++;
+	}
+	free(data->pipes);
+	free_list_token(data);
 }

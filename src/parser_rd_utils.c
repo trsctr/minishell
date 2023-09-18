@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_rd_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: oandelin <oandelin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 12:55:40 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/18 12:54:25 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/18 17:19:30 by oandelin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,15 +94,18 @@ int	handle_rds(t_data *data, t_exec *cmd)
 	{
 		if (tok->type == T_RD_S_L)
 		{
-			redir_in(data, cmd, tok->next->str);
+			if (redir_in(data, cmd, tok->next->str))
+				return (1);
 		}
 		if (tok->type == T_RD_D_L)
 		{
-			redir_heredoc(data, cmd, tok->next);
+			if (redir_heredoc(data, cmd, tok->next))
+				return (1);
 		}
 		if (tok->type == T_RD_D_R || tok->type == T_RD_S_R)
 		{
-			handle_out(data, cmd, tok);
+			if (handle_out(data, cmd, tok))
+				return (1);
 		}
 		tok = tok->next;
 	}

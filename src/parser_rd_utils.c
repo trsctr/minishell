@@ -6,7 +6,7 @@
 /*   By: slampine <slampine@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/14 12:55:40 by slampine          #+#    #+#             */
-/*   Updated: 2023/09/18 12:50:59 by slampine         ###   ########.fr       */
+/*   Updated: 2023/09/18 12:54:25 by slampine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,27 +94,15 @@ int	handle_rds(t_data *data, t_exec *cmd)
 	{
 		if (tok->type == T_RD_S_L)
 		{
-			if (redir_in(data, cmd, tok->next->str))
-				{
-					tok = tok->next;
-					continue ;
-				}
+			redir_in(data, cmd, tok->next->str);
 		}
 		if (tok->type == T_RD_D_L)
 		{
-			if (redir_heredoc(data, cmd, tok->next))
-				{
-					tok = tok->next;
-					continue ;
-				}
+			redir_heredoc(data, cmd, tok->next);
 		}
 		if (tok->type == T_RD_D_R || tok->type == T_RD_S_R)
 		{
-			if (handle_out(data, cmd, tok))
-				{
-					tok = tok->next;
-					continue ;
-				}
+			handle_out(data, cmd, tok);
 		}
 		tok = tok->next;
 	}
